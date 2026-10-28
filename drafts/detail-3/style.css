@@ -1,0 +1,144 @@
+/* 3안 — Ritual(Essential for Women 18+) 상세 문법. 단위 u = Ritual 폰 화면 1px (412 → 1000 폭 비례). measure.md 참고 */
+:root{
+  --ink:#3D1220;        /* Ritual 남색 잉크 #142B6F 자리 */
+  --mute:#8E6A74;       /* Ritual 보조 라벨 #62719F 자리 */
+  --red:#C8102E;        /* Ritual 노랑 #FECA04 자리 = 석류 크림슨 */
+  --blush:#F9DDE2;      /* Ritual 연노랑 #FCF2AD 자리 */
+  --card:#F8F6F6;       /* Ritual 카드 #F8F8FA 자리 */
+  --tint:#F6F4F4;       /* Ritual 섹션 #F6F7F9 자리 */
+  --line:rgba(61,18,32,.14);
+  --serif:Georgia,"Times New Roman",serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{background:#F3EFEF}
+body{font-family:var(--font-body);color:var(--ink);-webkit-font-smoothing:antialiased}
+img{display:block;max-width:100%}
+.page{width:min(1000px,100%);margin:0 auto;container-type:inline-size;background:#fff;overflow:hidden;word-break:keep-all;overflow-wrap:break-word}
+.page *{--u:calc(100cqw / 412)}
+ul,ol{list-style:none}
+figure{margin:0}
+
+/* 0. 공지 띠 + 로고 */
+.strip{background:var(--ink);color:#fff;text-align:center;font-size:calc(12*var(--u));line-height:calc(18*var(--u));padding:calc(8*var(--u)) 0;font-weight:500;letter-spacing:.01em}
+.strip i{font-style:normal;margin:0 calc(8*var(--u));opacity:.6}
+.brand{height:calc(56*var(--u));display:flex;align-items:center;justify-content:center}
+.logo{font-weight:300;font-size:calc(22*var(--u));letter-spacing:.02em;color:#2a2a2e}
+
+/* 1. 대표 사진 */
+.hero{margin:0 calc(8*var(--u))}
+.hero img{width:100%;aspect-ratio:1/1;object-fit:cover}
+
+/* 2. 상품명 블록 */
+.buy{padding:0 calc(24*var(--u))}
+.tag{margin-top:calc(30*var(--u));font-size:calc(12*var(--u));line-height:calc(18*var(--u));font-weight:500}
+.buy h1{margin-top:calc(8*var(--u));font-family:var(--font-point);font-weight:500;font-size:calc(32*var(--u));line-height:calc(40*var(--u));letter-spacing:-.01em}
+.buy h1 span{display:block;font-family:var(--font-body);font-weight:400;font-size:calc(20*var(--u));line-height:calc(30*var(--u));letter-spacing:0;margin-top:calc(2*var(--u))}
+.buy hr{border:0;border-top:1px solid var(--line);margin:calc(16*var(--u)) 0 calc(24*var(--u))}
+.label{font-size:calc(12*var(--u));line-height:calc(18*var(--u));font-weight:600;letter-spacing:.08em;color:var(--mute);text-transform:uppercase}
+.checks{margin-top:calc(12*var(--u));display:grid;gap:calc(10*var(--u))}
+.checks li{position:relative;padding-left:calc(24*var(--u));font-size:calc(14*var(--u));line-height:calc(21*var(--u));color:var(--mute)}
+.checks li b{color:var(--ink);font-weight:600}
+.checks li::before{content:"";position:absolute;left:calc(2*var(--u));top:calc(4*var(--u));width:calc(10*var(--u));height:calc(6*var(--u));border-left:calc(1.6*var(--u)) solid var(--ink);border-bottom:calc(1.6*var(--u)) solid var(--ink);transform:rotate(-45deg)}
+.size{margin-top:calc(28*var(--u));font-family:var(--font-point);font-weight:500;font-size:calc(24*var(--u));line-height:calc(30*var(--u));letter-spacing:-.01em}
+.size span{font-family:var(--font-body);font-weight:400;font-size:calc(14*var(--u));color:var(--mute);margin-left:calc(10*var(--u));letter-spacing:0}
+.note{position:relative;margin-top:calc(20*var(--u));background:var(--blush);border-radius:calc(8*var(--u));padding:calc(14*var(--u)) calc(16*var(--u)) calc(14*var(--u)) calc(36*var(--u));font-size:calc(12*var(--u));line-height:calc(19*var(--u))}
+.note::before{content:"";position:absolute;left:calc(16*var(--u));top:calc(19*var(--u));width:calc(8*var(--u));height:calc(8*var(--u));border-radius:50%;background:var(--red)}
+.note b{font-weight:600}
+.specs{margin-top:calc(28*var(--u));border-top:1px solid var(--line)}
+.specs div{display:flex;justify-content:space-between;align-items:center;gap:calc(16*var(--u));min-height:calc(54*var(--u));border-bottom:1px solid var(--line);padding:calc(10*var(--u)) 0}
+.specs dt{font-size:calc(14*var(--u));font-weight:500;flex:none}
+.specs dd{font-size:calc(14*var(--u));line-height:calc(20*var(--u));color:var(--mute);text-align:right}
+
+/* 3. 흐르는 띠 (원본에 있는 움직임) */
+.ticker{margin-top:calc(48*var(--u));border-top:1px solid var(--line);border-bottom:1px solid var(--line);overflow:hidden;height:calc(76*var(--u));display:flex;align-items:center}
+.track{display:flex;flex:none;white-space:nowrap;animation:tick 38s linear infinite}
+.track span{font-size:calc(12*var(--u));font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:0 calc(18*var(--u));display:flex;align-items:center}
+.track span::before{content:":";color:var(--red);font-weight:700;font-size:calc(18*var(--u));margin-right:calc(18*var(--u));transform:translateY(-6%)}
+@keyframes tick{to{transform:translateX(-50%)}}
+
+/* 공통 섹션 제목 */
+.h3{font-family:var(--font-point);font-weight:500;font-size:calc(32*var(--u));line-height:calc(40*var(--u));letter-spacing:-.01em}
+
+/* 4. 원료 추적 카드 */
+.trace{padding:calc(72*var(--u)) calc(24*var(--u)) calc(24*var(--u))}
+.trace .h3{text-align:center}
+.lead{margin:calc(8*var(--u)) auto 0;max-width:calc(330*var(--u));text-align:center;font-size:calc(16*var(--u));line-height:calc(24*var(--u))}
+.cards{margin-top:calc(32*var(--u));display:grid;gap:calc(16*var(--u))}
+.card{position:relative;height:calc(149*var(--u));background:var(--card);border-radius:calc(4*var(--u));overflow:hidden;padding:calc(22*var(--u)) calc(24*var(--u))}
+.card > div{position:relative;z-index:1;max-width:66%}
+.card h3{font-family:var(--font-point);font-weight:500;font-size:calc(20*var(--u));line-height:calc(28*var(--u));letter-spacing:-.01em}
+.card .form{margin-top:calc(4*var(--u));font-size:calc(13*var(--u));line-height:calc(19*var(--u))}
+.card .loc{position:absolute;z-index:1;left:calc(24*var(--u));bottom:calc(20*var(--u));max-width:80%;font-size:calc(14*var(--u));line-height:calc(20*var(--u));font-weight:600}
+.card img{position:absolute;right:-2%;top:-4%;width:31%;height:68%;object-fit:cover;mix-blend-mode:multiply;-webkit-mask-image:radial-gradient(closest-side,#000 72%,transparent 100%);mask-image:radial-gradient(closest-side,#000 72%,transparent 100%)}
+
+/* 4b. 원료 상세 (원본: 카드 누르면 열리는 원료 상세) */
+.detail{padding:0 calc(24*var(--u)) calc(56*var(--u))}
+.ing{padding:calc(40*var(--u)) 0 calc(8*var(--u))}
+.ing + .ing{border-top:1px solid var(--line)}
+.pics{display:grid;grid-template-columns:1fr 1fr;gap:calc(12*var(--u))}
+.pics figure{aspect-ratio:1/.86;overflow:hidden;border-radius:calc(4*var(--u))}
+.pics .photo img{width:100%;height:100%;object-fit:cover}
+.pics .mol{background:var(--card);display:flex;align-items:center;justify-content:center;padding:calc(14*var(--u))}
+.pics .mol img{width:100%;height:100%;object-fit:contain}
+.ing .label{margin-top:calc(22*var(--u))}
+.ing h3{margin-top:calc(4*var(--u));font-family:var(--font-point);font-weight:500;font-size:calc(26*var(--u));line-height:calc(34*var(--u));letter-spacing:-.01em}
+.origin{margin-top:calc(8*var(--u));font-size:calc(15*var(--u));line-height:calc(22*var(--u));font-weight:500}
+.origin em{font-family:var(--serif);font-style:italic;font-weight:400;color:var(--red);margin-right:calc(8*var(--u))}
+.desc{margin-top:calc(8*var(--u));font-size:calc(14*var(--u));line-height:calc(22*var(--u));color:#5d4249}
+.facts{margin-top:calc(20*var(--u));display:grid;grid-template-columns:1.35fr .8fr 1fr;border-top:1px solid var(--ink)}
+.facts div{padding:calc(12*var(--u)) calc(8*var(--u)) calc(14*var(--u)) 0}
+.facts div + div{padding-left:calc(12*var(--u));border-left:1px solid var(--line)}
+.facts dt{font-size:calc(11*var(--u));line-height:calc(16*var(--u));color:var(--mute);font-weight:500}
+.facts dd{margin-top:calc(4*var(--u));font-size:calc(16*var(--u));line-height:calc(22*var(--u));font-weight:600;font-variant-numeric:tabular-nums;white-space:nowrap}
+.facts sub{font-size:.68em;vertical-align:baseline;position:relative;top:.28em;line-height:0}
+.foot{margin-top:calc(28*var(--u));font-size:calc(11*var(--u));line-height:calc(17*var(--u));color:var(--mute)}
+
+/* 5. 한 포 (원본: 특허 전달 기술 — 연회색 바탕, 누끼, 번호 3줄) */
+.one{background:var(--tint);padding:calc(40*var(--u)) calc(24*var(--u)) calc(52*var(--u))}
+.one figure img{width:100%;aspect-ratio:1/1;object-fit:cover}
+.one .h3{margin-top:calc(24*var(--u))}
+.steps{margin-top:calc(24*var(--u));display:grid;gap:calc(22*var(--u))}
+.steps li{display:grid;grid-template-columns:calc(36*var(--u)) 1fr}
+.steps em{font-family:var(--serif);font-style:italic;font-size:calc(20*var(--u));line-height:calc(20*var(--u));color:var(--red)}
+.steps .k{font-size:calc(12*var(--u));line-height:calc(18*var(--u));font-weight:700;letter-spacing:.08em;text-transform:uppercase}
+.steps .k + p{margin-top:calc(6*var(--u));font-size:calc(14*var(--u));line-height:calc(21*var(--u));color:#5d4249}
+
+/* 6. 구성 타일 (원본: You May Also Like) */
+.pack{padding:calc(56*var(--u)) calc(24*var(--u)) calc(16*var(--u))}
+.tiles{margin-top:calc(24*var(--u));display:grid;grid-template-columns:1fr 1fr;gap:calc(16*var(--u))}
+.tiles img{width:100%;aspect-ratio:174/205;object-fit:cover;border-radius:calc(4*var(--u))}
+.tiles figcaption{margin-top:calc(10*var(--u))}
+.tiles b{display:block;font-size:calc(14*var(--u));line-height:calc(21*var(--u));font-weight:600}
+.tiles span{display:block;font-size:calc(12*var(--u));line-height:calc(18*var(--u));color:var(--mute)}
+
+/* 7. 자주 묻는 질문 */
+.faq{padding:calc(56*var(--u)) calc(24*var(--u)) calc(16*var(--u))}
+.faq dl{margin-top:calc(24*var(--u));border-top:1px solid var(--ink)}
+.faq dl div{padding:calc(20*var(--u)) 0;border-bottom:1px solid var(--line)}
+.faq dt{font-size:calc(17*var(--u));line-height:calc(25*var(--u));font-weight:500}
+.faq dd{margin-top:calc(6*var(--u));font-size:calc(14*var(--u));line-height:calc(21*var(--u));color:#5d4249}
+
+/* 8. 논문 수 막대 (원본: 후기 평점 막대) */
+.research{padding:calc(56*var(--u)) calc(24*var(--u)) calc(32*var(--u))}
+.summary{margin-top:calc(16*var(--u));border-top:1px solid var(--ink);padding-top:calc(20*var(--u));display:flex;align-items:flex-end;gap:calc(16*var(--u))}
+.big{font-family:var(--font-point);font-weight:500;font-size:calc(32*var(--u));line-height:1;letter-spacing:-.01em}
+.big span{font-family:var(--font-body);font-size:calc(14*var(--u));font-weight:500;margin-left:calc(4*var(--u))}
+.cap{font-size:calc(13*var(--u));line-height:calc(19*var(--u));font-weight:500}
+.cap small{display:block;font-size:calc(11*var(--u));color:var(--mute);font-weight:400}
+.bars{margin-top:calc(20*var(--u));display:grid;gap:calc(10*var(--u))}
+.bars li{display:grid;grid-template-columns:calc(72*var(--u)) 1fr calc(64*var(--u));align-items:center;gap:calc(10*var(--u));font-size:calc(13*var(--u));line-height:calc(20*var(--u))}
+.bars .bar{height:calc(6*var(--u));background:#F1EAEC;border-radius:calc(3*var(--u));overflow:hidden}
+.bars .bar i{display:block;height:100%;min-width:calc(4*var(--u));background:var(--ink);border-radius:calc(3*var(--u))}
+.bars .c{text-align:right;font-variant-numeric:tabular-nums;color:var(--mute)}
+
+/* 9. 안내 상자 (원본: FDA 안내 테두리 상자) */
+.legal{margin:calc(24*var(--u)) calc(24*var(--u)) calc(40*var(--u));border:1px solid var(--line);padding:calc(14*var(--u)) calc(16*var(--u));font-size:calc(11*var(--u));line-height:calc(17*var(--u));color:var(--mute)}
+.legal p + p{margin-top:calc(4*var(--u))}
+.legal .src{margin-bottom:calc(8*var(--u))}
+.legal .last{color:var(--ink);font-weight:600}
+
+@media (prefers-reduced-motion: reduce){
+  .track{animation:none}
+}
+
+.nw{white-space:nowrap}
