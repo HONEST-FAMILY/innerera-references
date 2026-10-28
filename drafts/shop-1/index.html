@@ -3,9 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="robots" content="noindex,nofollow">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <link rel="icon" href="data:,">
 <title>Inner:Era 이너에라 — 공식몰</title>
+<script>document.documentElement.classList.add('js');if(matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.classList.add('rm');</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400&family=Marcellus&display=swap">
@@ -14,11 +15,24 @@
 </head>
 <body>
 
-<a class="topbar" href="../detail-1/">5가지 핵심 원료를 하루 한 포에 — 이너에라 롱지비티 보러가기 &gt;</a>
+<!-- 아이콘: Lucide (MIT) — 한 세트만 -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-menu" viewBox="0 0 24 24"><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="18" y2="18"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></symbol>
+  <symbol id="i-bag" viewBox="0 0 24 24"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></symbol>
+  <symbol id="i-home" viewBox="0 0 24 24"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></symbol>
+  <symbol id="i-grid" viewBox="0 0 24 24"><rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></symbol>
+  <symbol id="i-chevron" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></symbol>
+</svg>
 
-<header class="gnb">
-  <button class="gnb-menu" type="button" aria-label="메뉴"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button>
-  <a class="logo" href="#">Inner:Era</a>
+<a class="topbar" href="../detail-1/">5가지 핵심 원료를 하루 한 포에 — 이너에라 롱지비티 보러가기 <svg class="ic ic-xs" aria-hidden="true"><use href="#i-chevron"/></svg></a>
+
+<header class="gnb" id="gnb">
+  <button class="gnb-menu ib" type="button" aria-label="전체 메뉴 열기" aria-controls="drawer" aria-expanded="false" data-drawer-open><svg class="ic" aria-hidden="true"><use href="#i-menu"/></svg></button>
+  <a class="logo" href="#" aria-label="Inner:Era 홈">Inner:Era</a>
   <nav class="gnb-nav" aria-label="주 메뉴">
     <a href="#">브랜드</a>
     <a href="../detail-1/">구매하기</a>
@@ -27,146 +41,153 @@
     <a href="#">공지사항</a>
   </nav>
   <div class="gnb-icons">
-    <a href="#" aria-label="검색"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5 21 21"/></svg></a>
-    <a href="#" class="pc-only" aria-label="로그인"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.2-4 4.3-6 8-6s6.8 2 8 6"/></svg></a>
-    <a href="#" aria-label="장바구니"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 8h14l-1 13H6L5 8Z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg></a>
+    <a class="ib" href="#" aria-label="검색"><svg class="ic" aria-hidden="true"><use href="#i-search"/></svg></a>
+    <a class="ib pc-only" href="#" aria-label="로그인"><svg class="ic" aria-hidden="true"><use href="#i-user"/></svg></a>
+    <a class="ib" href="#" aria-label="장바구니"><svg class="ic" aria-hidden="true"><use href="#i-bag"/></svg></a>
   </div>
 </header>
 
 <main>
-  <!-- 1. 첫 화면 큰 배너 (자동 넘김 2장) -->
-  <section class="hero" aria-label="메인 배너">
-    <div class="hero-track">
-      <article class="slide s2 is-on">
-        <img class="v-pc photo" src="../../assets/product/stick_splash.jpg" alt="석류 과즙 사이의 이너에라 롱지비티 스틱" loading="lazy">
-        <img class="v-m" src="../../assets/product/stick_splash.jpg" alt="석류 과즙 사이의 이너에라 롱지비티 스틱" loading="lazy">
-        <div class="hero-copy">
-          <p class="h-ko big">하루 한 포, 석류맛 젤리스틱</p>
-          <p class="h-en sub">Pomegranate · 20 g × 14</p>
-          <a class="h-btn" href="../detail-1/">제품 살펴보기 <i aria-hidden="true">→</i></a>
-        </div>
-      </article>
-      <article class="slide s1">
-        <div class="v-pc scene" aria-hidden="true">
+  <!-- 1. 첫 화면 큰 배너 — 왼쪽 글·오른쪽 큰 사진(폰: 사진 위·글 아래). 제품은 어느 폭에서도 잘리지 않게 -->
+  <section class="hero" aria-roledescription="carousel" aria-label="메인 배너">
+    <article class="slide sl-photo is-on" aria-roledescription="slide" aria-label="1 / 2">
+      <div class="h-media"><img class="h-photo kb" src="../../assets/product/box_stick_splash.jpg" alt="석류 과즙 사이의 이너에라 롱지비티 상자와 석류맛 스틱"></div>
+      <div class="hero-copy">
+        <p class="h-ko big">하루 한 포,<br class="m-br"> 석류맛 젤리스틱</p>
+        <p class="h-en sub">Pomegranate · <span data-count="20">20</span> g × <span data-count="14">14</span></p>
+        <a class="h-btn" href="../detail-1/">제품 살펴보기 <svg class="ic ic-sm" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+      </div>
+    </article>
+    <article class="slide sl-scene" aria-roledescription="slide" aria-label="2 / 2">
+      <div class="h-media">
+        <div class="scene kb" aria-hidden="true">
           <span class="floor"></span>
           <img class="sc-box" src="../../assets/product/box_cut.png" alt="">
           <img class="sc-stick a" src="../../assets/product/stick_cut.png" alt="">
           <img class="sc-stick b" src="../../assets/product/stick_cut.png" alt="">
         </div>
-        <img class="v-m" src="../../assets/product/box_stick_splash.jpg" alt="이너에라 롱지비티 상자와 석류맛 스틱" loading="lazy">
-        <div class="hero-copy">
-          <p class="h-en">Inner:Era Longevity</p>
-          <p class="h-ko">5가지 핵심 원료로 설계한 데일리 포뮬러</p>
-          <a class="h-btn" href="../detail-1/">자세히 보기 <i aria-hidden="true">→</i></a>
-        </div>
-      </article>
-    </div>
+      </div>
+      <div class="hero-copy">
+        <p class="h-en">Inner:Era Longevity</p>
+        <p class="h-ko"><span data-count="5">5</span>가지 핵심 원료로 설계한<br class="m-br"> 데일리 포뮬러</p>
+        <a class="h-btn" href="../detail-1/">자세히 보기 <svg class="ic ic-sm" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+      </div>
+    </article>
+    <div class="h-ctrl" aria-hidden="true"><span class="h-num"><b>01</b> / 02</span><span class="h-bar"><i></i></span></div>
   </section>
 
   <!-- 2. 원칙 상자 (오니스트 Clean Principle 자리) -->
-  <section class="principle wrap">
+  <section class="principle wrap rv">
     <div class="pr-text">
       <p class="pr-en">Inner:Era Formula</p>
       <h2 class="pr-title">다섯 가지 원료를<br>한 포에 담았습니다</h2>
       <p class="pr-sub">따로 챙기던 다섯 통 대신, 하루 한 포.</p>
-      <a class="pr-link" href="#ingredients">원료 살펴보기 <i aria-hidden="true">→</i></a>
+      <a class="pr-link tl" href="#ingredients">원료 살펴보기 <svg class="ic ic-sm" aria-hidden="true"><use href="#i-arrow"/></svg></a>
     </div>
-    <div class="lens"><img src="../../assets/product/box_front_cut.png" alt="이너에라 롱지비티 상자 윗부분 확대"></div>
+    <div class="lens"><img src="../../assets/product/box_front_cut.png" alt="이너에라 롱지비티 상자 로고 확대"></div>
   </section>
 
-  <!-- 3. Wellness Routine 자리 = 구성 3가지 -->
+  <!-- 3. Wellness Routine 자리 = 구성 3가지 (상자 사진 → 마우스 올리면 스틱 사진) -->
   <section class="routine wrap" id="routine">
-    <h2 class="sec-en">Daily Routine</h2>
-    <p class="sec-sub">미래의 나를 위한 데일리 리추얼을 시작해 보세요</p>
-    <label class="m-search"><input type="search" placeholder="원료 이름으로 찾아보세요 (예: 커큐민)"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5 21 21"/></svg></label>
+    <h2 class="sec-en rv">Daily Routine</h2>
+    <p class="sec-sub rv">미래의 나를 위한 데일리 리추얼</p>
+    <label class="m-search rv"><input type="search" placeholder="원료 이름으로 찾아보세요 (예: 커큐민)" aria-label="원료 검색"><svg class="ic" aria-hidden="true"><use href="#i-search"/></svg></label>
     <div class="cards">
-      <a class="card c1" href="../detail-1/">
-        <img src="../../assets/product/stick_splash.jpg" alt="석류맛 스틱" loading="lazy">
-        <span class="c-sm">하루 한 포, 2주</span><b class="c-nm">1박스 · 14포</b>
+      <a class="card c1 rv" href="../detail-1/">
+        <span class="c-sm">하루 한 포, 2주</span><b class="c-nm">1박스 · <span data-count="14">14</span>포</b>
+        <span class="pk pk-a" aria-hidden="true"><img class="bx b1" src="../../assets/product/box_cut.png" alt=""><img class="st s1" src="../../assets/product/stick_cut.png" alt=""></span>
+        <span class="pk pk-b" aria-hidden="true"><img class="st t1" src="../../assets/product/stick_cut.png" alt=""><img class="st t2" src="../../assets/product/stick_cut.png" alt=""></span>
       </a>
-      <a class="card c2" href="../detail-1/">
-        <img src="../../assets/product/box_stick_splash.jpg" alt="상자와 스틱" loading="lazy">
-        <span class="c-sm">하루 한 포, 4주</span><b class="c-nm">2박스 · 28포</b>
+      <a class="card c2 rv" href="../detail-1/">
+        <span class="c-sm">하루 한 포, 4주</span><b class="c-nm">2박스 · <span data-count="28">28</span>포</b>
+        <span class="pk pk-a" aria-hidden="true"><img class="bx b2" src="../../assets/product/box_cut.png" alt=""><img class="bx b1" src="../../assets/product/box_cut.png" alt=""><img class="st s1" src="../../assets/product/stick_cut.png" alt=""></span>
+        <span class="pk pk-b" aria-hidden="true"><img class="st t1" src="../../assets/product/stick_cut.png" alt=""><img class="st t2" src="../../assets/product/stick_cut.png" alt=""><img class="st t3" src="../../assets/product/stick_cut.png" alt=""></span>
       </a>
-      <a class="card c3" href="../detail-1/">
-        <span class="c3-scene" aria-hidden="true"><img class="c3-box" src="../../assets/product/box_cut.png" alt=""><img class="c3-stick" src="../../assets/product/stick_cut.png" alt=""></span>
-        <span class="c-sm">하루 한 포, 8주</span><b class="c-nm">4박스 · 56포</b>
+      <a class="card c3 rv" href="../detail-1/">
+        <span class="c-sm">하루 한 포, 8주</span><b class="c-nm">4박스 · <span data-count="56">56</span>포</b>
+        <span class="pk pk-a" aria-hidden="true"><img class="bx b4" src="../../assets/product/box_cut.png" alt=""><img class="bx b3" src="../../assets/product/box_cut.png" alt=""><img class="bx b2" src="../../assets/product/box_cut.png" alt=""><img class="bx b1" src="../../assets/product/box_cut.png" alt=""></span>
+        <span class="pk pk-b" aria-hidden="true"><img class="st t1" src="../../assets/product/stick_cut.png" alt=""><img class="st t2" src="../../assets/product/stick_cut.png" alt=""><img class="st t3" src="../../assets/product/stick_cut.png" alt=""><img class="st t4" src="../../assets/product/stick_cut.png" alt=""></span>
       </a>
     </div>
   </section>
 
-  <!-- 4. 정기구독 배너 자리 = 하루 한 포 -->
-  <a class="band band-a wrap" href="../detail-1/">
+  <!-- 4. 정기구독 배너 자리 = 하루 한 포 (제품 전체가 보이게 누끼 합성) -->
+  <a class="band band-a wrap rv" href="../detail-1/">
     <span class="band-text">
-      <b class="band-title">따로 챙기던 5통 대신 <strong>하루 한 포</strong></b>
-      <span class="band-sub">알파리포산 · 글루타치온 · 커큐민 · 퀘르세틴 · NMN</span>
-      <span class="band-link">구성 살펴보기 →</span>
+      <b class="band-title">따로 챙기던 <span data-count="5">5</span>통 대신 <strong>하루 한 포</strong></b>
+      <span class="chips"><i>알파리포산</i><i>글루타치온</i><i>커큐민</i><i>퀘르세틴</i><i>NMN</i></span>
+      <span class="band-link tl">구성 살펴보기 <svg class="ic ic-sm" aria-hidden="true"><use href="#i-arrow"/></svg></span>
     </span>
-    <img class="band-img" src="../../assets/product/box_sticks.jpg" alt="이너에라 롱지비티 상자와 스틱 두 포" loading="lazy">
+    <span class="band-pack" aria-hidden="true"><img class="bp-box" src="../../assets/product/box_cut.png" alt=""><img class="bp-st a" src="../../assets/product/stick_cut.png" alt=""><img class="bp-st b" src="../../assets/product/stick_cut.png" alt=""></span>
   </a>
 
   <!-- 5. 쿠폰 배너 자리 = 실제 인증 2가지 (PC 위치) -->
-  <a class="band band-b wrap pc-only" href="../detail-1/">
+  <a class="band band-b wrap pc-only rv" href="../detail-1/">
     <span class="band-text">
-      <b class="band-title">GIP-01 특허원료 사용 · HACCP 인증</b>
-      <span class="band-sub2">특허 제10-2951534호 · 식품의약품안전처 안전관리인증</span>
-      <span class="band-link">제품 정보 보기 →</span>
+      <b class="band-title">GIP-01 특허원료 · HACCP 인증</b>
+      <span class="band-sub2">특허 제10-2951534호<span class="s2"> · 식품의약품안전처 안전관리인증</span></span>
+      <span class="band-link tl">제품 정보 보기 <svg class="ic ic-sm" aria-hidden="true"><use href="#i-arrow"/></svg></span>
     </span>
-    <span class="cert-crop" aria-hidden="true"><img src="../../assets/product/box_cut.png" alt=""></span>
+    <span class="cert" aria-hidden="true"><span class="seal">GIP-01<small>특허원료</small></span><span class="seal">HACCP<small>안전관리인증</small></span><img class="cert-box" src="../../assets/product/box_cut.png" alt=""></span>
   </a>
 
-  <!-- 6. Review 자리 = 원료 5가지 -->
+  <!-- 6. Review 자리 = 원료 5가지 (글 대신 유래 칩) -->
   <section class="ingredients" id="ingredients">
-    <h2 class="sec-en">Ingredients</h2>
-    <p class="sec-sub">다섯 가지 핵심 원료를 만나보세요</p>
-    <a class="sec-link" href="../detail-1/">원료 전체 보러가기 →</a>
-    <div class="ing-track" tabindex="0" aria-label="원료 5가지">
-      <article class="ing">
+    <h2 class="sec-en rv">Ingredients</h2>
+    <p class="sec-sub rv">다섯 가지 핵심 원료를 만나보세요</p>
+    <a class="sec-link tl rv" href="../detail-1/">원료 전체 보러가기 <svg class="ic ic-sm" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+    <div class="ing-track" tabindex="0" aria-label="원료 5가지, 옆으로 넘겨 보기">
+      <article class="ing rv">
         <img src="../../assets/mol/ala.png" alt="알파리포산 분자 구조" loading="lazy">
         <p class="ing-who">Alpha-Lipoic Acid</p>
         <h3>알파리포산</h3>
-        <p class="ing-desc">황 원자 2개가 고리를 이룬 지방산. 시금치·브로콜리 등에 미량 들어 있어요.</p>
-        <p class="ing-meta"><span>C<sub>8</sub>H<sub>14</sub>O<sub>2</sub>S<sub>2</sub></span><span>분자량 206.3</span><span>논문 7,399편</span></p>
+        <p class="ing-desc">황 원자 2개가 고리를 이룬 지방산</p>
+        <p class="ing-from"><em>유래</em><i>시금치</i><i>브로콜리</i></p>
+        <p class="ing-meta"><span>C<sub>8</sub>H<sub>14</sub>O<sub>2</sub>S<sub>2</sub></span><span>분자량 206.3 · 논문 <b data-count="7399">7,399</b>편</span></p>
       </article>
-      <article class="ing">
+      <article class="ing rv">
         <img src="../../assets/mol/glutathione.png" alt="글루타치온 분자 구조" loading="lazy">
         <p class="ing-who">Glutathione</p>
         <h3>글루타치온</h3>
-        <p class="ing-desc">글루탐산·시스테인·글리신, 세 아미노산이 이어진 트리펩타이드. 효모 등에서 얻어요.</p>
-        <p class="ing-meta"><span>C<sub>10</sub>H<sub>17</sub>N<sub>3</sub>O<sub>6</sub>S</span><span>분자량 307.33</span><span>논문 180,343편</span></p>
+        <p class="ing-desc">아미노산 3가지가 이어진 트리펩타이드</p>
+        <p class="ing-from"><em>유래</em><i>효모</i></p>
+        <p class="ing-meta"><span>C<sub>10</sub>H<sub>17</sub>N<sub>3</sub>O<sub>6</sub>S</span><span>분자량 307.33 · 논문 <b data-count="180343">180,343</b>편</span></p>
       </article>
-      <article class="ing">
+      <article class="ing rv">
         <img src="../../assets/mol/curcumin.png" alt="커큐민 분자 구조" loading="lazy">
         <p class="ing-who">Curcumin</p>
         <h3>커큐민</h3>
-        <p class="ing-desc">강황(Curcuma longa) 뿌리줄기의 노란 색소 성분으로, 폴리페놀의 하나예요.</p>
-        <p class="ing-meta"><span>C<sub>21</sub>H<sub>20</sub>O<sub>6</sub></span><span>분자량 368.4</span><span>논문 28,845편</span></p>
+        <p class="ing-desc">강황 뿌리줄기의 노란 색소 성분</p>
+        <p class="ing-from"><em>유래</em><i>강황</i></p>
+        <p class="ing-meta"><span>C<sub>21</sub>H<sub>20</sub>O<sub>6</sub></span><span>분자량 368.4 · 논문 <b data-count="28845">28,845</b>편</span></p>
       </article>
-      <article class="ing">
+      <article class="ing rv">
         <img src="../../assets/mol/quercetin.png" alt="퀘르세틴 분자 구조" loading="lazy">
         <p class="ing-who">Quercetin</p>
         <h3>퀘르세틴</h3>
-        <p class="ing-desc">양파 껍질·사과·케이퍼 등에 있는 플라보놀(플라보노이드)이에요.</p>
-        <p class="ing-meta"><span>C<sub>15</sub>H<sub>10</sub>O<sub>7</sub></span><span>분자량 302.23</span><span>논문 33,390편</span></p>
+        <p class="ing-desc">플라보노이드 계열의 플라보놀</p>
+        <p class="ing-from"><em>유래</em><i>양파 껍질</i><i>사과</i><i>케이퍼</i></p>
+        <p class="ing-meta"><span>C<sub>15</sub>H<sub>10</sub>O<sub>7</sub></span><span>분자량 302.23 · 논문 <b data-count="33390">33,390</b>편</span></p>
       </article>
-      <article class="ing">
+      <article class="ing rv">
         <img src="../../assets/mol/nmn.png" alt="NMN 분자 구조" loading="lazy">
         <p class="ing-who">Nicotinamide Mononucleotide</p>
         <h3>NMN</h3>
-        <p class="ing-desc">비타민 B3(나이아신) 계열에서 만들어지는 뉴클레오타이드. NAD+의 전구체로 연구되고 있어요.</p>
-        <p class="ing-meta"><span>C<sub>11</sub>H<sub>15</sub>N<sub>2</sub>O<sub>8</sub>P</span><span>분자량 334.22</span><span>논문 1,548편</span></p>
+        <p class="ing-desc">NAD+의 전구체로 연구되는 뉴클레오타이드</p>
+        <p class="ing-from"><em>유래</em><i>브로콜리</i><i>에다마메</i><i>아보카도</i></p>
+        <p class="ing-meta"><span>C<sub>11</sub>H<sub>15</sub>N<sub>2</sub>O<sub>8</sub>P</span><span>분자량 334.22 · 논문 <b data-count="1548">1,548</b>편</span></p>
       </article>
     </div>
-    <p class="ing-note">*상기 내용은 제품이 아닌 원료에 대한 정보입니다. 논문 수는 PubMed 제목·초록 검색 기준, 2026년 10월.</p>
+    <p class="ing-note rv">*상기 내용은 제품이 아닌 원료에 대한 정보입니다.<br>논문 수: PubMed 제목·초록 검색 기준, 2026년 10월</p>
   </section>
 
-  <!-- 5'. 인증 배너 (폰 위치: 바닥글 바로 위, 꽉 찬 폭) -->
+  <!-- 5'. 인증 배너 (폰 위치: 바닥글 바로 위, 꽉 찬 폭 — 오니스트 폰 쿠폰 배너 자리) -->
   <a class="band band-b m-only" href="../detail-1/">
     <span class="band-text">
-      <b class="band-title">GIP-01 특허원료 사용 · HACCP 인증</b>
-      <span class="band-link">제품 정보 보기 →</span>
+      <b class="band-title">GIP-01 특허원료 · HACCP 인증</b>
+      <span class="band-link tl">제품 정보 보기 <svg class="ic ic-sm" aria-hidden="true"><use href="#i-arrow"/></svg></span>
     </span>
-    <span class="cert-crop" aria-hidden="true"><img src="../../assets/product/box_cut.png" alt=""></span>
+    <span class="cert" aria-hidden="true"><span class="seal">GIP-01<small>특허원료</small></span><span class="seal">HACCP<small>안전관리인증</small></span></span>
   </a>
 </main>
 
@@ -183,11 +204,42 @@
     </div>
     <div class="foot-legal">
       <p>이너에라 롱지비티는 건강기능식품이 아닌 일반식품입니다.</p>
-      <p>GIP-01 특허원료 사용(특허 제10-2951534호) · HACCP 안전관리인증(식품의약품안전처)</p>
-      <p>Copyright © Inner:Era. All rights reserved.</p>
+      <p>GIP-01 특허원료 사용 · HACCP 안전관리인증</p>
+      <p>© Inner:Era. All rights reserved. · 아이콘: Lucide (MIT)</p>
     </div>
   </div>
 </footer>
+
+<!-- 하단 탭바 (폰·태블릿, 1024 이하) -->
+<nav class="tabbar" aria-label="하단 메뉴">
+  <a class="tb is-on" href="#" aria-current="page"><svg class="ic" aria-hidden="true"><use href="#i-home"/></svg><span>홈</span></a>
+  <button class="tb" type="button" aria-controls="drawer" aria-expanded="false" data-drawer-open><svg class="ic" aria-hidden="true"><use href="#i-grid"/></svg><span>카테고리</span></button>
+  <a class="tb" href="#"><svg class="ic" aria-hidden="true"><use href="#i-search"/></svg><span>검색</span></a>
+  <a class="tb" href="#"><svg class="ic" aria-hidden="true"><use href="#i-user"/></svg><span>마이</span></a>
+  <a class="tb" href="#"><svg class="ic" aria-hidden="true"><use href="#i-bag"/></svg><span>장바구니</span></a>
+</nav>
+
+<!-- 왼쪽 서랍 메뉴 -->
+<div class="scrim" data-drawer-close></div>
+<aside class="drawer" id="drawer" aria-label="전체 메뉴" aria-hidden="true" inert>
+  <div class="dr-head">
+    <span class="dr-logo">Inner:Era</span>
+    <button class="ib dr-x" type="button" aria-label="메뉴 닫기" data-drawer-close><svg class="ic" aria-hidden="true"><use href="#i-x"/></svg></button>
+  </div>
+  <p class="dr-auth"><a href="#">로그인</a><span aria-hidden="true"></span><a href="#">회원가입</a></p>
+  <nav class="dr-nav" aria-label="전체 메뉴 목록">
+    <a href="#">브랜드 이야기<svg class="ic ic-sm" aria-hidden="true"><use href="#i-chevron"/></svg></a>
+    <a href="../detail-1/">이너에라 롱지비티<svg class="ic ic-sm" aria-hidden="true"><use href="#i-chevron"/></svg></a>
+    <a href="#ingredients">원료 이야기<svg class="ic ic-sm" aria-hidden="true"><use href="#i-chevron"/></svg></a>
+    <a href="#routine">데일리 루틴<svg class="ic ic-sm" aria-hidden="true"><use href="#i-chevron"/></svg></a>
+    <a href="#">공지사항<svg class="ic ic-sm" aria-hidden="true"><use href="#i-chevron"/></svg></a>
+    <a href="#">고객센터<svg class="ic ic-sm" aria-hidden="true"><use href="#i-chevron"/></svg></a>
+  </nav>
+  <a class="dr-prod" href="../detail-1/">
+    <span class="dr-pic"><img src="../../assets/product/box_cut.png" alt=""><img src="../../assets/product/stick_cut.png" alt=""></span>
+    <span class="dr-txt"><small>Inner:Era Longevity</small><b>이너에라 롱지비티</b><em>석류맛 · 20 g × 14포</em></span>
+  </a>
+</aside>
 
 <script src="app.js"></script>
 </body>

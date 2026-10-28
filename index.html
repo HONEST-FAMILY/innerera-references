@@ -5,7 +5,7 @@
 <meta name="robots" content="noindex,nofollow">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>이너에라 롱지비티 — 상세페이지·쇼핑몰 시안</title>
-<meta property="og:title" content="이너에라 롱지비티 — 상세페이지 3안 · 쇼핑몰 메인 3안">
+<meta property="og:title" content="이너에라 롱지비티 — 상세페이지 3안 · 쇼핑몰 메인 4안">
 <meta property="og:description" content="보내주신 레퍼런스를 실측해 재현한 1안과, 레퍼런스 보드에서 고른 2·3안">
 <meta property="og:image" content="img/shop-2_pc.jpg">
 <link rel="icon" href="assets/product/stick_cut.png">
@@ -32,6 +32,8 @@ section{padding:64px 0;border-top:1px solid #eee}
 .sec-h h2{font-family:var(--font-point);font-size:30px;font-weight:700;letter-spacing:-.02em}
 .sec-h p{font-size:15px;color:#6f696b;line-height:1.6;max-width:560px}
 .grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}
+.grid.g2{grid-template-columns:repeat(2,minmax(0,1fr));gap:40px 32px}
+.tag.hi{background:#c8102e;color:#fff}
 .card{display:flex;flex-direction:column}
 .shot{position:relative;border-radius:14px;overflow:hidden;background:#f6f2f1;aspect-ratio:4/5}
 .shot img{width:100%;height:100%;object-fit:cover;object-position:top;display:block}
@@ -63,7 +65,7 @@ section{padding:64px 0;border-top:1px solid #eee}
 .ask span{font-size:15px;line-height:1.65;color:#5c5658}
 footer{padding:40px 0 56px;border-top:1px solid #eee;font-size:13px;line-height:1.8;color:#8a8486}
 @media (max-width:900px){
- .grid{grid-template-columns:1fr;gap:44px}
+ .grid,.grid.g2{grid-template-columns:1fr;gap:44px}
  .board{grid-template-columns:1fr;padding:28px}
  .ask{grid-template-columns:1fr}
  .hero h1{font-size:32px}
@@ -78,9 +80,9 @@ footer{padding:40px 0 56px;border-top:1px solid #eee;font-size:13px;line-height:
 
 <div class="wrap hero">
  <p class="eyebrow">이너에라 롱지비티 · 디자인 방향 시안</p>
- <h1>상세페이지 <b>3안</b>, 쇼핑몰 메인 <b>3안</b></h1>
+ <h1>상세페이지 <b>3안</b>, 쇼핑몰 메인 <b>4안</b></h1>
  <p class="lead">1안은 보내주신 레퍼런스(11번가 인나드 상세 · 오니스트 몰)를 실제로 재서 같은 순서·같은 크기로 다시 만들었고, 2·3안은 레퍼런스 보드에서 고른 해외 브랜드의 디자인 문법으로 만들었습니다. 일반식품이라 효능 대신 다섯 가지 원료의 분자 구조·유래·연구 논문 수 같은 사실로 채웠습니다.</p>
- <div class="jump"><a class="fill" href="#detail">상세페이지 3안</a><a href="#shop">쇼핑몰 메인 3안</a><a href="#board">레퍼런스 보드</a></div>
+ <div class="jump"><a class="fill" href="#detail">상세페이지 3안</a><a href="#shop">쇼핑몰 메인 4안</a><a href="#board">레퍼런스 보드</a></div>
 </div>
 
 <section id="detail"><div class="wrap">
@@ -114,14 +116,14 @@ footer{padding:40px 0 56px;border-top:1px solid #eee;font-size:13px;line-height:
 </div></section>
 
 <section id="shop"><div class="wrap">
- <div class="sec-h"><h2>쇼핑몰 메인 시안</h2><p>PC와 휴대폰 모두 레퍼런스의 각 화면 배치를 따로 재서 맞췄습니다. 상품을 누르면 같은 방향의 상세 시안으로 이어집니다.</p></div>
- <div class="grid">
+ <div class="sec-h"><h2>쇼핑몰 메인 시안</h2><p>네 안 모두 머리글이 따라다니고, 휴대폰에서는 햄버거 메뉴와 하단 탭바로 씁니다. 상품을 누르면 같은 방향의 상세 시안으로 이어집니다.</p></div>
+ <div class="grid g2">
   <div class="card">
    <a class="shot shop" href="drafts/shop-1/"><span class="pc"><img src="img/shop-1_pc.jpg" alt="쇼핑몰 1안 PC" loading="lazy"></span><span class="ph"><img src="img/shop-1_m.jpg" alt="쇼핑몰 1안 휴대폰" loading="lazy"></span></a>
    <span class="tag mine">보내주신 레퍼런스 재현</span>
    <h3>1안 · 오니스트 구성 그대로</h3>
    <p class="ref">레퍼런스: 오니스트 공식몰(ownist.kr)</p>
-   <p class="desc">상단 띠·큰 배너·베이지 원칙 상자·루틴 카드 줄까지 오니스트와 같은 순서·같은 크기. 영문 세리프 제목과 석류 블러시 색으로 이너에라답게 바꿨습니다.</p>
+   <p class="desc">상단 띠·큰 배너·베이지 원칙 상자·루틴 카드 줄까지 오니스트와 같은 순서·같은 크기. 첫 배너의 상자·스틱은 어느 화면 폭에서도 잘리지 않습니다.</p>
    <div class="btns"><a class="main" href="drafts/shop-1/">시안 보기</a><a href="compare/shop-1_pc_full.jpg">원본과 나란히(PC)</a><a href="compare/shop-1_m_full.jpg">휴대폰</a></div>
   </div>
   <div class="card">
@@ -129,7 +131,7 @@ footer{padding:40px 0 56px;border-top:1px solid #eee;font-size:13px;line-height:
    <span class="tag rec">추천 · 과학 프리미엄</span>
    <h3>2안 · 크림슨 한 장면 + 과학 패널</h3>
    <p class="ref">레퍼런스: Timeline 공식몰 첫 화면</p>
-   <p class="desc">제품을 크게 세운 크림슨 첫 화면, 숫자 네 칸, 원료를 하나씩 눌러 보는 분자 구조 패널. 브랜드를 '과학 회사'처럼 보이게 하는 방향입니다.</p>
+   <p class="desc">제품을 크게 세운 크림슨 첫 화면, "다섯 가지 원료, 하루 한 포" 한 줄과 숫자 네 칸, 원료를 하나씩 눌러 보는 분자 구조 패널.</p>
    <div class="btns"><a class="main" href="drafts/shop-2/">시안 보기</a><a href="compare/shop-2_pc.jpg">레퍼런스와 나란히(PC)</a><a href="compare/shop-2_m.jpg">휴대폰</a></div>
   </div>
   <div class="card">
@@ -139,6 +141,15 @@ footer{padding:40px 0 56px;border-top:1px solid #eee;font-size:13px;line-height:
    <p class="ref">레퍼런스: Ritual 공식몰 첫 화면</p>
    <p class="desc">흰 바탕에 굵은 제목, 크림슨 상품 칸, 원료가 어디서 왔는지 따라가는 줄. 하루 한 포 습관을 파는 브랜드몰 방향입니다.</p>
    <div class="btns"><a class="main" href="drafts/shop-3/">시안 보기</a><a href="compare/shop-3_pc.jpg">레퍼런스와 나란히(PC)</a><a href="compare/shop-3_m.jpg">휴대폰</a></div>
+  </div>
+
+  <div class="card">
+   <a class="shot shop" href="drafts/shop-4/"><span class="pc"><img src="img/shop-4_pc.jpg" alt="쇼핑몰 4안 PC" loading="lazy"></span><span class="ph"><img src="img/shop-4_m.jpg" alt="쇼핑몰 4안 휴대폰" loading="lazy"></span></a>
+   <span class="tag hi">추가 · 하이엔드</span>
+   <h3>4안 · 스크롤로 펼쳐지는 하이엔드</h3>
+   <p class="ref">레퍼런스: Seed 공식몰(Awwwards 오늘의 사이트)</p>
+   <p class="desc">검정 바탕 석류 첫 화면이 화면 가득 펼쳐지고, 내리면 상자에서 스틱이 나오며 궤도 고리가 그려집니다. 원료 다섯 가지가 한 칸씩 넘어가고, 다섯 통이 한 포로 모입니다.</p>
+   <div class="btns"><a class="main" href="drafts/shop-4/">시안 보기</a><a href="compare/shop-4_motion.jpg">움직임 장면 모음</a><a href="compare/shop-4_pc.jpg">레퍼런스와 나란히</a></div>
   </div>
  </div>
 </div></section>
@@ -162,7 +173,7 @@ footer{padding:40px 0 56px;border-top:1px solid #eee;font-size:13px;line-height:
 <section id="ask"><div class="wrap">
  <div class="sec-h"><h2>확정 전에 알려주시면 바로 반영합니다</h2><p>시안은 방향을 맞추는 단계라, 아래 정보는 비워 두거나 자리만 잡아 두었습니다.</p></div>
  <div class="ask">
-  <div><b>가격과 구성</b><span>쇼핑몰 2·3안의 49,000원 · 98,000원 · 196,000원(1·2·4박스)은 자리를 보여주기 위한 예시 값입니다.</span></div>
+  <div><b>가격과 구성</b><span>쇼핑몰 2·3·4안의 49,000원 · 98,000원 · 196,000원(1·2·4박스)은 자리를 보여주기 위한 예시 값입니다.</span></div>
   <div><b>원료별 함량·칼로리·원산지</b><span>받으시면 원료 표와 제품 정보 칸에 그대로 넣겠습니다.</span></div>
   <div><b>GIP-01 특허원료 설명</b><span>지금은 패키지 표기(특허 제10-2951534호)만 넣었습니다. 어떤 원료인지 알려주시면 한 장면으로 따로 만들겠습니다.</span></div>
   <div><b>모델·생활 사진</b><span>사람이 들어간 사진이 있으면 오니스트처럼 첫 화면에 쓰겠습니다. 지금은 보내주신 제품 사진과 무료 원료 사진만 썼습니다.</span></div>

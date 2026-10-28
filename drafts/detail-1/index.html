@@ -44,6 +44,13 @@
         <p class="cap">One stick, every day<br>이너에라는 하루 한 포</p>
       </div>
     </div>
+    <div class="mosaic">
+      <figure><img src="../../assets/photos/d/d3_spinach.jpg" alt="시금치 잎"><figcaption>알파리포산<span>시금치·브로콜리</span></figcaption></figure>
+      <figure><img src="../../assets/photos/d/d3_yeast.jpg" alt="효모 거품"><figcaption>글루타치온<span>효모</span></figcaption></figure>
+      <figure><img src="../../assets/photos/d/d3_turmeric.jpg" alt="강황 가루"><figcaption>커큐민<span>강황 뿌리줄기</span></figcaption></figure>
+      <figure><img src="../../assets/photos/d/d3_onion.jpg" alt="자른 적양파"><figcaption>퀘르세틴<span>양파 껍질·사과</span></figcaption></figure>
+      <figure><img src="../../assets/photos/d/d3_broccoli.jpg" alt="브로콜리"><figcaption>NMN<span>브로콜리·에다마메</span></figcaption></figure>
+    </div>
   </section>
 
   <!-- ③ 공감 질문 -->
@@ -192,5 +199,13 @@
   </section>
 
 </main>
+<script>
+(function(){
+  var secs=document.querySelectorAll('.sec');
+  if(!('IntersectionObserver' in window)){secs.forEach(function(x){x.classList.add('in')});return;}
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}})},{threshold:.25});
+  secs.forEach(function(x){io.observe(x)});
+})();
+</script>
 </body>
 </html>

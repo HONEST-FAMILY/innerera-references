@@ -1,5 +1,7 @@
 # 1안 실측표 — 오니스트(ownist.kr) 메인 → 이너에라 메인
 
+> 2026-10-28 12:20 갱신: 이 표는 1차 실측이다. 첫 배너 잘림 수정·헤더 고정·서랍·탭바·여백 통일 이후의 최신 대조는 `fidelity.md`를 본다(첫 배너 = 오른쪽 사진 틀 폭 ≤ 높이×0.95 + 누끼 합성, 섹션 사이 여백 120 통일).
+
 - 잰 날: 2026-10-28 · 헤드리스 크롬(channel=chrome), PC 1440×900 / 폰 412×915, 자동 배너 멈춤·팝업 닫음
 - 원본 원자료: `ref/ownist/ref_pc.md·ref_m.md`(첫 두 화면, measure.py), `ref/ownist/full_full_pc.jpg·full_full_m.jpg`(전체 길이), `full_sections_*.md`
 - 우리 결과: `ref/cmp_shop1/ours_*.md`, `ours_full_*.jpg`, 비교 `site/compare/shop-1_pc.jpg·shop-1_m.jpg`(첫 두 화면), `shop-1_pc_full.jpg·shop-1_m_full.jpg`(전체 길이, 왼쪽 원본·오른쪽 우리)
