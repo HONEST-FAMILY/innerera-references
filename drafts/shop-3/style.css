@@ -294,3 +294,8 @@ sub{font-size:.72em;vertical-align:baseline;position:relative;top:.28em;line-hei
   .hd-r{gap:10px}
   .ico,.ico svg{width:23px;height:23px}
 }
+
+.tc-img.photo{background:#f4f1ee}
+.tc-img.photo img{width:100%;height:100%;object-fit:cover;filter:none}
+.tc-img.photo .tag{z-index:1}
+.photo-sq .cap{position:absolute;left:16px;bottom:14px;font-size:13px;color:#fff;text-shadow:0 1px 6px rgba(0,0,0,.35)}
