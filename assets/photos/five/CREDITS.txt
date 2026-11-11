@@ -1,0 +1,7 @@
+assets/photos/five, assets/photos/ritual, assets/photos/brand
+2026-11-11 Gemini(gemini-3-pro-image) 생성 이미지. 원료·일상 장면만 그렸고 제품(상자·스틱)·글자·사람은 넣지 않음.
+five_wide / five_tall: 다섯 원료 정물(시금치, 효모, 강황, 회화나무 꽃봉오리, 효모 발효)
+ala / glutathione / curcumin / quercetin / nmn: 원료별 정물
+ritual/start, care, work, beauty, life: Daily Ritual 일상 장면
+brand/brand_wide, brand_tall: 브랜드 이야기 석류 정물
+assets/cert/haccp_pkg.png, gip01_pkg.png: 최종 단상자 그림(assets/product/box_final_front_cut.png)에서 잘라 낸 인증 표기

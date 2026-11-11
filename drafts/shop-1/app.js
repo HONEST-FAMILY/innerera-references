@@ -91,7 +91,8 @@
   const slides = $$('.hero .slide');
   const bar = $('.h-bar');
   const num = $('.h-num b');
-  let cur = 0;
+  const first = Math.max(0, slides.findIndex((s) => s.classList.contains('is-on')));
+  let cur = first;
   const restartBar = () => {
     if (!bar || reduce) return;
     bar.classList.remove('run');
@@ -108,14 +109,14 @@
     prev.classList.add('is-prev');
     next.classList.add('is-on');
     setTimeout(() => prev.classList.remove('is-prev'), reduce ? 0 : 820);
-    if (num) num.textContent = String(cur + 1).padStart(2, '0');
+    if (num) num.textContent = String(((cur - first + slides.length) % slides.length) + 1).padStart(2, '0');
     $$('[data-count]', next).forEach(countUp);
     restartBar();
   };
   if (slides.length > 1 && !reduce) {
     bar.addEventListener('animationend', () => show(cur + 1));
     restartBar();
-    $$('[data-count]', slides[0]).forEach(countUp);
+    $$('[data-count]', slides[cur]).forEach(countUp);
     let x0 = null, y0 = 0;
     hero.addEventListener('pointerdown', (e) => { if (e.pointerType === 'mouse') return; x0 = e.clientX; y0 = e.clientY; hero.classList.add('is-hold'); });
     const end = (e) => {
@@ -138,7 +139,7 @@
     groups.get(p).push(el);
   });
   groups.forEach((list) => {
-    const same = list.filter((el) => el.matches('.card, .ing'));
+    const same = list.filter((el) => el.matches('.card, .ing, .rt-i, .ip-rules li'));
     same.forEach((el, i) => el.style.setProperty('--d', (i * 80) + 'ms'));
   });
   const reveal = (el, fast) => {
@@ -159,49 +160,12 @@
         io.unobserve(en.target);
       });
     }, { threshold: 0.15, rootMargin: '0px 0px -6% 0px' });
-    // 가로로 넘기는 줄(원료·구성 카드)은 화면 밖 카드가 관찰에 안 잡히므로 줄 단위로 함께 등장
-    const rowIo = new IntersectionObserver((entries) => {
-      alive = true;
-      entries.forEach((en) => {
-        if (!en.isIntersecting) return;
-        $$(':scope > .rv', en.target).forEach((el) => reveal(el, false));
-        rowIo.unobserve(en.target);
-      });
-    }, { threshold: 0.15, rootMargin: '0px 0px -6% 0px' });
     const vh = window.innerHeight;
-    const rows = new Set();
     rv.forEach((el) => {
-      const row = el.parentElement.matches('.ing-track, .cards') ? el.parentElement : null;
-      if (row) {
-        if (row.getBoundingClientRect().top < vh) reveal(el, true);
-        else rows.add(row);
-        return;
-      }
       if (el.getBoundingClientRect().top < vh) reveal(el, true);
       else io.observe(el);
     });
-    rows.forEach((row) => rowIo.observe(row));
     // 안전장치: 관찰이 안 돌면 1.2s 뒤 전부 보이게
     setTimeout(() => { if (!alive) rv.forEach((el) => el.classList.add('in')); }, 1200);
-  }
-
-  // 5. 가로 목록: 가운데 카드가 화면 가운데 오게 (원본처럼 양옆이 잘려 보임)
-  const center = (track, card) => {
-    if (!track || !card || track.scrollWidth <= track.clientWidth) return;
-    track.scrollLeft = card.offsetLeft - (track.clientWidth - card.offsetWidth) / 2;
-  };
-  const place = () => {
-    center($('.ing-track'), $$('.ing')[2]);
-    if (window.innerWidth <= 768) center($('.cards'), $('.card.c2'));
-  };
-  window.addEventListener('load', place);
-
-  // PC에서 원료 목록을 끌어서 넘기기
-  const t = $('.ing-track');
-  if (t) {
-    let down = false, x0 = 0, s0 = 0;
-    t.addEventListener('pointerdown', (e) => { if (e.pointerType !== 'mouse') return; down = true; x0 = e.clientX; s0 = t.scrollLeft; t.style.scrollSnapType = 'none'; });
-    window.addEventListener('pointermove', (e) => { if (down) t.scrollLeft = s0 - (e.clientX - x0); });
-    window.addEventListener('pointerup', () => { if (down) { down = false; t.style.scrollSnapType = ''; } });
   }
 })();
