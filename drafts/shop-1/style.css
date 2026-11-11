@@ -329,6 +329,9 @@ ol, ul { padding: 0; list-style: none; }
 .ip-ask { margin-top: 18px; font-family: var(--font-point); font-size: clamp(16px, 1.4vw, 19px); font-weight: 500; color: #8a2a33; }
 .ip-id { margin-top: 18px; max-width: 26em; font-size: clamp(17px, 1.5vw, 21px); line-height: 1.55; font-weight: 600; color: var(--ink); }
 .ip-story { margin-top: 12px; max-width: 32em; font-size: 16px; line-height: 1.75; color: #4a4440; }
+.ip-lipo { margin-top: 18px; max-width: 34em; padding: 18px 20px; border-radius: 14px; background: var(--cream); border: 1px solid var(--line); font-size: 15px; line-height: 1.7; color: #4a4440; }
+.ip-lipo b { display: block; margin-bottom: 6px; font-size: 16px; color: var(--ink); }
+.ip-lipo small { display: block; margin-top: 10px; font-size: 12px; color: #8e8780; }
 .ip-for { margin-top: 22px; padding-top: 18px; border-top: 1px solid var(--line); display: grid; grid-template-columns: auto 1fr; gap: 6px 18px; }
 .ip-for dt { font-size: 14px; font-weight: 700; line-height: 30px; color: var(--crimson); white-space: nowrap; }
 .ip-for dd { display: flex; flex-wrap: wrap; gap: 6px; }
