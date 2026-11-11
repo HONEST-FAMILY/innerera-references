@@ -36,7 +36,7 @@ const STYLE = `<style>
 
 const TABS = (active, a = 3, b = 3) => Tabs([{ t: '작성 가능한 리뷰', n: a }, { t: '작성한 리뷰', n: b }], active);
 
-const Band = () => `<div class="u19-band">${Icon('gift-o')}<div><b>리뷰를 쓰면 적립금을 드립니다</b> · 사진 리뷰 500원 · 글 리뷰 100원(예시)<br><span style="color:var(--mute);font-size:12.5px">운영자 확인 뒤 영업일 3일 안에 지급됩니다. 상품과 관계없는 글·사진은 지급되지 않습니다.</span></div></div>`;
+const Band = () => `<div class="u19-band">${Icon('gift-o')}<div><b>리뷰를 쓰면 적립금을 드립니다</b> · 사진 리뷰 1,000원 · 글 리뷰 500원(예시)<br><span style="color:var(--mute);font-size:12.5px">운영자 확인 뒤 영업일 3일 안에 지급됩니다. 상품과 관계없는 글·사진은 지급되지 않습니다.</span></div></div>`;
 
 const Item = (o) => `<div class="u19-item${o.off ? ' off' : ''}">${Thumb(72)}<div class="info"><b>${P}</b><span>${o.opt}</span><span>주문번호 ${o.no} · ${o.when}</span></div><div class="side"><span>${o.badge || ''} ${o.due}</span>${o.btn}</div></div>`;
 
@@ -57,7 +57,7 @@ const ListBody = (band = true) => [
 ];
 
 const state1 = StateBlock({ idx: 1, title: '작성 가능한 상품', note: '배송완료·구매확정된 품목 중 아직 리뷰를 쓰지 않은 것. 주문이 아니라 품목마다 한 줄씩 나옵니다.' },
-    Anno({ title: '왜 이렇게 하나' }, '리뷰는 받은 직후에 가장 많이 씁니다. 그래서 작성 기한이 가까운 순으로 세우고 남은 날짜를 배지로 보여 줍니다. 초기값: 작성 기한 90일 · 사진 리뷰 500원 · 글 리뷰 100원 — 관리자 혜택 > 적립금 정책과 고객응대 > 리뷰 설정에서 운영자가 바꿉니다. 기한이 지난 상품은 지우지 않고 아래에 접어 두어 왜 못 쓰는지 알게 합니다.'),
+    Anno({ title: '왜 이렇게 하나' }, '리뷰는 받은 직후에 가장 많이 씁니다. 그래서 작성 기한이 가까운 순으로 세우고 남은 날짜를 배지로 보여 줍니다. 초기값: 작성 기한 90일 · 사진 리뷰 1,000원 · 글 리뷰 500원 — 관리자 혜택 > 적립금 정책과 고객응대 > 리뷰 설정에서 운영자가 바꿉니다. 기한이 지난 상품은 지우지 않고 아래에 접어 두어 왜 못 쓰는지 알게 합니다.'),
     Anno({ warn: true, title: '놓치면 안 되는 것' }, '배송완료 상태에서 리뷰를 쓰면 구매확정이 함께 되어 그 뒤로는 반품·교환 신청을 못 합니다. 리뷰 쓰기를 누르는 순간 이 사실을 확인 팝업으로 한 번 묻습니다. 적립금 기능을 끈 몰은 적립 안내 띠와 폼 안의 적립 문구가 통째로 없습니다.'),
     Canvas({ label: 'U-19 · 작성 가능한 리뷰 탭 · 적립금 켠 몰(기한 임박 · 배송완료 · 일반 · 기간 종료)' }, STYLE, MypageLayout({ active: '리뷰', title: '리뷰', cart: 1 }, ListBody())),
     CanvasRow(
@@ -81,7 +81,7 @@ const FormEmpty = (point = true) => [
     Field({ label: '별점', required: true }, StarPick(0, '별을 눌러 점수를 주세요')),
     Field({ label: '리뷰 내용', required: true, help: '10자 이상 1,000자까지 쓸 수 있습니다.' }, Textarea({ placeholder: '맛, 먹기 편한 정도, 포장 상태 등 써 보신 느낌을 알려 주세요.', h: 120, count: '0 / 1,000' })),
     Field({ label: '사진', help: PHOTO_HELP }, Photos(0)),
-    point && Note('사진을 1장 이상 올리면 500원, 글만 쓰면 100원이 적립됩니다(예시). 운영자 확인 뒤 영업일 3일 안에 지급됩니다.'),
+    point && Note('사진을 1장 이상 올리면 1,000원, 글만 쓰면 500원이 적립됩니다(예시). 운영자 확인 뒤 영업일 3일 안에 지급됩니다.'),
 ];
 
 const FormFilled = () => [
@@ -89,7 +89,7 @@ const FormFilled = () => [
     Field({ label: '별점', required: true }, StarPick(5, '5점 · 아주 좋아요')),
     Field({ label: '리뷰 내용', required: true }, Textarea({ value: '아침에 물 없이 한 포씩 먹기 좋아요. 석류 맛이 진한데 달지 않아서 2주째 빠뜨리지 않고 먹고 있습니다. 낱개 포장이라 가방에 넣어 다니기도 편합니다.', h: 120, count: '86 / 1,000' })),
     Field({ label: '사진', help: PHOTO_HELP }, Photos(3)),
-    Note('사진 리뷰로 등록됩니다. 확인 뒤 500원이 적립됩니다(예시).'),
+    Note('사진 리뷰로 등록됩니다. 확인 뒤 1,000원이 적립됩니다(예시).'),
 ];
 
 const FormError = () => [
@@ -124,7 +124,7 @@ const state2 = StateBlock({ idx: 2, title: '작성 폼(별점·사진·글, 포�
         Canvas({ size: 'mobile', label: 'U-19 · 모바일 · 사진 칸을 누름 → 고르기 시트' }, Overlay({ bg: MobilePage({ title: '리뷰 쓰기', tab: false, right: '' }, FormEmpty()), align: 'bottom', h: 720 },
             `<div class="wf-sheet"><div class="grip"></div><div class="mb">${['사진 찍기', '앨범에서 고르기 (최대 5장)'].map((t, i) => `<div style="display:flex;align-items:center;gap:10px;padding:14px 4px;border-bottom:1px solid var(--line2);font-size:15px">${Icon(i ? 'image-o' : 'camera-o')}${t}</div>`).join('')}<div style="padding:14px 4px;font-size:15px;color:var(--mute)">취소</div></div></div>`)),
         Canvas({ size: 'mobile', label: 'U-19 · 모바일 · 등록 완료 토스트 → 작성한 리뷰 탭' }, Overlay({ bg: MobilePage({ title: '리뷰', tab: '마이' }, TABS('작성한 리뷰', 2, 3)), dim: false, align: 'toast-bottom', h: 720 },
-            Toast('리뷰를 등록했습니다. 확인 뒤 500원이 적립됩니다.'))),
+            Toast('리뷰를 등록했습니다. 확인 뒤 1,000원이 적립됩니다.'))),
     ),
 );
 
@@ -133,9 +133,9 @@ const Review = (o) => `<div class="u19-rv"><div class="wf-prow">${Thumb(48)}<div
 <div class="body">${o.text}</div>${o.photos ? `<div class="u19-photos">${Array.from({ length: o.photos }, () => Thumb(72)).join('')}</div>` : ''}
 ${o.reply ? `<div class="u19-reply"><b>${Icon('reply')}이너에라 고객센터 <span>${o.replyAt}</span></b>${o.reply}</div>` : ''}${o.foot || ''}</div>`;
 
-const RV1 = { opt: `${O2} · 1개`, no: '20261020-000311', star: 5, date: '2026-11-10 작성', badges: `${Badge('사진 리뷰', 'line')}${Badge('적립 500원 지급 예정', 'dash')}`, photos: 3,
+const RV1 = { opt: `${O2} · 1개`, no: '20261020-000311', star: 5, date: '2026-11-10 작성', badges: `${Badge('사진 리뷰', 'line')}${Badge('적립 1,000원 지급 예정', 'dash')}`, photos: 3,
     text: '아침에 물 없이 한 포씩 먹기 좋아요. 석류 맛이 진한데 달지 않아서 2주째 빠뜨리지 않고 먹고 있습니다. 낱개 포장이라 가방에 넣어 다니기도 편합니다.' };
-const RV2 = { opt: `${O1} · 1개`, no: '20260722-000188', star: 4, date: '2026-08-22 작성 · 2026-08-23 수정', badges: `${Badge('글 리뷰', 'line')}${Badge('적립 100원 지급 완료', 'check')}`,
+const RV2 = { opt: `${O1} · 1개`, no: '20260722-000188', star: 4, date: '2026-08-22 작성 · 2026-08-23 수정', badges: `${Badge('글 리뷰', 'line')}${Badge('적립 500원 지급 완료', 'check')}`,
     text: '맛은 만족합니다. 다만 상자가 조금 눌려서 왔어요. 내용물은 멀쩡했습니다.',
     reply: '김민지 님, 소중한 후기 감사합니다. 상자가 눌려 도착한 점 죄송합니다. 포장 완충재를 보강했고, 다음 주문에 쓰실 수 있는 쿠폰을 넣어 드렸습니다.', replyAt: '2026-08-24 10:12' };
 const RV3 = { opt: `${O1} · 1개`, no: '20260610-000097', star: 3, date: '2026-06-20 작성', badges: `${Badge('숨김 처리됨', 'x')}`, acts: false,
@@ -155,15 +155,15 @@ const state3 = StateBlock({ idx: 3, title: '작성한 리뷰', note: '내가 쓴
                 Field({ label: '별점', required: true }, StarPick(5, '5점 · 아주 좋아요')),
                 Field({ label: '리뷰 내용', required: true }, Textarea({ value: RV1.text, h: 110, count: '86 / 1,000' })),
                 Field({ label: '사진', help: PHOTO_HELP }, Photos(3)),
-                Note('사진을 모두 지우면 글 리뷰로 바뀌어 적립금이 500원에서 100원으로 줄어듭니다.', { warn: true }))),
+                Note('사진을 모두 지우면 글 리뷰로 바뀌어 적립금이 1,000원에서 500원으로 줄어듭니다.', { warn: true }))),
         `<div>${Canvas({ size: 'auto', label: '삭제 버튼 → 확인 팝업 · 적립금 지급된 리뷰', right: '팝업만', pad: 20 },
-            Confirm({ w: 400, danger: true, title: '이 리뷰를 삭제할까요?', desc: '삭제하면 되돌릴 수 없고, 이 상품의 리뷰는 다시 쓸 수 없습니다.<br><b>받은 적립금 100원이 회수됩니다.</b> 보유 적립금이 모자라면 남은 만큼만 회수됩니다.', ok: '삭제하고 100원 반납' }))}
+            Confirm({ w: 400, danger: true, title: '이 리뷰를 삭제할까요?', desc: '삭제하면 되돌릴 수 없고, 이 상품의 리뷰는 다시 쓸 수 없습니다.<br><b>받은 적립금 500원이 회수됩니다.</b> 보유 적립금이 모자라면 남은 만큼만 회수됩니다.', ok: '삭제하고 500원 반납' }))}
         ${Canvas({ size: 'auto', label: '삭제 확인 팝업 · 적립금을 끈 몰 또는 아직 지급 전', right: '팝업만', pad: 20 },
             Confirm({ w: 400, danger: true, title: '이 리뷰를 삭제할까요?', desc: '삭제하면 되돌릴 수 없고, 이 상품의 리뷰는 다시 쓸 수 없습니다.', ok: '삭제' }))}</div>`,
     ),
     CanvasRow(
         Canvas({ size: 'auto', label: '수정 저장 완료', right: '토스트만', pad: 20 }, Toast('리뷰를 수정했습니다.')),
-        Canvas({ size: 'auto', label: '삭제 완료', right: '토스트만', pad: 20 }, Toast('리뷰를 삭제했습니다. 적립금 100원이 회수되었습니다.', { action: '적립금 내역 보기' })),
+        Canvas({ size: 'auto', label: '삭제 완료', right: '토스트만', pad: 20 }, Toast('리뷰를 삭제했습니다. 적립금 500원이 회수되었습니다.', { action: '적립금 내역 보기' })),
         Canvas({ size: 'auto', label: '사진을 눌렀을 때 · 크게 보기', right: '팝업만', pad: 20 }, Modal({ title: '사진 1 / 3', w: 420 },
             `<div class="wf-img" style="height:360px">${Icon('image-o')}<span>리뷰 사진 원본 비율 그대로 · 좌우로 넘기기</span></div>`, Flex({ justify: 'space-between', mt: 10 }, Text(`${Icon('angle-left')} 이전`, { sm: true }), Text(`다음 ${Icon('angle-right')}`, { sm: true })))),
     ),

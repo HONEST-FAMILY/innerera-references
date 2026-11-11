@@ -35,8 +35,7 @@ ${o.stopped ? Btn('삭제', { size: 'sm', block: true, icon: 'trash-o' }) : o.so
 const Head = (sel, total) => `<div class="u29-head">${Check(`전체 선택 (${sel} / ${total})`, { on: sel === total && total > 0, part: sel > 0 && sel < total })}<span class="r"><span style="color:var(--mute);font-size:12.5px;margin-right:6px">찜한 순</span>${Btn('선택 삭제', { size: 'sm', disabled: sel === 0 })}${Btn('선택 상품 장바구니 담기', { size: 'sm', disabled: sel === 0, icon: 'cart-o' })}</span></div>`;
 const Grid = (cards, cols = 4) => `<div class="u29-grid" style="grid-template-columns:repeat(${cols}, minmax(0, 1fr))">${cards.join('')}</div>`;
 
-const MENU_FIX = (html) => html.replace('<span class="">취소·반품·교환 내역</span>', '<span class="">취소·반품·교환 내역</span><span class="on">찜한 상품</span>');
-const My = (o, ...body) => MENU_FIX(MypageLayout({ active: '찜한 상품', title: '찜한 상품', crumb: ['홈', '마이페이지', '찜한 상품'], cart: o.cart === undefined ? 1 : o.cart }, CSS, body));
+const My = (o, ...body) => MypageLayout({ active: '찜한 상품', title: '찜한 상품', crumb: ['홈', '마이페이지', '찜한 상품'], cart: o.cart === undefined ? 1 : o.cart }, CSS, body);
 
 const INNER = { name: SHOP.product, desc: '1박스 · 2박스 · 4박스', price: SHOP.options[0].price, option: true };
 const OTHERS = [

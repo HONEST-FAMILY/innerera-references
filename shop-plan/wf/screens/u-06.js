@@ -27,7 +27,7 @@ const CSS = `<style>
 </style>`;
 
 const HeartBtn = (liked, n) => `<span class="wf-btn line hb">${Icon(liked ? 'heart' : 'heart-o')}${n || '찜'}</span>`;
-const Bar = (o = {}) => `<div class="u06-bar">${HeartBtn(o.liked, o.likes)}${o.soldout ? Btn('재입고 알림 신청', { kind: 'primary', icon: 'bell-o' }) : `${Btn('장바구니')}${Btn('구매하기', 'primary')}`}</div>`;
+const Bar = (o = {}) => `<div class="u06-bar">${HeartBtn(o.liked, o.likes)}${o.soldout ? Btn('재입고 알림 신청', { kind: 'primary', icon: 'bell-o' }) : Btn('구매하기', 'primary')}</div>`;
 
 const DetailBody = (p = {}) => `${CSS}<div style="margin:-16px -16px 0;position:relative">${Img({ ratio: '1/1', label: '상품 대표 이미지 1000 × 1000 · 좌우로 밀기 1 / 5' })}${p.soldout ? '<div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(40,40,46,.55);color:#fff;font-size:20px;font-weight:800">품절</div>' : ''}</div>
 <div style="display:flex;gap:4px;margin-top:14px">${Badge(p.badge || 'GIP-01 특허원료')}</div>
@@ -54,17 +54,17 @@ const Sets = (on = -1, sold) => `<div style="display:grid;grid-template-columns:
 const SHIRT = { name: '코튼 옥스퍼드 셔츠', price: '59,000원', reviews: 84, badge: '신상품' };
 const CREAM = { name: '시카 수분 크림 50 ml', price: '32,000원', reviews: 356 };
 
-const state1 = StateBlock({ idx: 1, title: '닫힘(하단 고정 바)', note: '모바일 상품 상세에서는 탭바 대신 화면 아래에 찜 · 장바구니 · 구매하기 바가 항상 붙어 있습니다. 스크롤을 어디까지 내려도 따라옵니다.' },
-    Anno({ title: '왜 이렇게 하나' }, '모바일은 상세 이미지가 길어 구매 영역이 금방 화면 밖으로 사라집니다. 그래서 옵션 선택을 본문에 두지 않고, 아래 고정 바의 버튼을 누르면 시트가 올라오는 방식으로 통일합니다. 장바구니를 누르든 구매하기를 누르든 같은 시트가 열리고, 시트 안 버튼 두 개로 마무리합니다. 옵션이 없는 상품도 수량을 고르기 위해 시트가 열립니다.'),
-    Anno({ title: '상태별 버튼 차이' }, '판매중 = 찜 · 장바구니 · 구매하기 / 전체 품절 = 찜 · 재입고 알림 신청(누르면 U-05 의 재입고 알림 팝업이 시트 모양으로) / 찜한 상품 = 채워진 하트. 찜은 비로그인이 누르면 로그인 안내가 뜹니다(U-05 7번 상태). 하트 아래 숫자는 리뷰 기능과 무관하게 보이며 관리자 사이트 기본에서 숨길 수 있습니다.'),
+const state1 = StateBlock({ idx: 1, title: '닫힘(하단 고정 바)', note: '모바일 상품 상세에서는 탭바 대신 화면 아래에 찜 · 구매하기 바가 항상 붙어 있습니다. 스크롤을 어디까지 내려도 따라옵니다.' },
+    Anno({ title: '왜 이렇게 하나' }, '모바일은 상세 이미지가 길어 구매 영역이 금방 화면 밖으로 사라집니다. 그래서 옵션 선택을 본문에 두지 않고, 아래 고정 바의 버튼을 누르면 시트가 올라오는 방식으로 통일합니다. 바에는 찜과 구매하기 두 개만 둡니다. 구매하기를 누르면 시트가 열리고, 장바구니에 담을지 바로 살지는 시트 안 버튼 두 개(장바구니 · 바로 구매)에서 고릅니다. 옵션이 없는 상품도 수량을 고르기 위해 시트가 열립니다.'),
+    Anno({ title: '상태별 버튼 차이' }, '판매중 = 찜 · 구매하기 / 전체 품절 = 찜 · 재입고 알림 신청(누르면 U-05 의 재입고 알림 팝업이 시트 모양으로) / 찜한 상품 = 채워진 하트. 찜은 비로그인이 누르면 로그인 안내가 뜹니다(U-05 7번 상태). 하트 아래 숫자는 리뷰 기능과 무관하게 보이며 관리자 사이트 기본에서 숨길 수 있습니다.'),
     CanvasRow(
-        Canvas({ size: 'mobile', label: 'U-06 · 시트 닫힘 · 하단 고정 바(찜 · 장바구니 · 구매하기)' }, Page({ cart: 1 }, Bar())),
+        Canvas({ size: 'mobile', label: 'U-06 · 시트 닫힘 · 하단 고정 바(찜 · 구매하기)' }, Page({ cart: 1 }, Bar())),
         Canvas({ size: 'mobile', label: 'U-06 · 찜한 상품 · 채워진 하트' }, Page({ cart: 1 }, Bar({ liked: true }))),
         Canvas({ size: 'mobile', label: 'U-06 · 전체 품절 상품 · 바가 재입고 알림 신청으로 바뀜' }, Page({ soldout: true }, Bar({ soldout: true }))),
     ),
 );
 
-const state2 = StateBlock({ idx: 2, title: '열림·옵션 선택 중', note: '하단 바의 장바구니 또는 구매하기를 누르면 아래에서 시트가 올라옵니다. 뒤 화면은 어두워지고, 어두운 곳을 누르거나 시트를 아래로 끌면 닫힙니다(고른 내용은 유지).' },
+const state2 = StateBlock({ idx: 2, title: '열림·옵션 선택 중', note: '하단 바의 구매하기를 누르면 아래에서 시트가 올라옵니다. 뒤 화면은 어두워지고, 어두운 곳을 누르거나 시트를 아래로 끌면 닫힙니다(고른 내용은 유지).' },
     Anno({ title: '왜 이렇게 하나' }, 'PC 구매 영역과 규칙이 같습니다. 옵션을 모두 고르면 선택 목록에 줄이 생기고, 줄마다 수량을 바꾸고 지울 수 있으며, 한 줄 이상 있어야 아래 버튼이 켜집니다. 선택 칸을 누르면 목록이 시트 안에서 펼쳐지고 품절 품목은 줄이 그어져 누를 수 없습니다. 시트는 화면 높이의 80%까지만 올라오고 그보다 길면 시트 안에서 스크롤합니다.'),
     Anno({ title: '유형별 차이' }, '옵션 1축(이너에라 구성) = 선택 칸 1개 / 조합형 2축(의류) = 선택 칸 2개, 앞 축을 골라야 다음 축이 열림 / 옵션 없음(화장품 단품) = 선택 칸 없이 수량만 있고 버튼이 처음부터 켜짐. 금액은 예시이며 이너에라 판매가는 미확정입니다.'),
     CanvasRow(

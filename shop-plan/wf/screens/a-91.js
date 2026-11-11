@@ -1,7 +1,9 @@
 import {
     Canvas, CanvasRow, StateBlock, Anno, AdminLayout, Btn, BtnRow, Badge, Input, Select, Check, Radio, RadioGroup, CheckGroup, Toggle, Tabs,
-    FormTable, Table, Overlay, Modal, Confirm, Toast, Box, KV, Note, Text, Icon, Flex, Grid, Stepper, Empty, DragRow,
+    FormTable, Table, Overlay, Modal, Confirm, Toast, Box, KV, Note as NoteBase, Text, Icon, Flex, Grid, Stepper, Empty, DragRow,
 } from '../lib/blocks.js';
+
+const Note = (text, o) => NoteBase(`<span>${text}</span>`, o);
 
 const TABS = ['결제 연결', '결제수단', '가상계좌', '무통장 입금'];
 const Page = (tab, o, ...body) => AdminLayout({ active: 'a-91', desc: '결제 대행사 연결 상태를 확인하고 고객에게 보여 줄 결제수단을 정합니다.', ...o }, Tabs(TABS, tab), body);

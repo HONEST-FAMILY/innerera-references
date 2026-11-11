@@ -1,7 +1,9 @@
 import {
     Canvas, CanvasRow, StateBlock, Anno, AdminLayout, Btn, BtnRow, Badge, Input, Select, Check, RadioGroup, CheckGroup, Tabs,
-    Textarea, FormTable, ListHead, Table, Overlay, Modal, Confirm, Toast, Box, KV, Note, Text, Icon, Flex, Empty,
+    Textarea, FormTable, ListHead, Table, Overlay, Modal, Confirm, Toast, Box, KV, Note as NoteBase, Text, Icon, Flex, Empty,
 } from '../lib/blocks.js';
+
+const Note = (text, o) => NoteBase(`<span>${text}</span>`, o);
 
 const DOCS = [{ t: '이용약관', n: 3 }, { t: '개인정보처리방침', n: 4 }, { t: '개인정보 수집·이용 동의(가입)', n: 2 }, { t: '개인정보 수집·이용 동의(비회원 주문)', n: 1 }, { t: '마케팅 정보 수신 동의', n: 1 }];
 const Page = (doc, o, ...body) => AdminLayout({ active: 'a-95', desc: '약관과 방침은 고치지 않고 새 버전을 등록합니다. 시행일이 되면 자동으로 바뀌고 지난 버전은 고객이 계속 볼 수 있습니다.', actions: [Btn('새 버전 등록', { kind: 'primary', icon: 'plus' })], ...o }, Tabs(DOCS, doc), body);

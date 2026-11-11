@@ -1,8 +1,10 @@
 import {
     Canvas, CanvasRow, StateBlock, Anno, AdminLayout, Btn, BtnRow, Badge, Input, Select, Check, Toggle, Tabs,
-    FormTable, Overlay, Modal, Confirm, Toast, Upload, ImageGuide, Box, Note, Text, Icon, Flex, Grid, Img,
+    FormTable, Overlay, Modal, Confirm, Toast, Upload, ImageGuide, Box, Note as NoteBase, Text, Icon, Flex, Grid, Img,
     UserHeader, UserFooter, MobilePage, SHOP,
 } from '../lib/blocks.js';
+
+const Note = (text, o) => NoteBase(`<span>${text}</span>`, o);
 
 const BAND = '5가지 핵심 원료를 하루 한 포에 — 이너에라 롱지비티 보러가기';
 
@@ -52,7 +54,7 @@ const snsBox = (o = {}) => Box({ title: 'SNS 링크', sub: '켜 둔 것만 바�
 
 const bandBox = (o = {}) => Box({ title: '상단 띠 문구', sub: '모든 화면 맨 위에 한 줄로 나오는 안내', right: Toggle('사용', { on: !o.empty }) },
     FormTable([
-        { k: '문구', required: true, v: Input({ value: o.empty ? '' : BAND, placeholder: '예: 3만원 이상 구매 시 무료배송', w: 560 }), help: `${o.empty ? '0' : '33'} / 40자 · 모바일에서 한 줄에 들어가는 길이는 22자 안팎이고, 넘으면 오른쪽에서 왼쪽으로 흐릅니다.` },
+        { k: '문구', required: true, v: Input({ value: o.empty ? '' : BAND, placeholder: '예: 5만원 이상 구매 시 무료배송', w: 560 }), help: `${o.empty ? '0' : '33'} / 40자 · 모바일에서 한 줄에 들어가는 길이는 22자 안팎이고, 넘으면 오른쪽에서 왼쪽으로 흐릅니다.` },
         { k: '누르면 이동', v: [Select({ value: o.empty ? '' : '상품 · 이너에라 롱지비티 석류맛 젤리스틱', placeholder: '이동 없음', w: 360 }), Check('새 창으로 열기')] },
         { k: '노출 기간', v: [Check('기간 없이 계속', { on: true }), Input({ placeholder: '시작일', icon: 'calendar', w: 150, disabled: true }), '~', Input({ placeholder: '종료일', icon: 'calendar', w: 150, disabled: true })] },
         { k: '닫기 버튼', v: [Check('고객이 닫을 수 있게 하기 (닫으면 하루 동안 안 보임)')] },

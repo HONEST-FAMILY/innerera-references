@@ -84,7 +84,7 @@ const Sum = (o = {}) => {
         ['상품 금액', won(ITEM)],
         ...coupons.map(([k, v]) => [k, `-${won(v)}`]),
         point ? ['적립금 사용', `-${won(point)}`] : null,
-        ['배송비', jeju ? won(jeju) : '무료', jeju ? '기본 0원(3만원 이상 무료) + 제주·도서산간 추가 3,000원' : '3만원 이상 구매 무료배송'],
+        ['배송비', jeju ? won(jeju) : '무료', jeju ? '기본 0원(5만원 이상 무료) + 제주·도서산간 추가 3,000원' : '5만원 이상 구매 무료배송(예시)'],
     ].filter(Boolean);
     const earnLine = o.guest
         ? `${Icon('gift-o')} 회원으로 주문하면 ${won(earn)}이 적립됩니다`

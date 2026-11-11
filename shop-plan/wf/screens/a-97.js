@@ -1,7 +1,9 @@
 import {
     Canvas, CanvasRow, StateBlock, Anno, AdminLayout, Btn, Badge, Check, Radio, Toggle, Input, Select,
-    FormTable, Table, Overlay, Modal, Confirm, Toast, Box, KV, Note, Text, Icon, Flex, Grid,
+    FormTable, Table, Overlay, Modal, Confirm, Toast, Box, KV, Note as NoteBase, Text, Icon, Flex, Grid,
 } from '../lib/blocks.js';
+
+const Note = (text, o) => NoteBase(`<span>${text}</span>`, o);
 
 const Page = (...body) => AdminLayout({ active: 'a-97', desc: '몰에서 쓰는 기능만 켭니다. 끈 기능은 고객 화면 · 관리자 메뉴 · 알림에서 함께 사라지고, 쌓인 자료는 지워지지 않습니다.' }, body);
 

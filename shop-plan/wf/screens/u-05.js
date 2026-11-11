@@ -197,11 +197,11 @@ const restockForm = (o = {}) => [
 const SOLD = { ...INNER, soldout: true, price: '49,000원(예시)부터' };
 const SoldInfo = (applied) => Info(SOLD,
     Opt(['구성', Sets(-1, 'all')]),
-    `<div class="u05-btns" style="margin-top:20px">${Btn(Icon('heart-o'), { size: 'lg', w: 52 })}${Btn('품절', { size: 'lg', block: true, disabled: true })}${applied ? Btn('재입고 알림 신청됨', { size: 'lg', block: true, icon: 'check' }) : Btn('재입고 알림 신청', { kind: 'primary', size: 'lg', block: true, icon: 'bell-o' })}</div>`,
+    `<div class="u05-btns" style="margin-top:20px">${Btn(Icon('heart-o'), { size: 'lg', w: 52 })}${applied ? Btn('재입고 알림 신청됨', { size: 'lg', block: true, icon: 'check' }) : Btn('재입고 알림 신청', { kind: 'primary', size: 'lg', block: true, icon: 'bell-o' })}</div>`,
     applied ? `<p class="u05-msg" style="font-weight:500">${Icon('bell-o')}2박스(28일분) 재입고 시 010-****-1234 로 알려 드립니다. <u>신청 취소</u></p>` : `<p class="u05-msg" style="font-weight:500">${Icon('info-o')}지금은 모든 구성이 품절입니다. 재입고되면 알림톡으로 알려 드립니다.</p>`,
 );
 
-const state5 = StateBlock({ idx: 5, title: '전체 품절(재입고 알림 신청)', note: '모든 품목의 재고가 0이거나 운영자가 상품을 품절로 돌렸을 때. 구매 버튼 자리가 재입고 알림 신청으로 바뀝니다.' },
+const state5 = StateBlock({ idx: 5, title: '전체 품절(재입고 알림 신청)', note: '모든 품목의 재고가 0이거나 운영자가 상품을 품절로 돌렸을 때. 장바구니 버튼은 숨기고, 바로 구매 자리가 재입고 알림 신청으로 바뀝니다.' },
     Anno({ title: '왜 이렇게 하나' }, '품절은 수요가 있다는 신호입니다. 그냥 돌려보내지 않고 번호를 받아 두면 재입고한 날 바로 매출이 됩니다. 비회원도 신청할 수 있게 휴대폰 번호와 수신 동의만 받습니다(가입을 강요하지 않음). 신청자는 관리자 재고 관리에서 품목별 재입고 알림 대기 인원으로 보입니다.'),
     Anno({ warn: true, title: '놓치면 안 되는 것' }, '수신 동의는 필수 체크이며 초기값은 체크 안 됨입니다(미리 체크해 두면 안 됨). 찜은 품절이어도 할 수 있습니다. 판매중지 상품은 이 화면이 아니라 판매가 종료된 상품입니다 안내와 다른 상품 보기 버튼만 나옵니다(아래 마지막 그림).'),
     Canvas({ label: 'U-05 · 전체 품절 · 대표 이미지 위 품절 표시 · 구매 버튼 자리에 재입고 알림 신청' }, Page(SOLD, { soldout: true, label: '상품 대표 이미지 1000 × 1000' }, SoldInfo(false), { loggedIn: true, below: DetailTabs('상세정보') })),
@@ -331,7 +331,7 @@ const state6 = StateBlock({ idx: 6, title: '상세 탭(상세정보·리뷰·문
     ].join(''))),
     Anno({ title: '모바일에서는' }, '탭 줄은 그대로 4칸이고 내용은 한 줄로 쌓입니다. 포토 모아보기는 4칸 2줄, 별점 분포는 평균 아래로 내려갑니다. 구매 버튼은 화면 아래 고정 바(U-06)에 있습니다.'),
     CanvasRow(
-        Canvas({ size: 'mobile', label: 'U-05 · 모바일 · 리뷰 탭' }, MobilePage({ title: '', tab: false, right: `${Icon('search')}<span class="cart">${Icon('cart-o')}<em>1</em></span>`, bottom: [Btn(Icon('heart-o'), { w: 52 }), Btn('장바구니'), Btn('구매하기', 'primary')] }, CSS,
+        Canvas({ size: 'mobile', label: 'U-05 · 모바일 · 리뷰 탭' }, MobilePage({ title: '', tab: false, right: `${Icon('search')}<span class="cart">${Icon('cart-o')}<em>1</em></span>`, bottom: [Btn(Icon('heart-o'), { w: 52 }), Btn('구매하기', 'primary')] }, CSS,
             `<div style="margin:-16px -16px 0;overflow:hidden" data-clip="1">${Tabs([{ t: '상세정보' }, { t: '리뷰', n: 128 }, { t: '문의', n: 12 }, { t: '배송·교환·반품' }], '리뷰').replace('wf-tabs ', 'wf-tabs u05-mt ')}</div><style>.u05-mt .tab{padding:10px 10px;font-size:13px}</style>`,
             `<div style="text-align:center;margin-bottom:12px"><b style="font-size:32px">4.8</b><br>${Stars(5)} <span style="font-size:12.5px;color:var(--mute)">리뷰 128개</span></div>`,
             DIST.slice(0, 3).map(([s, n, w]) => `<div class="u05-bar"><span>${s}점</span><div class="tr"><span style="width:${w}%"></span></div><em>${n}</em></div>`).join(''),
@@ -357,7 +357,7 @@ const state7 = StateBlock({ idx: 7, title: '비로그인 찜 → 로그인 유�
         Toast('찜한 상품에 담았습니다.', { action: '찜한 상품 보기', icon: 'heart' }))),
     CanvasRow(
         Canvas({ size: 'auto', label: '로그인 상태에서 채워진 하트를 다시 누름 → 찜 해제', right: '안내만', pad: 20 }, Toast('찜을 해제했습니다.', { icon: 'heart-o' })),
-        Canvas({ size: 'mobile', label: 'U-05 · 모바일 · 하단 고정 바의 하트 누름(비로그인) → 로그인 안내' }, Overlay({ bg: MobilePage({ title: '', tab: false, bottom: [Btn(Icon('heart-o'), { w: 52 }), Btn('장바구니'), Btn('구매하기', 'primary')] }, CSS, Img({ ratio: '1/1', label: '상품 대표 이미지' }), `<h1 class="u05-name" style="font-size:18px">${SHOP.product}</h1>`), h: 720 },
+        Canvas({ size: 'mobile', label: 'U-05 · 모바일 · 하단 고정 바의 하트 누름(비로그인) → 로그인 안내' }, Overlay({ bg: MobilePage({ title: '', tab: false, bottom: [Btn(Icon('heart-o'), { w: 52 }), Btn('구매하기', 'primary')] }, CSS, Img({ ratio: '1/1', label: '상품 대표 이미지' }), `<h1 class="u05-name" style="font-size:18px">${SHOP.product}</h1>`), h: 720 },
             Confirm({ w: 310, title: '로그인이 필요합니다', desc: '찜한 상품은 로그인하면 마이페이지에서 다시 볼 수 있습니다.', foot: [Btn('취소'), Btn('로그인하기', 'primary')] }))),
     ),
 );

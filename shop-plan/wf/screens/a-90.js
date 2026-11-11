@@ -1,7 +1,9 @@
 import {
     Canvas, CanvasRow, StateBlock, Anno, AdminLayout, Btn, BtnRow, Badge, Input, Select, Check, RadioGroup, CheckGroup,
-    FormTable, Overlay, Modal, Toast, Box, Note, Text, Icon, Flex, Grid, UserFooter, SHOP,
+    FormTable, Overlay, Modal, Toast, Box, Note as NoteBase, Text, Icon, Flex, Grid, UserFooter, SHOP,
 } from '../lib/blocks.js';
+
+const Note = (text, o) => NoteBase(`<span>${text}</span>`, o);
 
 const Page = (o, ...body) => AdminLayout({ active: 'a-90', desc: '여기에 넣은 값이 바닥글 · 주문 메일 · 영수증 · 약관의 사업자 표시에 자동으로 들어갑니다.', actions: [Btn('저장', 'primary')], ...o }, body);
 
@@ -36,7 +38,7 @@ const privBox = (o = {}) => Box({ title: '개인정보 보호책임자', sub: '�
     ]),
 );
 
-const FooterPv = (o = {}) => `<div style="border:1px solid var(--line);overflow:hidden"><div style="zoom:.78">${o.blank ? `<div class="u-footer"><div class="fl"><div class="u-logo">Inner:Era 로고</div><div class="links"><span>이용약관</span><b>개인정보처리방침</b></div><p>상호 <u>입력 필요</u> · 대표 <u>입력 필요</u> · 사업자등록번호 <u>입력 필요</u> · 통신판매업 신고번호 <u>입력 필요</u><br>주소 <u>입력 필요</u><br>개인정보 보호책임자 <u>입력 필요</u> · 호스팅 제공자 어니스트패밀리</p></div><div class="fr"><b>고객센터</b><strong>입력 필요</strong></div></div>` : UserFooter().replace('통신판매업 신고번호 관리자 설정값', '통신판매업 신고번호 제2026-인천제물포-0412호 <u>사업자정보 확인</u>').replace(SHOP.addr, `(22530) ${SHOP.addr}`).replace('결제 서비스 포트원', '호스팅 제공자 어니스트패밀리').replace('(점심 12:00 ~ 13:00)', '(점심 12:00 ~ 13:00) · 주말 · 공휴일 휴무')}</div></div>`;
+const FooterPv = (o = {}) => `<div style="border:1px solid var(--line);overflow:hidden"><div style="zoom:.78">${o.blank ? `<div class="u-footer"><div class="fl"><div class="u-logo">Inner:Era 로고</div><div class="links"><span>이용약관</span><b>개인정보처리방침</b></div><p>상호 <u>입력 필요</u> · 대표 <u>입력 필요</u> · 사업자등록번호 <u>입력 필요</u> · 통신판매업 신고번호 <u>입력 필요</u><br>주소 <u>입력 필요</u><br>개인정보 보호책임자 <u>입력 필요</u> · 호스팅 제공자 어니스트패밀리</p></div><div class="fr"><b>고객센터</b><strong>입력 필요</strong></div></div>` : UserFooter().replace('통신판매업 신고번호 관리자 설정값', '통신판매업 신고번호 제2026-인천제물포-0412호(예시) <u>사업자정보 확인</u>').replace(SHOP.addr, `(22530) ${SHOP.addr}`).replace('결제 서비스 포트원', '호스팅 제공자 어니스트패밀리').replace('(점심 12:00 ~ 13:00)', '(점심 12:00 ~ 13:00) · 주말 · 공휴일 휴무')}</div></div>`;
 
 const pvBox = (o = {}) => Box({ flat: true, title: '바닥글 미리보기', sub: '입력하는 대로 바뀝니다 · 저장해야 고객에게 반영', right: Btn('모바일로 보기', { size: 'sm', icon: 'mobile' }) }, FooterPv(o));
 
@@ -56,7 +58,7 @@ const bizCheck = (ok) => Modal({ title: '국세청 사업자 상태 조회', w: 
         : [Text(`${Icon('error-o')} 국세청에 등록되지 않은 번호입니다.`, { b: true }), Text('입력한 번호 384-17-02854 — 사업자등록증의 번호와 한 자리씩 다시 확인해 주세요. 휴업·폐업 상태여도 여기에 표시됩니다.', { sm: true })],
 );
 
-const MobileFooter = `<div style="padding:24px 16px;background:var(--box);font-size:12px;color:var(--ink2);line-height:1.8"><div class="u-logo" style="margin-bottom:10px">Inner:Era 로고</div><div style="display:flex;gap:14px;color:var(--ink);margin-bottom:10px"><span>이용약관</span><b>개인정보처리방침</b></div><div style="border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:10px 0;display:flex;justify-content:space-between;color:var(--ink)"><b>사업자 정보</b>${Icon('angle-up-min')}</div><p style="margin:10px 0;color:var(--mute)">상호 이너에라 Inner:Era · 대표 ${SHOP.ceo}<br>사업자등록번호 ${SHOP.bizNo} <u>사업자정보 확인</u><br>통신판매업 신고번호 제2026-인천제물포-0412호<br>(22530) ${SHOP.addr}<br>개인정보 보호책임자 ${SHOP.ceo}<br>호스팅 제공자 어니스트패밀리</p><b style="color:var(--ink)">고객센터 070-****-1234</b><br>평일 10:00 ~ 17:00 (점심 12:00 ~ 13:00)<br>주말 · 공휴일 휴무 · help@innerera.example<div style="margin-top:10px">${Btn('전화 걸기', { size: 'sm', icon: 'call' })} ${Btn('카카오톡 상담', { size: 'sm', icon: 'kakaotalk' })}</div></div>`;
+const MobileFooter = `<div style="padding:24px 16px;background:var(--box);font-size:12px;color:var(--ink2);line-height:1.8"><div class="u-logo" style="margin-bottom:10px">Inner:Era 로고</div><div style="display:flex;gap:14px;color:var(--ink);margin-bottom:10px"><span>이용약관</span><b>개인정보처리방침</b></div><div style="border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:10px 0;display:flex;justify-content:space-between;color:var(--ink)"><b>사업자 정보</b>${Icon('angle-up-min')}</div><p style="margin:10px 0;color:var(--mute)">상호 이너에라 Inner:Era · 대표 ${SHOP.ceo}<br>사업자등록번호 ${SHOP.bizNo} <u>사업자정보 확인</u><br>통신판매업 신고번호 제2026-인천제물포-0412호(예시)<br>(22530) ${SHOP.addr}<br>개인정보 보호책임자 ${SHOP.ceo}<br>호스팅 제공자 어니스트패밀리</p><b style="color:var(--ink)">고객센터 070-****-1234(예시)</b><br>평일 10:00 ~ 17:00 (점심 12:00 ~ 13:00)<br>주말 · 공휴일 휴무 · help@innerera.example<div style="margin-top:10px">${Btn('전화 걸기', { size: 'sm', icon: 'call' })} ${Btn('카카오톡 상담', { size: 'sm', icon: 'kakaotalk' })}</div></div>`;
 
 const state1 = StateBlock({ idx: 1, title: '사업자 정보·고객센터·개인정보 책임자(바닥글 자동 반영)', note: '설정 > 쇼핑몰 정보. 사업자 정보 · 고객센터 · 개인정보 보호책임자 세 묶음을 채우면 아래 바닥글 미리보기가 따라 바뀝니다.' },
     Anno({ title: '왜 이렇게 하나' }, '사업자 정보는 바닥글·주문 메일·영수증·약관 여러 곳에 똑같이 나와야 하는데, 곳곳에 따로 적으면 주소를 옮기거나 대표가 바뀔 때 한 군데씩 빠집니다. 여기 한 곳에만 넣고 나머지는 자동으로 가져다 쓰게 합니다. 이너에라 값(상호 · 대표 이보림 · 384-17-02845 · 인천 제물포구 방축로83번길 23)이 들어간 모습입니다.'),

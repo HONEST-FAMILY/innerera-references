@@ -1,8 +1,10 @@
 import {
     Canvas, CanvasRow, StateBlock, Anno, AdminLayout, Btn, BtnRow, Badge, Chips, Input, Select, Check, RadioGroup, CheckGroup, Toggle, Tabs,
-    Textarea, FormTable, ListHead, BulkBar, Table, Overlay, Modal, Confirm, Toast, Upload, ImageGuide, Box, Note, Text, Icon, Flex, Grid, Img, Empty, DragRow,
+    Textarea, FormTable, ListHead, BulkBar, Table, Overlay, Modal, Confirm, Toast, Upload, ImageGuide, Box, Note as NoteBase, Text, Icon, Flex, Grid, Img, Empty, DragRow,
     UserHeader, MobilePage,
 } from '../lib/blocks.js';
+
+const Note = (text, o) => NoteBase(`<span>${text}</span>`, o);
 
 const TABS = [{ t: '메인 슬라이드', n: 3 }, { t: '띠 배너', n: 3 }, { t: '팝업', n: 2 }];
 const Page = (tab, o, ...body) => AdminLayout({ active: 'a-62', desc: '기간을 걸어 두면 시작 시각에 자동으로 올라가고 종료 시각에 내려갑니다.', actions: [Btn('순서 바꾸기', { icon: 'arrows-v' }), Btn(`${tab} 등록`, { kind: 'primary', icon: 'plus' })], ...o }, Tabs(TABS, tab), body);
@@ -27,15 +29,15 @@ const bandRows = [
 
 const POP_COLS = [{ t: '순서', w: 50, align: 'center' }, { t: '이미지', w: 90 }, '제목(관리용) · 이동', { t: '위치 · 크기', w: 150 }, { t: '노출 페이지', w: 110 }, { t: '노출 기간', w: 140 }, { t: '상태', w: 96 }, { t: '켜기', w: 56 }, { t: '', w: 116 }];
 const popRows = [
-    [1, Img({ w: 60, h: 72, label: '600 × 720' }), '오픈 기념 무료배송 안내<small>→ 상품 · 오늘 하루 보지 않기 사용</small>', 'PC 왼쪽 위 · 400 px<small>모바일 가운데 · 화면 86%</small>', '메인', '11-02 ~ 11-30', st('노출 중'), Toggle('', { on: true }), acts],
-    { dim: true, c: ['-', Img({ w: 60, h: 72, label: '600 × 720' }), '설 연휴 배송 일정 안내<small>이동 없음</small>', 'PC 가운데 · 480 px', '전체 페이지', '2027-01-25 ~ 02-02', st('예약'), Toggle('', { on: true }), acts] },
+    [1, Img({ w: 60, h: 72, label: '600 × 800' }), '오픈 기념 무료배송 안내<small>→ 상품 · 오늘 하루 보지 않기 사용</small>', 'PC 왼쪽 위 · 400 px<small>모바일 가운데 · 화면 86%</small>', '메인', '11-02 ~ 11-30', st('노출 중'), Toggle('', { on: true }), acts],
+    { dim: true, c: ['-', Img({ w: 60, h: 72, label: '600 × 800' }), '설 연휴 배송 일정 안내<small>이동 없음</small>', 'PC 가운데 · 480 px', '전체 페이지', '2027-01-25 ~ 02-02', st('예약'), Toggle('', { on: true }), acts] },
 ];
 
 const Lh = (n, chips) => ListHead({ total: n, left: Chips(chips, chips[0]), right: [Check('기간 종료된 것도 보기', { on: true })] });
 
 const state1 = StateBlock({ idx: 1, title: '유형 탭(메인 슬라이드·띠 배너·팝업)', note: '디자인 > 배너·팝업. 유형마다 탭이 나뉘고 탭마다 목록 칸이 다릅니다. 세 탭을 모두 그렸습니다.' },
     Anno({ title: '왜 이렇게 하나' }, '행사·공지·배송 지연 안내는 대부분 배너와 팝업으로 나갑니다. 유형별로 넣는 것과 규격이 달라 탭으로 나누고, 목록에서 지금 노출 중인지·예약인지·끝났는지와 지난 7일 동안 몇 번 눌렸는지를 보여 줍니다. 끝난 배너는 지우지 않고 남겨 다음 행사 때 복사해 씁니다.'),
-    Anno({ warn: true, title: '메인 화면 구성과의 관계' }, '메인 슬라이드 탭의 목록은 메인 화면 구성의 첫 배너 슬라이드 블록 안 장과 같은 것입니다(어느 화면에서 고쳐도 같이 바뀜). 메인 화면 구성은 블록의 자리와 순서를, 이 화면은 장마다의 기간 예약과 눌린 수를 봅니다. 띠 배너 탭이 비어 있으면 디자인 > 사이트 기본의 상단 띠 문구가 나옵니다.'),
+    Anno({ warn: true, title: '메인 화면 구성과의 관계' }, '배너의 내용(이미지·글·링크·노출 기간·기기·순서)은 이 화면에서만 등록하고 고칩니다. 디자인 > 메인 화면 구성의 첫 배너 슬라이드 블록은 메인 슬라이드 탭의 배너를 그대로 불러 쓰고(그 화면에서는 자동 넘김 시간·높이 방식만 정함), 띠 배너 블록은 띠 배너 탭에서 노출 위치를 메인 블록으로 둔 배너 하나를 골라 씁니다. 같은 자료를 두 화면에서 따로 고치지 않습니다. 띠 배너 탭이 비어 있으면 디자인 > 사이트 기본의 상단 띠 문구가 나옵니다.'),
     Canvas({ label: 'A-62 · 메인 슬라이드 탭' }, Page('메인 슬라이드', {}, Lh(3, ['전체 3', '노출 중 2', '예약 1', '종료 0']), Table({ check: true, cols: SLIDE_COLS, rows: slideRows }), Note('순서 숫자가 - 인 줄은 지금 화면에 안 나오는 배너입니다. 예약된 배너는 시작되면 맨 앞(1번)에 들어갑니다 — 등록할 때 정한 자리.'))),
     Canvas({ label: 'A-62 · 띠 배너 탭 (여러 개면 4초마다 위로 넘어가며 번갈아 나옴)' }, Page('띠 배너', {}, Lh(3, ['전체 3', '노출 중 2', '예약 0', '종료 1']), Table({ check: true, cols: BAND_COLS, rows: bandRows }))),
     Canvas({ label: 'A-62 · 팝업 탭' }, Page('팝업', {}, Lh(2, ['전체 2', '노출 중 1', '예약 1', '종료 0']), Table({ check: true, cols: POP_COLS, rows: popRows }), Note('같은 페이지에 팝업이 2개 넘게 겹치면 PC 는 옆으로 나란히, 모바일은 순서 1번 하나만 보여 줍니다(모바일에서 팝업이 겹치면 닫기 어렵습니다).', { warn: true }))),
@@ -60,11 +62,11 @@ const Cal = (o = {}) => {
 
 const periodRow = (o = {}) => ({ k: '노출 기간', required: true, v: [RadioGroup(['계속', '기간 정하기'], '기간 정하기'), Input({ value: o.from || '2026-11-23 00:00', icon: 'calendar', w: 170, focus: o.cal }), '~', Input({ value: o.to || '2026-11-30 23:59', icon: 'calendar', w: 170, error: o.err })], help: '시작 시각에 자동으로 올라가고 종료 시각에 자동으로 내려갑니다.', error: o.err ? '종료일이 시작일보다 빠릅니다. 종료일을 11-23 뒤로 골라 주세요.' : undefined });
 const devRow = { k: '노출 기기', required: true, v: CheckGroup(['PC', '모바일'], ['PC', '모바일']) };
-const linkRow = (kind, target) => ({ k: '누르면 이동', v: [Select({ value: kind, w: 150 }), Select({ value: target, w: 300 }), Check('새 창으로 열기')], help: '상품 · 카테고리 · 콘텐츠 페이지 · 기획전 · 게시판 · 외부 주소 · 이동 없음 중에서 고릅니다.' });
+const linkRow = (kind, target) => ({ k: '누르면 이동', v: [Select({ value: kind, w: 150 }), Select({ value: target, w: 300 }), Check('새 창으로 열기')], help: '상품 · 카테고리 · 콘텐츠 페이지 · 기획전 · 발행판 · 외부 주소 · 이동 없음 중에서 고릅니다.' });
 
 const slideForm = (o = {}) => FormTable([
     { k: 'PC 이미지', required: true, v: Upload({ title: 'PC 이미지 고르기', button: '파일 바꾸기', guide: ImageGuide({ size: '1920 × 800 px', ratio: '12:5', max: '2MB 이하', more: ['가운데 1280 px 안에 주요 피사체 · 글자는 이미지에 넣지 않기'] }), files: [{ name: 'bf_2box_pc.jpg', size: '388KB · 1920 × 800', icon: 'image-o' }] }) },
-    { k: '모바일 이미지', v: Upload({ title: '모바일 이미지 고르기', guide: ImageGuide({ size: '750 × 900 px', ratio: '5:6', max: '1MB 이하', more: ['안 올리면 PC 이미지 가운데를 잘라 씁니다'] }) }) },
+    { k: '모바일 이미지', v: Upload({ title: '모바일 이미지 고르기', guide: ImageGuide({ size: '750 × 1000 px', ratio: '3:4', max: '2MB 이하', more: ['안 올리면 PC 이미지 가운데를 잘라 씁니다'] }) }) },
     { k: '작은 글 · 큰 글', required: true, v: [Input({ value: 'Black Friday', w: 180 }), Input({ value: '블랙프라이데이, 2박스 구성 특가', w: 340 })] },
     { k: '버튼 문구', v: Input({ value: '지금 구매하기', w: 200 }) },
     linkRow('상품', '이너에라 롱지비티 석류맛 젤리스틱'),
@@ -82,7 +84,7 @@ const bandForm = FormTable([
 
 const popForm = () => FormTable([
     { k: '제목(관리용)', required: true, v: Input({ value: '오픈 기념 무료배송 안내', w: 360 }), help: '목록에서 알아보는 이름입니다. 고객에게는 안 보입니다.' },
-    { k: '이미지', required: true, v: Upload({ title: '팝업 이미지 고르기', button: '파일 바꾸기', guide: ImageGuide({ size: '600 × 720 px (세로형) 또는 600 × 600 px', ratio: '5:6 또는 1:1', max: '500KB 이하', more: ['모바일에서도 같은 이미지를 화면 폭에 맞춰 줄여 씁니다 — 글자는 24 px 이상으로'] }), files: [{ name: 'open_freeship_popup.jpg', size: '212KB · 600 × 720', icon: 'image-o' }] }) },
+    { k: '이미지', required: true, v: Upload({ title: '팝업 이미지 고르기', button: '파일 바꾸기', guide: ImageGuide({ size: '600 × 800 px 이하', ratio: '3:4 권장', max: '1MB 이하', more: ['모바일에서도 같은 이미지를 화면 폭에 맞춰 줄여 씁니다 — 글자는 24 px 이상으로'] }), files: [{ name: 'open_freeship_popup.jpg', size: '212KB · 600 × 800', icon: 'image-o' }] }) },
     { k: '대체 글', required: true, v: Input({ value: '오픈 기념 11월 한 달 전 상품 무료배송', w: 420 }), help: '이미지 속 글을 그대로 적어 주세요. 화면 읽기 프로그램과 검색에 쓰입니다.' },
     linkRow('상품', '이너에라 롱지비티 석류맛 젤리스틱'),
     { k: 'PC 위치 · 크기', v: [Select({ value: '왼쪽 위', w: 130 }), [Text('가로', { sm: true }), Input({ value: '400', suffix: 'px', w: 110 }), Text('위에서', { sm: true }), Input({ value: '120', suffix: 'px', w: 100 }), Text('왼쪽에서', { sm: true }), Input({ value: '40', suffix: 'px', w: 100 })]], help: '가로 280 ~ 600 px. 세로는 이미지 비율대로 정해집니다. 가운데를 고르면 뒤 화면이 어두워집니다.' },
@@ -93,7 +95,7 @@ const popForm = () => FormTable([
     periodRow({ from: '2026-11-02 00:00', to: '2026-11-30 23:59' }), devRow,
 ]);
 
-const PopPreviewPc = `<div style="position:relative;border:1px solid var(--line);height:330px;overflow:hidden;width:560px"><div style="zoom:.44">${UserHeader({})}${Img({ h: 520, label: '메인 화면' })}</div><div style="position:absolute;left:18px;top:54px;width:176px;border:1px solid var(--dark);background:#fff;box-shadow:0 6px 18px rgba(0,0,0,.2)">${Img({ h: 190, label: '팝업 이미지 600 × 720' })}<div style="display:flex;justify-content:space-between;font-size:10.5px;padding:6px 8px;background:var(--dark);color:#fff"><span>오늘 하루 보지 않기</span><span>닫기 ${Icon('close-min')}</span></div></div></div>`;
+const PopPreviewPc = `<div style="position:relative;border:1px solid var(--line);height:330px;overflow:hidden;width:560px"><div style="zoom:.44">${UserHeader({})}${Img({ h: 520, label: '메인 화면' })}</div><div style="position:absolute;left:18px;top:54px;width:176px;border:1px solid var(--dark);background:#fff;box-shadow:0 6px 18px rgba(0,0,0,.2)">${Img({ h: 190, label: '팝업 이미지 600 × 800' })}<div style="display:flex;justify-content:space-between;font-size:10.5px;padding:6px 8px;background:var(--dark);color:#fff"><span>오늘 하루 보지 않기</span><span>닫기 ${Icon('close-min')}</span></div></div></div>`;
 
 const PopPreviewM = MobilePage({ tab: '홈' }, `<div style="position:relative;height:560px">${Img({ h: 560, label: '메인 화면' })}<div style="position:absolute;inset:0;background:rgba(20,20,26,.5)"></div><div style="position:absolute;left:7%;top:60px;width:86%;background:#fff;border-radius:6px;overflow:hidden">${Img({ h: 380, label: '팝업 이미지 (화면 폭 86%)' })}<div style="display:flex;justify-content:space-between;font-size:12.5px;padding:12px 14px;border-top:1px solid var(--line)"><span>${Icon('check-min')} 오늘 하루 보지 않기</span><b>닫기</b></div></div></div>`);
 
@@ -101,7 +103,7 @@ const RegModal = (type, w, ...body) => Modal({ title: `${type} 등록`, w, foot:
 
 const state2 = StateBlock({ idx: 2, title: '등록(유형별 입력칸·이미지 규격 안내·기간·기기)', note: '탭마다 등록 버튼을 누르면 그 유형에 맞는 입력칸만 있는 등록 화면이 열립니다. 수정도 같은 화면입니다.' },
     Anno({ title: '유형별 입력칸 분기' }, '메인 슬라이드 = PC·모바일 이미지 + 큰 글·버튼·링크 + 들어갈 자리 / 띠 배너 = 문구·배경색·닫기 버튼(이미지 없음) / 팝업 = 이미지 한 장 + PC 위치·크기 + 모바일 위치 + 오늘 하루 보지 않기 + 노출 페이지 + 보여 줄 고객. 기간·기기·링크는 세 유형 공통입니다.'),
-    Anno({ warn: true, title: '자산 규격' }, '슬라이드 PC 1920 × 800(2MB) · 모바일 750 × 900(1MB), 팝업 600 × 720 또는 600 × 600(500KB), 확장자는 JPG · PNG · WEBP. 움직이는 GIF 는 용량이 커서 받지 않습니다. 규격이 안 맞으면 올리는 순간 파일 줄에 이유가 나옵니다.'),
+    Anno({ warn: true, title: '자산 규격' }, '메인 슬라이드 PC 1920 × 800 · 모바일 750 × 1000(장당 2MB, 최대 8장), 띠 배너 이미지형 PC 1920 × 120 · 모바일 750 × 120(500KB), 팝업 600 × 800 이하 1장(1MB), 확장자는 JPG · PNG · WEBP. 움직이는 GIF 는 용량이 커서 받지 않습니다. 규격이 안 맞으면 올리는 순간 파일 줄에 이유가 나옵니다.'),
     Canvas({ label: 'A-62 · 메인 슬라이드 탭 → 메인 슬라이드 등록 버튼 → 등록 팝업' }, Overlay({ bg: Page('메인 슬라이드', {}, Table({ check: true, cols: SLIDE_COLS, rows: slideRows })), h: 1180 }, RegModal('메인 슬라이드', 820, slideForm()))),
     CanvasRow(
         Canvas({ size: 'auto', label: '노출 기간 시작일을 눌렀을 때 · 달력', right: '부분', pad: 20 }, `<div style="width:720px">${FormTable([periodRow({ cal: true })])}</div>${Cal({ from: 23, to: 30 })}`),

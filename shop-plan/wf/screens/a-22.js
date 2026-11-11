@@ -23,7 +23,7 @@ ${Icon('drag-vertical')}${t.d === 0 ? Icon(t.open ? 'angle-down-min' : 'angle-ri
 
 const Tree = (o = {}) => Box({ title: '카테고리', sub: '큰 분류 3 · 작은 분류 5', right: [Btn('모두 펼치기', { size: 'sm' }), Btn('큰 분류 추가', { size: 'sm', icon: 'plus' })] },
     (o.list || TREE).map((t) => Node(t, o)).join(''),
-    Note('손잡이를 끌어 순서와 위치를 바꿉니다. 오른쪽 화살표로 한 칸씩 옮길 수도 있습니다. 분류는 3단계까지 만들 수 있습니다.'),
+    Note('손잡이를 끌어 순서와 위치를 바꿉니다. 오른쪽 화살표로 한 칸씩 옮길 수도 있습니다. 분류는 2단계(큰 분류 > 작은 분류)까지 만들 수 있습니다.'),
     o.dirty ? `<div style="display:flex;align-items:center;gap:8px;margin-top:10px;padding:10px 12px;background:var(--dark);color:#fff;border-radius:4px;font-size:13px">${Icon('info-o')}순서를 바꿨습니다. 저장해야 쇼핑몰에 반영됩니다.<span style="flex:1"></span><span class="wf-btn sm line" style="background:transparent;color:#fff;border-color:#fff">되돌리기</span><span class="wf-btn sm primary" style="background:#fff;color:var(--ink)">순서 저장</span></div>` : '',
 );
 
@@ -32,7 +32,7 @@ const Panel = (o = {}) => Box({ title: o.title || '카테고리 수정', sub: o.
         { k: '이름', required: true, v: Input({ value: o.name === undefined ? '젤리스틱' : o.name, placeholder: '예) 젤리스틱', w: 260, error: o.nameErr, focus: o.isNew && !o.nameErr }), help: '1 ~ 20자', error: o.nameErr },
         { k: '위 분류', v: o.parentOpen ? Select({ value: '건강식품', w: 240, open: true, search: '', options: [{ t: '없음 (큰 분류로)' }, { t: '건강식품', on: true }, '소품', '기획전'] }) : Select({ value: o.parent || '건강식품', w: 240 }), help: '바꾸면 이 카테고리와 그 아래 분류·상품이 함께 옮겨집니다.' },
         { k: '노출', v: RadioGroup(['쇼핑몰에 보이기', '숨기기'], o.hidden ? '숨기기' : '쇼핑몰에 보이기'), help: '숨기면 상품 목록의 카테고리 탭과 메뉴에서 빠집니다. 안에 든 상품은 다른 카테고리나 검색으로는 계속 보입니다.' },
-        { k: '대표 이미지', v: Upload({ title: '카테고리 대표 이미지 올리기 (선택)', guide: ImageGuide({ size: '1200 × 400 px', ratio: '3:1', max: '5MB 이하', ext: 'JPG · PNG · WEBP', more: ['상품 목록 화면 맨 위 띠 이미지로 쓰입니다. 없으면 카테고리 이름만 나옵니다.'] }), files: o.isNew ? [] : [{ name: 'cat_jellystick.jpg', size: '286KB · 1200 × 400', icon: 'image-o' }] }) },
+        { k: '대표 이미지', v: Upload({ title: '카테고리 대표 이미지 올리기 (선택)', guide: ImageGuide({ size: '1920 × 400 px', ratio: '24:5 (가로로 긴 띠)', max: '1MB 이하', ext: 'JPG · PNG · WEBP', more: ['상품 목록 화면 맨 위 띠 이미지로 쓰입니다. 없으면 카테고리 이름만 나옵니다.'] }), files: o.isNew ? [] : [{ name: 'cat_jellystick.jpg', size: '286KB · 1920 × 400', icon: 'image-o' }] }) },
         { k: '소개 문구', v: Textarea({ value: o.isNew ? '' : '하루 한 포로 챙기는 젤리스틱', placeholder: '상품 목록 화면 카테고리 이름 아래 한 줄 (선택)', h: 52, count: o.isNew ? '0 / 60' : '15 / 60' }) },
         { k: '상품 정렬 기본값', v: Select({ value: '운영자 추천순 (진열 관리에서 정한 순서)', w: 300 }) },
         { k: '주소', v: [Text('/products?category=', { sm: true, mute: true }), Input({ value: o.isNew ? '' : 'jelly-stick', placeholder: '비우면 자동', w: 180 })] },
@@ -44,7 +44,7 @@ const Page = (...body) => AdminLayout({ active: 'a-22', actions: [Btn('내 쇼�
 
 const state1 = StateBlock({ idx: 1, title: '트리(드래그 순서)', note: '왼쪽에 카테고리 나무, 오른쪽에 고른 카테고리의 내용. 끌어서 순서와 위·아래 분류를 바꿉니다.' },
     Anno({ title: '왜 이렇게 하나' }, '카테고리 순서는 곧 쇼핑몰 메뉴 순서입니다. 번호를 적어 순서를 정하게 하지 않고 끌어서 옮기거나 위·아래 화살표로 한 칸씩 옮깁니다. 줄마다 상품 수를 보여 줘 빈 카테고리를 바로 알아봅니다. 순서는 옮기자마자 반영하지 않고 순서 저장을 눌러야 반영합니다(실수로 끌었을 때 되돌리기).'),
-    Anno({ warn: true, title: '초기값 · 관리자가 바꿀 수 있는 범위' }, '처음 설치한 몰은 카테고리가 없습니다(빈 상태). 운영자는 이름·순서·위 분류·노출·대표 이미지·소개 문구를 바꿀 수 있고, 분류 깊이는 3단계까지입니다. 상품이 1개뿐인 몰(이너에라)은 카테고리를 1개만 만들어도 되고, 그때 사용자 화면 상품 목록의 카테고리 탭은 나오지 않습니다.'),
+    Anno({ warn: true, title: '초기값 · 관리자가 바꿀 수 있는 범위' }, '처음 설치한 몰은 카테고리가 없습니다(빈 상태). 운영자는 이름·순서·위 분류·노출·대표 이미지·소개 문구를 바꿀 수 있고, 분류 깊이는 2단계(큰 분류 > 작은 분류)까지입니다. 상품이 1개뿐인 몰(이너에라)은 카테고리를 1개만 만들어도 되고, 그때 사용자 화면 상품 목록의 카테고리 탭은 나오지 않습니다.'),
     Canvas({ label: 'A-22 · 카테고리 나무 · 젤리스틱 선택' }, Page(Grid('minmax(0,1fr) minmax(0,1.1fr)', Tree({ active: '젤리스틱' }), Panel()))),
     Canvas({ label: 'A-22 · 선물 세트를 끌어 젤리스틱 위로 옮기는 중 → 놓은 뒤 순서 저장 띠' }, Page(Grid('minmax(0,1fr) minmax(0,1.1fr)', Tree({ active: '선물 세트', ghost: '선물 세트', dropBefore: '젤리스틱', dirty: true }), Panel({ sub: '건강식품 > 선물 세트', name: '선물 세트' })))),
     Canvas({ label: 'A-22 · 카테고리가 하나도 없는 몰 (처음 설치한 상태)' }, Page(Empty({ icon: 'sitemap-o', title: '아직 카테고리가 없습니다', desc: '상품을 묶어 보여 줄 분류를 만들어 주세요. 상품이 몇 개 안 되면 1개만 만들어도 됩니다.', action: [Btn('큰 분류 추가', { kind: 'primary', icon: 'plus' })] }))),
@@ -52,7 +52,7 @@ const state1 = StateBlock({ idx: 1, title: '트리(드래그 순서)', note: '�
 
 const state2 = StateBlock({ idx: 2, title: '추가·수정', note: '큰 분류 추가 버튼 또는 줄의 더하기 단추를 누르면 오른쪽 내용 칸이 새 카테고리 입력으로 바뀝니다. 줄을 누르면 수정입니다.' },
     Anno({ title: '왜 이렇게 하나' }, '추가·수정을 팝업으로 띄우지 않고 오른쪽 칸에서 합니다. 왼쪽 나무를 보면서 어디에 들어가는지 확인할 수 있고, 여러 개를 연달아 만들 때 팝업을 여닫지 않습니다.'),
-    Anno({ warn: true, title: '자산 규격' }, '카테고리 대표 이미지: 1200 × 400 px · 3:1 · JPG·PNG·WEBP · 5MB 이하 · 선택. 이름 1 ~ 20자, 같은 위 분류 안에서 겹치면 안 됩니다. 소개 문구 60자.'),
+    Anno({ warn: true, title: '자산 규격' }, '카테고리 머리 이미지: 1920 × 400 px · JPG·PNG·WEBP · 1MB 이하 · 선택. 이름 1 ~ 20자, 같은 위 분류 안에서 겹치면 안 됩니다. 소개 문구 60자.'),
     Canvas({ label: 'A-22 · 건강식품 줄의 더하기 단추 → 새 작은 분류 입력' }, Page(Grid('minmax(0,1fr) minmax(0,1.1fr)', Tree({ active: '건강식품' }), Panel({ isNew: true, title: '카테고리 추가', sub: '건강식품 아래', name: '' })))),
     CanvasRow(
         Canvas({ size: 'auto', label: '이름이 겹침 → 오류', right: '입력칸만', pad: 20 }, `<div style="width:560px">${FormTable([{ k: '이름', required: true, v: Input({ value: '젤리스틱', w: 260, error: true }), error: "건강식품 아래에 이미 '젤리스틱'이 있습니다. 다른 이름을 적어 주세요." }])}</div>`),

@@ -1,7 +1,9 @@
 import {
     Canvas, CanvasRow, StateBlock, Anno, AdminLayout, Btn, BtnRow, Badge, Chips, Input, Select, Check, RadioGroup, CheckGroup, Toggle, Tabs,
-    Textarea, FormTable, Filters, Period, ListHead, Table, Pager, Overlay, Modal, Confirm, SideDrawer, Toast, Box, KV, Note, Text, Icon, Flex,
+    Textarea, FormTable, Filters, Period, ListHead, Table, Pager, Overlay, Modal, Confirm, SideDrawer, Toast, Box, KV, Note as NoteBase, Text, Icon, Flex,
 } from '../lib/blocks.js';
+
+const Note = (text, o) => NoteBase(`<span>${text}</span>`, o);
 
 const TABS = [{ t: '운영자', n: 6 }, { t: '역할·권한', n: 5 }, { t: '작업 기록' }, { t: '보안' }];
 const Page = (tab, o, ...body) => AdminLayout({ active: 'a-96', desc: '관리자에 들어올 수 있는 사람과, 역할마다 볼 수 있는 메뉴·할 수 있는 일을 정합니다.', ...o }, Tabs(TABS, tab), body);

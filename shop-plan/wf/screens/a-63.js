@@ -1,7 +1,9 @@
 import {
     Canvas, CanvasRow, StateBlock, Anno, AdminLayout, Btn, Badge, Input, Select, Check, RadioGroup, Toggle, Tabs,
-    FormTable, Overlay, Modal, Confirm, Toast, Box, Note, Text, Icon, Flex, DragRow, UserHeader, MobilePage, Drawer, Img, SHOP,
+    FormTable, Overlay, Modal, Confirm, Toast, Box, Note as NoteBase, Text, Icon, Flex, DragRow, UserHeader, MobilePage, Drawer, Img, SHOP,
 } from '../lib/blocks.js';
+
+const Note = (text, o) => NoteBase(`<span>${text}</span>`, o);
 
 const TABS = [{ t: '상단 메뉴', n: 5 }, { t: '서랍 메뉴(모바일)', n: 9 }, { t: '바닥글 링크', n: 11 }];
 const Page = (tab, o, ...body) => AdminLayout({ active: 'a-63', desc: '고객이 보는 메뉴 이름·순서·이동할 곳을 정합니다. 저장하면 바로 반영됩니다.', actions: [Btn('처음 구성으로 되돌리기'), Btn(o.dirty ? '저장' : '저장됨', { kind: 'primary', disabled: !o.dirty })], ...o }, Tabs(TABS, tab), body);

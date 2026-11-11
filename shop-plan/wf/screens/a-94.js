@@ -1,7 +1,9 @@
 import {
     Canvas, CanvasRow, StateBlock, Anno, AdminLayout, Btn, BtnRow, Badge, Chip, Chips, Input, Select, Check, RadioGroup, CheckGroup, Toggle, Tabs,
-    Textarea, FormTable, Filters, Period, ListHead, BulkBar, Table, Pager, Overlay, Modal, Confirm, SideDrawer, Toast, Box, KV, Note, Text, Icon, Flex, Grid, Stats, Empty,
+    Textarea, FormTable, Filters, Period, ListHead, BulkBar, Table, Pager, Overlay, Modal, Confirm, SideDrawer, Toast, Box, KV, Note as NoteBase, Text, Icon, Flex, Grid, Stats, Empty,
 } from '../lib/blocks.js';
+
+const Note = (text, o) => NoteBase(`<span>${text}</span>`, o);
 
 const TABS = ['알림 목록', '내부 수신자', '발송 이력', '발신 정보'];
 const Page = (tab, o, ...body) => AdminLayout({ active: 'a-94', desc: '고객과 운영자에게 가는 알림톡·문자·메일을 켜고 끄고, 문구와 받는 사람을 정합니다.', ...o }, Tabs(TABS, tab), body);
@@ -9,6 +11,13 @@ const Page = (tab, o, ...body) => AdminLayout({ active: 'a-94', desc: '고객과
 const ch = (a, s, m) => `<span style="display:inline-flex;gap:10px">${Check('알림톡', { on: a === 1, disabled: a === -1 })}${Check('문자', { on: s === 1, disabled: s === -1 })}${Check('메일', { on: m === 1, disabled: m === -1 })}</span>`;
 const tpl = (s) => ({ 승인: Badge('승인', 'check'), 심사: Badge('심사 중', 'dash'), 반려: Badge('반려 · 고쳐야 함', 'x'), 없음: '<span style="color:var(--mute)">-</span>' }[s]);
 const edit = Btn('문구 편집', { size: 'sm' });
+
+const must = `<span style="font-size:11.5px;color:var(--mute)">${Icon('lock-o')} 필수</span>`;
+const LEGAL_ROWS = [
+    ['<b>광고성 정보 수신 동의 확인</b>', '수신에 동의한 날부터 2년마다 (동의일 · 동의 항목 · 철회 방법)', ch(-1, -1, 1), tpl('없음'), must, edit],
+    ['<b>수신 동의 변경 결과</b>', '고객이 광고성 정보 수신을 동의하거나 거부했을 때 (처리일 · 항목)', ch(-1, 0, 1), tpl('없음'), must, edit],
+    ['<b>약관·방침 개정 안내</b>', '새 버전 시행 7일 전 (고객에게 불리한 변경은 30일 전)', ch(-1, -1, 1), tpl('없음'), must, edit],
+];
 
 const C_COLS = [{ t: '알림', w: 190 }, '보내는 때', { t: '수단', w: 210 }, { t: '알림톡 심사', w: 120 }, { t: '켜기', w: 56 }, { t: '', w: 92 }];
 const C_ROWS = [
@@ -35,7 +44,9 @@ const C_ROWS = [
     ['<b>재입고 알림</b>', '재입고 알림을 신청한 품목의 재고가 들어왔을 때', ch(1, 0, 0), tpl('승인'), Toggle('', { on: true }), edit],
     ['<b>인증번호 · 비밀번호 재설정</b>', '본인 확인이 필요할 때', ch(-1, 1, 1), tpl('없음'), `<span style="font-size:11.5px;color:var(--mute)">${Icon('lock-o')} 필수</span>`, edit],
     { dim: true, c: ['<b>적립금 소멸 예정</b>', '소멸 30일 전', ch(-1, -1, -1), tpl('없음'), Badge('적립금 기능 꺼짐', 'mute'), ''] },
-    { dim: true, c: ['<b>휴면 전환 예정</b>', '1년 동안 로그인이 없어 휴면으로 바뀌기 30일 전', ch(-1, -1, 1), tpl('없음'), `<span style="font-size:11.5px;color:var(--mute)">${Icon('lock-o')} 필수</span>`, edit] },
+    { dim: true, c: ['<b>휴면 전환 예정</b>', '1년 동안 로그인이 없어 휴면으로 바뀌기 30일 전', ch(-1, -1, -1), tpl('없음'), Badge('휴면 회원 기능 꺼짐', 'mute'), ''] },
+    { group: '법정 안내 (법으로 정해져 끌 수 없음)' },
+    ...LEGAL_ROWS,
 ];
 
 const I_COLS = [{ t: '알림', w: 190 }, '보내는 때', { t: '수단', w: 150 }, { t: '받는 사람', w: 220 }, { t: '켜기', w: 56 }, { t: '', w: 92 }];
@@ -51,12 +62,12 @@ const I_ROWS = [
     ['<b>하루 요약</b>', '매일 오전 9시 · 어제 주문·매출·미처리 건수', ich(false, true), '이보림 <u>1명</u>', Toggle('', { on: false }), edit],
 ];
 
-const SubTabs = (a) => Tabs([{ t: '고객 알림', n: 20 }, { t: '내부 알림', n: 8 }], a, { kind: 'pill' });
+const SubTabs = (a) => Tabs([{ t: '고객 알림', n: 23 }, { t: '내부 알림', n: 8 }], a, { kind: 'pill' });
 const SenderBar = Note('알림톡 발신 채널 @이너에라 · 문자 발신번호 070-****-1234 (등록 완료) · 메일 no-reply@innerera.example — <u>발신 정보 탭에서 보기</u>');
 
 const state1 = StateBlock({ idx: 1, title: '알림 목록(켜고 끄기·수단)', note: '설정 > 알림의 첫 탭. 고객에게 가는 알림과 운영자에게 가는 내부 알림을 나눠, 알림마다 켜고 끄기와 보내는 수단을 정합니다.' },
     Anno({ title: '왜 이렇게 하나' }, '알림은 화면에 안 보여서 빠뜨리기 쉽지만, 주문·배송·환불 단계마다 고객이 가장 먼저 받는 안내입니다. 몰에서 나가는 모든 알림을 한 표에 모아 언제 · 무엇으로 나가는지 보여 주고, 운영자가 개발자 없이 켜고 끄고 문구를 고칩니다. 알림톡이 실패하면(카카오톡 미사용·수신 차단) 같은 내용을 문자로 자동으로 다시 보냅니다.'),
-    Anno({ warn: true, title: '놓치면 안 되는 것 · 초기값' }, '① 알림톡 문구는 카카오 심사를 통과해야 나갑니다 — 심사 중·반려인 알림은 그동안 문자로 대신 나가고, 표에 상태가 보입니다. ② 인증번호·휴면 예정 같은 법정·필수 알림은 끌 수 없습니다. ③ 기능을 끈 몰(적립금 꺼짐)의 관련 알림은 흐리게 잠깁니다. ④ 초기값: 고객 알림은 배송 완료만 꺼짐, 수단은 알림톡(실패 시 문자), 결제·환불처럼 증빙이 필요한 알림만 메일 함께.'),
+    Anno({ warn: true, title: '놓치면 안 되는 것 · 초기값' }, '① 알림톡 문구는 카카오 심사를 통과해야 나갑니다 — 심사 중·반려인 알림은 그동안 문자로 대신 나가고, 표에 상태가 보입니다. ② 인증번호와 법정 안내 3종(광고성 정보 수신 동의 확인 · 수신 동의 변경 결과 · 약관·방침 개정 안내)은 끌 수 없습니다. 휴면 전환 예정은 법정 알림이 아니며 휴면 회원 기능을 켠 몰에만 나옵니다. ③ 기능을 끈 몰(적립금 꺼짐)의 관련 알림은 흐리게 잠깁니다. ④ 초기값: 고객 알림은 배송 완료만 꺼짐, 수단은 알림톡(실패 시 문자), 결제·환불처럼 증빙이 필요한 알림만 메일 함께.'),
     Canvas({ label: 'A-94 · 알림 목록 탭 · 고객 알림 (승인 · 심사 중 · 반려 · 필수 · 기능 꺼짐)' }, Page('알림 목록', {}, Flex({ justify: 'space-between', align: 'center' }, SubTabs('고객 알림'), Check('알림톡 실패 시 문자로 대신 보내기', { on: true })), SenderBar, Table({ cols: C_COLS, rows: C_ROWS }))),
     Canvas({ label: 'A-94 · 알림 목록 탭 · 내부 알림 (받는 사람 수 · 받는 사람 없음 경고)' }, Page('알림 목록', {}, SubTabs('내부 알림'), Note('연동 오류 알림을 받을 사람이 없습니다. 스마트스토어 전송이 실패해도 아무도 모르게 됩니다. <u>내부 수신자 정하기</u>', { warn: true }), Table({ cols: I_COLS, rows: I_ROWS }), Note('내부 알림은 알림톡이 아니라 문자·메일로 갑니다. 받는 사람은 내부 수신자 탭에서 한꺼번에 정합니다.'))),
     CanvasRow(
@@ -69,6 +80,24 @@ const state1 = StateBlock({ idx: 1, title: '알림 목록(켜고 끄기·수단)
         Box({ title: '메일' }, FormTable([{ k: '보내는 주소 · 이름', v: [Input({ value: 'no-reply@innerera.example', w: 260 }), Input({ value: '이너에라', w: 140 })] }, { k: '답장 받을 주소', v: Input({ value: 'help@innerera.example', w: 260 }) }, { k: '메일 위아래', v: Text('위 = 로고(디자인 > 사이트 기본) · 아래 = 사업자 정보(설정 > 쇼핑몰 정보) 자동', { sm: true }) }])),
         Box({ title: '밤 시간 발송' }, FormTable([{ k: '주문·배송 알림', v: Text('시간과 상관없이 바로 보냅니다 (고객이 한 행동에 대한 안내)', { sm: true }) }, { k: '예약 알림', v: [Text('입금 재촉 · 구매확정 예정 · 재입고 알림은', { sm: true }), Select({ value: '21:00', w: 100 }), '~', Select({ value: '08:00', w: 100 }), Text('사이에는 보내지 않고 다음 날 오전 8시에 보냅니다', { sm: true })] }])),
     )),
+    Anno({ warn: true, title: '발신 정보 — 대행사 미연결(초기값)' }, '처음 설치한 몰은 문자·알림톡 대행사가 연결되어 있지 않습니다. 이 상태에서는 알림이 메일로만 나갑니다(휴대폰 인증번호도 못 보냄). 최고관리자가 대행사 키 · 문자 발신번호 · 카카오 채널(발신 프로필)을 넣고 연결 확인을 눌러야 알림톡·문자가 켜집니다. 대행사 가입과 발신번호 사전 등록 · 카카오 채널 개설은 고객사 명의로 합니다.'),
+    Canvas({ label: 'A-94 · 발신 정보 탭 · 대행사 미연결 (처음 설치한 몰 · 키 입력 → 연결 확인)' }, Page('발신 정보', {},
+        Note('문자·알림톡 대행사가 연결되지 않았습니다. 지금은 알림이 메일로만 나가고, 휴대폰이 필요한 알림(인증번호 · 발송 안내 문자)은 나가지 않습니다.', { warn: true }),
+        Box({ title: '문자·알림톡 대행사', right: Badge('미연결', 'warn') }, FormTable([
+            { k: '대행사', required: true, v: Select({ value: '솔루션 기본 대행사', w: 240 }), help: '고객사 명의로 가입한 계정의 키를 넣습니다. 가입 방법은 인도 안내서에 있습니다.' },
+            { k: '대행사 키', required: true, v: [Input({ placeholder: '대행사 관리 화면에서 복사한 키', w: 340 }), Input({ placeholder: '비밀 키', w: 220 })], help: '저장하면 가려서 보여 주고 다시 볼 수 없습니다(바꿀 때는 새로 입력).' },
+            { k: '문자 발신번호', required: true, v: Input({ placeholder: '예: 070-1234-5678', w: 200 }), help: '대행사에 사전 등록을 마친 번호만 쓸 수 있습니다(통신 서비스 이용 증명원 필요).' },
+            { k: '카카오 채널', v: [Input({ placeholder: '채널 검색용 아이디 (예: @이너에라)', w: 240 }), Input({ placeholder: '발신 프로필 키', w: 260 })], help: '비워 두면 알림톡 없이 문자로만 보냅니다. 채널은 사업자 인증을 마쳐야 합니다.' },
+        ]), Flex({ gap: 8, mt: 12 }, Btn('연결 확인', { kind: 'primary', icon: 'sync' }), Btn('가입·등록 방법 보기', { icon: 'external-link' }))),
+        Box({ title: '메일' }, FormTable([{ k: '보내는 주소 · 이름', v: [Input({ value: 'no-reply@innerera.example', w: 260 }), Input({ value: '이너에라', w: 140 })] }])),
+    )),
+    CanvasRow(
+        Canvas({ size: 'auto', label: '연결 확인 → 성공 (잔액과 잔액 부족 알림 기준이 나타남)', right: '상자만', pad: 20 }, `<div style="width:620px">${Box({ title: '문자·알림톡 대행사', right: Badge('연결됨', 'check') }, KV([['확인 결과', '키 정상 · 발신번호 070-****-1234 등록 확인 · 카카오 채널 @이너에라 확인'], ['남은 충전금', '0원 — 충전해야 발송됩니다']], { wide: true }), FormTable([{ k: '잔액 부족 알림', v: [Input({ value: '10,000', suffix: '원', w: 130 }), Text('아래로 내려가면 내부 알림(연동 오류)으로 알림', { sm: true })] }]))}${Toast('대행사 연결을 확인했습니다. 알림톡·문자를 보낼 수 있습니다.')}</div>`),
+        Canvas({ size: 'auto', label: '연결 확인 → 실패 (어디가 틀렸는지)', right: '상자만', pad: 20 }, `<div style="width:520px">${FormTable([
+            { k: '대행사 키', required: true, v: Input({ value: 'NC8A****************', w: 300, error: true }), error: '키가 맞지 않습니다. 대행사 관리 화면에서 다시 복사해 주세요.' },
+            { k: '문자 발신번호', required: true, v: Input({ value: '070-1234-5678', w: 200, error: true }), error: '이 번호는 대행사에 사전 등록되어 있지 않습니다. 등록을 마친 뒤 다시 확인해 주세요.' },
+        ])}</div>`),
+    ),
 );
 
 const VARS = ['#{고객명}', '#{주문번호}', '#{상품명}', '#{택배사}', '#{송장번호}', '#{배송조회링크}', '#{쇼핑몰명}', '#{고객센터전화}'];
@@ -216,6 +245,48 @@ const state4 = StateBlock({ idx: 4, title: '발송 이력', note: '발송 이력
     Canvas({ label: 'A-94 · 조건에 맞는 이력이 없을 때' }, Page('발송 이력', {}, Filters({ open: false, summary: '기간 오늘 · 알림 재입고 알림 · 결과 실패' }), ListHead({ total: 0 }), Table({ cols: H_COLS, rows: [], empty: '조건에 맞는 발송 이력이 없습니다. 기간을 넓히거나 결과 조건을 풀어 보세요.' }))),
 );
 
+const LG_COLS = [{ t: '알림', w: 200 }, '보내는 때 · 받는 사람', { t: '수단', w: 150 }, { t: '다음 발송', w: 190 }, { t: '최근 발송', w: 170 }, { t: '', w: 92 }];
+const LG_ROWS = [
+    ['<b>광고성 정보 수신 동의 확인</b><small>정보통신망법 제50조 제8항</small>', '수신에 동의한 날부터 2년마다 · 동의를 유지 중인 회원', '메일 (메일이 없으면 문자)', '2028-11-02 부터<small>오픈일 가입자 142명이 첫 대상</small>', '아직 없음<small>오픈 뒤 2년이 안 됨</small>', edit],
+    ['<b>수신 동의 변경 결과</b><small>같은 법 시행령</small>', '고객이 수신 동의·거부를 바꾼 때 · 그 회원에게 바로', '메일 + 문자', '바꿀 때마다 바로', '11-11 13:20<small>윤서연 님 · 문자 수신 거부</small>', edit],
+    ['<b>약관·방침 개정 안내</b><small>약관규제법 · 개인정보 보호법</small>', '새 버전 시행 7일 전(불리한 변경 30일 전) · 전체 회원', '메일 + 공지사항', '예정 없음<small>등록된 시행 예정 버전의 안내는 발송 끝</small>', '11-11 10:30<small>개인정보처리방침 v4 · 1,284명</small>', edit],
+];
+
+const legalEdit = Modal({ title: '문구 편집 · 광고성 정보 수신 동의 확인', w: 980, foot: [Btn('취소'), Btn('나에게 시험 발송', { icon: 'send' }), Btn('저장', 'primary')] },
+    Flex({ justify: 'space-between', align: 'center' }, Tabs([{ t: '메일' }, { t: '문자' }], '메일', { kind: 'pill' }), Text(`${Icon('lock-o')} 법정 안내라 끌 수 없고, 반드시 들어가야 하는 내용은 지울 수 없습니다`, { sm: true, mute: true })),
+    `<div style="display:grid;grid-template-columns:minmax(0,1fr) 290px;gap:18px;align-items:start"><div>${FormTable([
+        { k: '제목', required: true, v: Input({ value: '[이너에라] 광고성 정보 수신 동의 내역을 알려 드립니다', w: 480 }), help: '제목에 (광고) 를 붙이지 않습니다 — 이 메일은 광고가 아니라 동의 사실을 알리는 안내입니다.' },
+        { k: '머리말', v: Textarea({ value: '#{고객명} 님, 이너에라의 광고성 정보 수신에 동의하신 내역을 2년마다 알려 드립니다.', h: 56, count: '45 / 300' }), help: '고칠 수 있는 부분입니다.' },
+        { k: '반드시 들어가는 내용', v: `<div style="width:100%;border:1px dashed var(--line);border-radius:4px;background:var(--box);padding:10px 12px;font-size:12.5px;line-height:1.8">${Icon('lock-o')} ${mark('보내는 곳: #{쇼핑몰명} (#{상호} · #{고객센터전화})<br>수신 동의일: #{수신동의일}<br>동의하신 항목: #{수신동의항목}<br>수신 동의를 유지하려면 따로 하실 일이 없습니다.<br>수신을 원하지 않으시면 #{수신거부링크} 에서 언제든 거부하실 수 있습니다.')}</div>`, help: '법에서 알리도록 정한 항목(보내는 곳 · 동의한 날짜 · 동의 사실 · 철회 방법)이라 지우거나 고칠 수 없습니다. 값은 자동으로 채워집니다.' },
+        { k: '맺음말', v: Textarea({ placeholder: '선택 — 비워 두면 안 나옵니다', h: 48 }), error: '맺음말에 할인 · 쿠폰 · 행사 안내를 넣으면 이 메일이 광고가 됩니다. 광고 문구는 넣지 마세요.' },
+    ])}</div><div><div style="width:280px;border:1px solid var(--line);background:#fff;font-size:12px"><div style="padding:8px 12px;border-bottom:1px solid var(--line2);color:var(--mute)">메일 미리보기 · 가명 고객</div><div style="padding:14px;line-height:1.7"><div class="u-logo" style="margin-bottom:12px">Inner:Era 로고</div><b style="font-size:13.5px">광고성 정보 수신 동의 내역 안내</b><p>김민지 님, 이너에라의 광고성 정보 수신에 동의하신 내역을 2년마다 알려 드립니다.</p><div style="border:1px solid var(--line2);padding:8px">보내는 곳: 이너에라 (070-****-1234)<br>수신 동의일: 2026-11-02<br>동의하신 항목: 알림톡·문자, 메일</div><p>수신을 원하지 않으시면 아래에서 언제든 거부하실 수 있습니다.</p>${Btn('수신 동의 바꾸기', { size: 'sm' })}</div></div></div></div>`,
+);
+
+const state5 = StateBlock({ idx: 5, title: '법정 안내 알림(광고성 정보 수신 동의 2년 확인·수신 동의 변경 결과·약관 개정 안내)', note: '알림 목록 탭 고객 알림의 맨 아래 묶음. 법으로 보내도록 정해진 안내 3종이며 끌 수 없습니다. 언제 누구에게 나가는지와 다음 발송 예정을 따로 보여 줍니다.' },
+    Anno({ title: '왜 이렇게 하나' }, '쿠폰·행사 문자를 보내는 몰은 ① 수신에 동의한 고객에게 2년마다 동의 사실을 알려야 하고 ② 고객이 동의·거부를 바꾸면 처리 결과를 알려야 하며 ③ 약관·방침을 바꿀 때 시행 전에 알려야 합니다. 사람이 날짜를 세어 보내면 반드시 빠지므로 시스템이 날짜에 맞춰 자동으로 보내고, 운영자는 이 묶음에서 나가고 있는지만 확인합니다.'),
+    Anno({ warn: true, title: '놓치면 안 되는 것 · 관리자가 바꿀 수 있는 범위' }, '세 알림은 스위치가 없고 자물쇠로 표시됩니다. 문구는 머리말·맺음말만 고칠 수 있고 법에서 알리도록 정한 내용(보내는 곳 · 동의일 · 동의 항목 · 철회 방법 / 시행일 · 바뀌는 내용)은 잠겨 있습니다. 이 안내에 할인·행사 문구를 넣으면 광고가 되므로 넣지 못하게 안내합니다. 광고성 정보 수신 동의를 아예 받지 않는 몰(가입 항목에서 끔)은 ① ② 가 발송 대상 0명으로 표시됩니다. 휴면 전환 예정 알림은 법정 안내가 아니라 휴면 회원 기능을 켠 몰에만 나옵니다.'),
+    Canvas({ label: 'A-94 · 알림 목록 탭 · 고객 알림 맨 아래 법정 안내 묶음 (자물쇠 · 다음 발송 · 최근 발송)' }, Page('알림 목록', {}, SubTabs('고객 알림'), Note('법정 안내 3종은 끌 수 없습니다. 발송에 실패하면 내부 알림(연동 오류)으로 알리고 발송 이력에 남습니다.'), Table({ cols: LG_COLS, rows: LG_ROWS }),
+        Box({ title: '광고성 정보 수신 동의 확인 · 발송 예정', sub: '동의한 날부터 2년이 되는 달의 1일 오전 10시에 그달 대상에게 한꺼번에 보냅니다' }, Table({ dense: true, cols: [{ t: '보내는 달', w: 130 }, { t: '대상 회원', w: 110, align: 'right' }, '동의 시기', { t: '상태', w: 130 }], rows: [['2028년 11월', '412명', '2026년 11월에 동의', Badge('예정', 'dash')], ['2028년 12월', '0명', '2026년 12월에 동의 (아직 없음)', Badge('예정', 'dash')]] }), Note('지금 광고성 정보 수신에 동의한 회원 412명 (알림톡·문자 398명 · 메일 371명). 수신을 거부한 회원에게는 보내지 않습니다.')),
+    )),
+    Canvas({ size: 'auto', label: '광고성 정보 수신 동의 확인 → 문구 편집 (반드시 들어가는 내용은 잠김 · 광고 문구 금지)', right: '팝업만', pad: 20 }, legalEdit),
+    CanvasRow(
+        Canvas({ size: 'auto', label: '수신 동의 변경 결과 · 고객이 받는 문자와 메일', right: '부분', pad: 20 }, `<div style="display:flex;gap:16px;align-items:flex-start">${Phone('문자', '윤서연 님, 광고성 정보 수신 설정이 변경되었습니다.<br>처리일 2026-11-11<br>알림톡·문자: 수신 거부<br>메일: 수신 동의 유지<br>변경은 마이페이지 > 회원정보에서 하실 수 있습니다.')}<div style="width:280px;font-size:12.5px;line-height:1.7">${Note('주문·배송 알림은 광고가 아니라서 수신을 거부해도 계속 갑니다. 이 사실을 문구 아래에 한 줄로 알려 줍니다.')}${Note('운영자가 회원 상세에서 고객 요청으로 수신 동의를 바꿔 줘도 같은 안내가 나갑니다.')}</div></div>`),
+    ),
+    CanvasRow(
+        Canvas({ size: 'auto', label: '약관·방침 개정 안내 → 문구 편집 버튼 (본문은 약관·정책에서 등록한 요약을 씀)', right: '팝업만', pad: 20 }, Modal({ title: '문구 편집 · 약관·방침 개정 안내', w: 640, foot: [Btn('취소'), Btn('저장', 'primary')] }, FormTable([
+            { k: '제목', v: Input({ value: '[이너에라] #{문서이름} 변경 안내 (#{시행일} 시행)', w: 440 }) },
+            { k: '머리말', v: Textarea({ value: '#{고객명} 님, #{문서이름}이 아래와 같이 바뀌어 알려 드립니다.', h: 48 }) },
+            { k: '반드시 들어가는 내용', v: `<div style="width:100%;border:1px dashed var(--line);border-radius:4px;background:var(--box);padding:10px 12px;font-size:12.5px;line-height:1.8">${Icon('lock-o')} ${mark('바뀌는 내용: #{변경요약}<br>시행일: #{시행일}<br>전체 보기: #{약관링크}<br>동의하지 않으시면 회원 탈퇴를 요청하실 수 있으며, 시행일까지 의사를 밝히지 않으시면 동의하신 것으로 봅니다.')}</div>`, help: '바뀌는 내용과 시행일은 설정 > 약관·정책에서 새 버전을 등록할 때 넣은 값이 들어갑니다.' },
+        ]), Note('이 알림은 약관·정책에서 새 버전을 등록하고 고객에게 안내를 고르면 나갑니다. 여기서 따로 보낼 수는 없습니다. <u>약관·정책으로 가기</u>'))),
+        Canvas({ size: 'auto', label: '법정 안내를 끄려고 자물쇠를 눌렀을 때', right: '토스트만', pad: 20 }, Toast('법으로 보내도록 정해진 안내라 끌 수 없습니다. 문구의 머리말·맺음말만 고칠 수 있습니다.', { icon: 'lock-o' })),
+    ),
+    Canvas({ label: 'A-94 · 광고성 정보 수신 동의를 받지 않는 몰 (다른 고객사 예시 — 대상 0명)' }, Page('알림 목록', {}, SubTabs('고객 알림'), Table({ cols: LG_COLS, rows: [
+        { dim: true, c: ['<b>광고성 정보 수신 동의 확인</b>', '수신에 동의한 날부터 2년마다', '메일', '대상 0명<small>가입 때 수신 동의를 받지 않음</small>', '-', edit] },
+        { dim: true, c: ['<b>수신 동의 변경 결과</b>', '고객이 수신 동의·거부를 바꾼 때', '메일 + 문자', '대상 0명', '-', edit] },
+        LG_ROWS[2],
+    ] }), Note('쿠폰·행사 안내를 보내지 않는 몰입니다. 나중에 설정 > 회원가입·로그인 설정에서 광고성 정보 수신 동의를 받기 시작하면 자동으로 대상이 생깁니다.'))),
+);
+
 export default function A94() {
-    return [state1, state2, state3, state4].join('');
+    return [state1, state2, state3, state4, state5].join('');
 }

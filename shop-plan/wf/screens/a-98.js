@@ -1,27 +1,30 @@
 import {
     Canvas, CanvasRow, StateBlock, Anno, AdminLayout, Btn, BtnRow, Badge, Input, Select, Check, Radio, RadioGroup, CheckGroup, Toggle, Tabs,
-    Textarea, FormTable, Table, Overlay, Modal, Confirm, Toast, Box, KV, Note, Text, Icon, Flex, Grid, DragRow,
+    Textarea, FormTable, Table, Overlay, Modal, Confirm, Toast, Box, KV, Note as NoteBase, Text, Icon, Flex, Grid, DragRow,
 } from '../lib/blocks.js';
+
+const Note = (text, o) => NoteBase(`<span>${text}</span>`, o);
 
 const TABS = ['가입 항목', '간편 로그인', '휴대폰 확인', '가입 혜택', '탈퇴 정책'];
 const Page = (tab, o, ...body) => AdminLayout({ active: 'a-98', desc: '회원가입 화면에서 무엇을 받을지, 어떤 로그인 수단을 쓸지, 가입·탈퇴 때의 규칙을 정합니다.', actions: [Btn('가입 화면 미리보기', { icon: 'eye-o' }), Btn('저장', 'primary')], ...o }, Tabs(TABS, tab), body);
 const SaveBar = BtnRow({ align: 'right' }, Btn('취소'), Btn('저장', 'primary'));
 
 const use = (v, lock) => (lock ? `<span style="font-size:12.5px;color:var(--mute)">${Icon('lock-o')} 필수 (바꿀 수 없음)</span>` : RadioGroup(['필수', '선택', '사용 안 함'], v));
-const F_COLS = [{ t: '항목', w: 150 }, { t: '받는 방식', w: 290 }, '설명 · 쓰이는 곳', { t: '간편 가입 때', w: 180 }];
+const F_COLS = [{ t: '항목', w: 120 }, { t: '받는 방식', w: 250 }, '설명 · 쓰이는 곳 · 간편 가입 때'];
+const frow = (name, how, desc, easy) => [name, how, `${desc}<small>간편 가입: ${easy}</small>`];
 const F_ROWS = (o = {}) => [
     { group: '기본 항목 (모든 몰 공통)' },
-    ['<b>이메일</b>', use('', true), '로그인 아이디 · 주문 메일. 중복 확인을 거칩니다.', '카카오·네이버에서 받아 옴'],
-    ['<b>비밀번호</b>', use('', true), '영문·숫자·특수문자 10자 이상', '받지 않음'],
-    ['<b>이름</b>', use('', true), '주문자 이름으로 쓰입니다.', '받아 옴'],
-    ['<b>휴대폰 번호</b>', use('필수'), '주문·배송 알림을 받는 번호. 확인 방식은 휴대폰 확인 탭에서 정합니다.', '없으면 추가로 입력받음'],
+    frow('<b>이메일</b>', use('', true), '로그인 아이디 · 주문 메일. 중복 확인을 거칩니다.', '카카오·네이버에서 받아 옴'),
+    frow('<b>비밀번호</b>', use('', true), '영문·숫자·특수문자 10자 이상', '받지 않음'),
+    frow('<b>이름</b>', use('', true), '주문자 이름으로 쓰입니다.', '받아 옴'),
+    frow('<b>휴대폰 번호</b>', use('필수'), '주문·배송 알림을 받는 번호. 확인 방식은 휴대폰 확인 탭에서 정합니다.', '없으면 추가로 입력받음'),
     { group: '더 받을 수 있는 항목 (처음에는 모두 사용 안 함)' },
-    ['<b>생년월일</b>', use(o.birth || '사용 안 함'), '생일 쿠폰을 쓰려면 필요합니다. 만 14세 미만 가입 제한에도 쓰입니다.', '없으면 추가로 입력받음'],
-    ['<b>성별</b>', use('사용 안 함'), '통계에만 쓰입니다. 꼭 필요하지 않으면 받지 않는 것을 권합니다.', '없으면 추가로 입력받음'],
-    ['<b>주소</b>', use('사용 안 함'), '가입할 때 기본 배송지로 저장. 받지 않아도 첫 주문 때 넣습니다.', '추가로 입력받음'],
-    ['<b>추천인</b>', use('사용 안 함'), '추천한 회원의 이메일. 추천 적립금을 주려면 가입 혜택 탭에서 금액을 정합니다.', '추가로 입력받음'],
+    frow('<b>생년월일</b>', use(o.birth || '사용 안 함'), '생일 쿠폰을 쓰려면 필요합니다. 만 14세 미만 가입 제한에도 쓰입니다.', '없으면 추가로 입력받음'),
+    frow('<b>성별</b>', use('사용 안 함'), '통계에만 쓰입니다. 꼭 필요하지 않으면 받지 않는 것을 권합니다.', '없으면 추가로 입력받음'),
+    frow('<b>주소</b>', use('사용 안 함'), '가입할 때 기본 배송지로 저장. 받지 않아도 첫 주문 때 넣습니다.', '추가로 입력받음'),
+    frow('<b>추천인</b>', use('사용 안 함'), '추천한 회원의 이메일. 추천 적립금을 주려면 가입 혜택 탭에서 금액을 정합니다.', '추가로 입력받음'),
     { group: '수신 동의 (가입 화면 약관 동의 아래)' },
-    ['<b>광고성 정보 수신</b>', `<span style="font-size:12.5px">${Check('알림톡·문자', { on: true })} ${Check('메일', { on: true })} <span style="color:var(--mute)">선택 동의로만 받을 수 있음</span></span>`, '쿠폰·행사 안내를 보내려면 동의가 필요합니다. 동의·거부한 날짜가 회원 상세에 남습니다.', '가입 완료 화면에서 물어봄'],
+    frow('<b>광고성 정보 수신</b>', `<span style="font-size:12.5px">${Check('알림톡·문자', { on: true })} ${Check('메일', { on: true })} <span style="color:var(--mute)">선택 동의로만 받을 수 있음</span></span>`, '쿠폰·행사 안내를 보내려면 동의가 필요합니다. 동의·거부한 날짜가 회원 상세에 남습니다.', '가입 완료 화면에서 물어봄'),
 ];
 
 const JoinPv = (o = {}) => `<div style="border:1px solid var(--line);border-radius:6px;padding:18px;background:#fff;width:100%"><b style="font-size:15px">회원가입</b><div style="margin:12px 0;display:grid;gap:6px">${Btn('카카오로 시작하기', { block: true, icon: 'kakaotalk' })}${o.naver ? Btn('네이버로 시작하기', { block: true, icon: 'naver' }) : ''}</div><div style="font-size:11.5px;color:var(--mute);text-align:center;margin-bottom:10px">또는 이메일로 가입</div>${[['이메일', '필수'], ['비밀번호', '필수'], ['이름', '필수'], ['휴대폰 번호', '필수'], ...(o.birth ? [['생년월일', '선택']] : [])].map(([k, r]) => `<div style="margin-bottom:8px"><div style="font-size:12px;font-weight:700;margin-bottom:3px">${k} <span style="font-weight:400;color:var(--mute)">${r}</span></div>${k === '휴대폰 번호' ? `<div style="display:flex;gap:6px">${Input({ placeholder: '010-0000-0000', w: 170 })}${Btn('인증번호 받기', { size: 'sm' })}</div>` : Input({ placeholder: k, w: '100%' })}</div>`).join('')}<div style="font-size:12px;margin:10px 0;display:grid;gap:5px">${Check('이용약관 동의 (필수)')}${Check('개인정보 수집·이용 동의 (필수)')}${Check('만 14세 이상입니다 (필수)')}${Check('광고성 정보 수신 동의 (선택)')}</div>${Btn('가입하기', { kind: 'primary', block: true, disabled: true })}<div style="font-size:11.5px;color:var(--mute);margin-top:8px;text-align:center">가입하면 3,000원 쿠폰을 드립니다</div></div>`;
@@ -40,7 +43,7 @@ const state1 = StateBlock({ idx: 1, title: '가입 항목(필수·선택·사용
 const keyBox = (name, icon, o = {}) => Box({ title: `${name} 로그인`, right: o.on ? Badge('연결됨', 'check') : o.fail ? Badge('연결 실패', 'x') : Badge('연결 안 됨', 'mute') },
     FormTable([
         { k: '사용', v: [Toggle('로그인·가입 화면에 버튼 보이기', { on: !!o.on, disabled: !o.on }), o.on ? '' : Text('연결 확인이 끝나야 켤 수 있습니다', { sm: true, mute: true })] },
-        { k: name === '카카오' ? '앱 키 (REST API 키)' : '클라이언트 아이디', required: true, v: Input({ value: o.on || o.fail ? (name === '카카오' ? '3f9c****************a21b' : 'Qk7v****Xp2') : '', placeholder: `${name} 개발자 화면에서 복사`, w: 340, error: o.fail }), error: o.fail ? `${name}가 이 키를 받아 주지 않았습니다. 키를 다시 복사하거나, 아래 돌아올 주소가 ${name} 개발자 화면에 등록됐는지 확인해 주세요.` : undefined },
+        { k: name === '카카오' ? '앱 키 (REST 키)' : '클라이언트 아이디', required: true, v: Input({ value: o.on || o.fail ? (name === '카카오' ? '3f9c****************a21b' : 'Qk7v****Xp2') : '', placeholder: `${name} 개발자 화면에서 복사`, w: 340, error: o.fail }), error: o.fail ? `${name}가 이 키를 받아 주지 않았습니다. 키를 다시 복사하거나, 아래 돌아올 주소가 ${name} 개발자 화면에 등록됐는지 확인해 주세요.` : undefined },
         { k: name === '카카오' ? '보안 키 (Client Secret)' : '클라이언트 비밀 키', required: true, v: [Input({ value: o.on || o.fail ? '●●●●●●●●●●●● (저장됨)' : '', placeholder: '붙여 넣기', w: 340 }), o.on ? Btn('다시 입력', { size: 'sm' }) : ''], help: '저장한 뒤에는 다시 볼 수 없습니다.' },
         { k: '돌아올 주소', v: [Input({ value: `https://innerera.example/login/${name === '카카오' ? 'kakao' : 'naver'}/callback`, w: 420, disabled: true }), Btn('복사', { size: 'sm', icon: 'link' })], help: `이 주소를 ${name} 개발자 화면의 ${name === '카카오' ? 'Redirect URI' : '서비스 URL · Callback URL'} 에 그대로 등록해야 합니다.` },
         { k: `${name}에서 받는 항목`, v: Text(name === '카카오' ? '이메일(필수 동의) · 이름 · 휴대폰 번호 — 이름·휴대폰은 카카오 비즈 앱 전환과 심사가 필요하고, 못 받으면 가입 때 추가로 입력받습니다' : '이메일 · 이름 · 휴대폰 번호 — 네이버 검수를 통과해야 일반 고객이 쓸 수 있습니다', { sm: true }) },

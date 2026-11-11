@@ -108,7 +108,7 @@ export const Field = (o = {}, ...control) => `
 </div>`;
 export const FormTable = (rows) => `<div class="wf-formtable">${rows.map((r) => `<div class="tr"><div class="th">${r.k}${r.required ? '<em class="req">필수</em>' : ''}</div><div class="td">${j(r.v)}${r.help ? `<p class="help">${r.help}</p>` : ''}${r.error ? `<p class="err">${Icon('error-o')}${r.error}</p>` : ''}</div></div>`).join('')}</div>`;
 
-export const Period = (o = {}) => `<span class="wf-period">${['오늘', '7일', '1개월', '3개월'].map((p) => `<span class="wf-btn sm ${p === (o.preset || '7일') ? 'primary' : 'line'}">${p}</span>`).join('')}${Input({ value: o.from || '2026-11-05', icon: 'calendar', w: 140 })}<span class="tilde">~</span>${Input({ value: o.to || '2026-11-11', icon: 'calendar', w: 140 })}</span>`;
+export const Period = (o = {}) => `<span class="wf-period">${['오늘', '어제', '7일', '1개월', '3개월'].map((p) => `<span class="wf-btn sm ${p === (o.preset || '7일') ? 'primary' : 'line'}">${p}</span>`).join('')}${Input({ value: o.from || '2026-11-05', icon: 'calendar', w: 140 })}<span class="tilde">~</span>${Input({ value: o.to || '2026-11-11', icon: 'calendar', w: 140 })}</span>`;
 
 export const Filters = (o = {}) => {
     const open = o.open !== false;
@@ -250,7 +250,7 @@ export const DragRow = (o = {}, ...body) => `<div class="wf-dragrow${o.off ? ' o
 const USER_MENU = ['브랜드 이야기', '원료 이야기', '상품', '리뷰', '고객센터'];
 
 export const UserHeader = (o = {}) => `
-<div class="u-top">${o.band === false ? '' : `<div class="u-band">${o.band || '3만원 이상 구매 시 무료배송 · 신규 가입 3,000원 쿠폰'}</div>`}
+<div class="u-top">${o.band === false ? '' : `<div class="u-band">${o.band || '5만원 이상 구매 시 무료배송(예시) · 신규 가입 3,000원 쿠폰(예시)'}</div>`}
 <div class="u-header">
   <div class="u-logo">Inner:Era 로고</div>
   <div class="u-menu">${USER_MENU.map((m) => `<span class="${m === o.active ? 'on' : ''}">${m}</span>`).join('')}</div>
@@ -260,12 +260,12 @@ export const UserFooter = () => `
 <div class="u-footer">
   <div class="fl"><div class="u-logo">Inner:Era 로고</div><div class="links"><span>이용약관</span><b>개인정보처리방침</b><span>공지사항</span><span>자주 묻는 질문</span></div>
   <p>상호 ${SHOP.name} ${SHOP.nameEn} · 대표 ${SHOP.ceo} · 사업자등록번호 ${SHOP.bizNo} · 통신판매업 신고번호 관리자 설정값<br>${SHOP.addr}<br>개인정보 보호책임자 ${SHOP.ceo} · 결제 서비스 포트원</p></div>
-  <div class="fr"><b>고객센터</b><strong>070-****-1234</strong><span>평일 10:00 ~ 17:00 (점심 12:00 ~ 13:00)</span><span>help@innerera.example</span></div>
+  <div class="fr"><b>고객센터 (예시)</b><strong>070-****-1234</strong><span>평일 10:00 ~ 17:00 (점심 12:00 ~ 13:00)</span><span>help@innerera.example</span></div>
 </div>`;
 export const UserPage = (o = {}, ...body) => `${UserHeader(o)}<div class="u-container${o.narrow ? ' narrow' : ''}">${o.crumb ? `<div class="u-crumb">${o.crumb.join(Icon('angle-right-min'))}</div>` : ''}${o.title ? `<h1 class="u-title">${o.title}</h1>` : ''}${j(body)}</div>${o.footer === false ? '' : UserFooter()}`;
 
 const MYPAGE_MENU = [
-    ['나의 쇼핑', ['주문 목록', '취소·반품·교환 내역']],
+    ['나의 쇼핑', ['주문 목록', '취소·반품·교환 내역', '찜한 상품']],
     ['나의 혜택', ['쿠폰·적립금']],
     ['나의 활동', ['리뷰', '문의']],
     ['나의 정보', ['배송지 관리', '회원정보']],
@@ -281,7 +281,7 @@ export const MobileTabbar = (active = '홈') => `<div class="m-tabbar">${TABBAR.
 export const MobilePage = (o = {}, ...body) => `<div class="m-page">${UserHeaderMobile(o)}<div class="m-body">${j(body)}</div>${o.bottom ? `<div class="m-bottom">${j(o.bottom)}</div>` : ''}${o.tab === false ? '' : MobileTabbar(o.tab || '홈')}</div>`;
 export const Drawer = (o = {}, ...body) => `
 <div class="m-drawer">
-  <div class="dh">${o.loggedIn ? `<b>${o.name || SHOP.people[0]} 님</b><span>적립금 2,400원 · 쿠폰 1장</span>` : `<b>로그인해 주세요</b><span>가입하면 3,000원 쿠폰을 드립니다</span>`}${Icon('close')}</div>
+  <div class="dh">${o.loggedIn ? `<b>${o.name || SHOP.people[0]} 님</b>${o.sub === false ? '' : `<span>${o.sub || `적립금 ${o.point || '2,400원'} · 쿠폰 ${o.coupon || '1장'}`}</span>`}` : `<b>로그인해 주세요</b><span>가입하면 3,000원 쿠폰을 드립니다</span>`}${Icon('close')}</div>
   ${o.loggedIn ? '' : `<div class="da">${Btn('로그인', { kind: 'primary', block: true })}${Btn('회원가입', { block: true })}</div>`}
   <ul>${(o.menu || USER_MENU.concat(['공지사항', '자주 묻는 질문', '비회원 주문 조회'])).map((m) => `<li>${m}${Icon('angle-right-min')}</li>`).join('')}</ul>
   ${j(body)}

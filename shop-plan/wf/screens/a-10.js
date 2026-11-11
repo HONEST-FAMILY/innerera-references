@@ -34,7 +34,7 @@ const kwSelect = (open) => Select({ value: '주문자 이름', w: 150, open, opt
 
 const fullFilters = (o = {}) => Filters({
     rows: [
-        { k: '기간', v: [Select({ value: '주문일', w: 110 }), Period({ preset: o.preset || '7일', from: o.from, to: o.to })] },
+        { k: '기간', v: [Select({ value: '주문일', w: 110 }), Period({ preset: o.preset || '1개월', from: o.from || '2026-10-12', to: o.to })] },
         { k: '주문 상태', v: CheckGroup(['전체', ...STATUS], o.status || ['전체']) },
         { k: '채널', v: RadioGroup(['전체', '자사몰', '스마트스토어'], o.ch || '전체') },
         { k: '결제수단', v: CheckGroup(['전체', '신용카드', '실시간 계좌이체', '가상계좌', '카카오페이', '네이버페이', '토스페이'], o.pay || ['전체']) },
@@ -46,7 +46,7 @@ const fullFilters = (o = {}) => Filters({
 });
 
 const HeadActions = [Btn('엑셀 양식 설정', { icon: 'cog' }), Btn('스마트스토어 주문 지금 가져오기', { icon: 'sync' })];
-const Page = (...body) => AdminLayout({ active: 'a-10', counts: COUNTS, actions: HeadActions, desc: '자사몰과 스마트스토어의 모든 주문을 품목 한 줄 단위로 찾습니다. 초기값: 주문일 최근 7일 · 상태 전체 · 채널 전체.' }, body);
+const Page = (...body) => AdminLayout({ active: 'a-10', counts: COUNTS, actions: HeadActions, desc: '자사몰과 스마트스토어의 모든 주문을 품목 한 줄 단위로 찾습니다. 초기값: 주문일 최근 1개월 · 상태 전체 · 채널 전체 · 검색 조건 접힘.' }, body);
 
 const CHIPS = ['전체 468', '입금대기 5', '결제완료 38', '배송준비 124', '배송중 42', '배송완료 97', '구매확정 148', '취소·반품·교환 14'];
 const Head = (total = 468, active = '전체 468') => ListHead({ total, left: Chips(CHIPS, active), right: [Btn('엑셀 내려받기', { icon: 'download', size: 'sm' }), PerPage(50)] });
@@ -70,10 +70,14 @@ const CalPop = `<div style="display:inline-block;border:1px solid var(--dark);bo
   </div>
 </div>`;
 
-const state1 = StateBlock({ idx: 1, title: '검색 조건 펼침(기간·상태·채널·결제수단·주문자·상품·송장)', note: '화면을 열면 검색 조건이 펼쳐져 있고, 검색을 누르면 한 줄 요약으로 접힙니다.' },
-    Anno({ title: '왜 이렇게 하나' }, '고객이 전화로 대는 것은 주문번호가 아니라 이름과 휴대폰 뒷자리입니다. 그래서 검색어 종류를 주문번호·주문자·받는 분·연락처·상품명·송장번호·입금자명으로 나누고, 연락처는 뒷 4자리만 넣어도 찾습니다. 주문번호·송장번호는 엑셀에서 복사한 여러 건을 한 번에 붙여 넣을 수 있습니다. 기간은 오늘·7일·1개월·3개월 버튼이 기본이고 직접 고르면 달력이 열립니다.'),
+const state1 = StateBlock({ idx: 1, title: '검색 조건 펼침(기간·상태·채널·결제수단·주문자·상품·송장)', note: '화면을 열면 검색 조건은 접혀 있고 자주 쓰는 기간·상태·검색어 한 줄만 보입니다(초기값 최근 1개월 · 상태 전체 · 채널 전체). 펼치기를 누르면 전체 조건이 나오고, 검색을 누르면 다시 한 줄 요약으로 접힙니다.' },
+    Anno({ title: '왜 이렇게 하나' }, '고객이 전화로 대는 것은 주문번호가 아니라 이름과 휴대폰 뒷자리입니다. 그래서 검색어 종류를 주문번호·주문자·받는 분·연락처·상품명·송장번호·입금자명으로 나누고, 연락처는 뒷 4자리만 넣어도 찾습니다. 주문번호·송장번호는 엑셀에서 복사한 여러 건을 한 번에 붙여 넣을 수 있습니다. 기간은 오늘·어제·7일·1개월·3개월 버튼이 기본이고 직접 고르면 달력이 열립니다.'),
     Anno({ warn: true, title: '놓치면 안 되는 것' }, '주문이 1만 건을 넘어도 느려지지 않게 기간은 한 번에 최대 1년까지만 조회합니다. 기간 기준은 주문일·결제일·발송일·배송완료일·구매확정일 중에 고릅니다. 상품 고르기는 상품이 많은 몰을 위해 이름으로 찾는 검색형입니다(이너에라는 1개). 자주 쓰는 조건은 운영자별로 저장됩니다.'),
-    Canvas({ label: 'A-10 · 처음 열었을 때 · 검색 조건 펼침 (초기값)' }, Page(fullFilters(), Head(), List([], ROWS.slice(0, 2)))),
+    Canvas({ label: 'A-10 · 처음 열었을 때 (초기값) · 검색 조건 접힘 · 자주 쓰는 한 줄만' }, Page(
+        Filters({ open: false, summary: '주문일 최근 1개월(10-12 ~ 11-11) · 상태 전체 · 채널 전체 · 결제수단 전체' }),
+        `<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:-4px 0 14px;padding:10px 14px;border:1px solid var(--line);border-radius:4px;background:var(--box)">${Period({ preset: '1개월', from: '2026-10-12', to: '2026-11-11' })}${Select({ value: '상태 전체', w: 120 })}${kwSelect(false)}${Input({ placeholder: '주문번호 · 이름 · 연락처 뒷 4자리', icon: 'search', w: 230 })}${Btn('검색', { kind: 'primary', icon: 'search' })}</div>`,
+        Head(), List([], ROWS.slice(0, 2)))),
+    Canvas({ label: 'A-10 · 펼치기를 누름 → 검색 조건 펼침 (전체 조건)' }, Page(fullFilters(), Head(), List([], ROWS.slice(0, 2)))),
     Canvas({ label: 'A-10 · 조건을 넣은 모습 (주문 상태 배송중·배송완료 · 자사몰 · 주문자 이름 2명)' }, Page(fullFilters({ preset: '1개월', from: '2026-10-12', to: '2026-11-11', status: ['배송중', '배송완료'], ch: '자사몰', q: '강지호, 윤서연' }))),
     CanvasRow(
         Canvas({ size: 'auto', label: '검색어 종류 고르는 중 (목록 열림)', right: '부분', pad: 20 }, `<div style="width:560px;min-height:330px;display:flex;gap:8px;align-items:flex-start">${kwSelect(true)}${Input({ placeholder: '여러 건은 쉼표나 줄바꿈으로 구분 (최대 100건)', icon: 'search', w: 380 })}</div>`),
@@ -92,11 +96,11 @@ const state2 = StateBlock({ idx: 2, title: '결과 목록(품목 단위 행, 체
     Anno({ title: '왜 이렇게 하나' }, '주문 상태는 품목마다 따로 움직입니다(한 주문에서 하나는 배송중, 하나는 배송준비). 그래서 스마트스토어 판매자센터처럼 품목 주문 한 줄 단위로 보여 주고, 같은 주문은 머리줄과 왼쪽 굵은 띠로 묶습니다. 상태 칸 아래 작은 글씨로 다음에 일어날 일(입금 기한 · 자동 확정일 · 요청 시각)을 적어 눌러 보지 않아도 알게 합니다.'),
     Anno({ warn: true, title: '놓치면 안 되는 것' }, '주문번호를 누르면 화면을 떠나지 않고 오른쪽에서 주문 상세(A-18)가 열립니다. 송장번호를 누르면 배송 추적이 열립니다. 주문자와 받는 분이 다르면 받는 분 이름을 따로 적습니다(선물 주문). 비회원 주문은 주문자 칸에 비회원이라고 적습니다. 상태별 건수 칩은 지금 검색 조건 안에서의 건수입니다.'),
     Canvas({ label: 'A-10 · 검색 뒤 · 조건 접힘 · 결과 목록 (상태가 서로 다른 품목 주문 10줄)' }, Page(
-        Filters({ open: false, summary: '주문일 최근 7일(11-05 ~ 11-11) · 상태 전체 · 채널 전체 · 결제수단 전체' }),
+        Filters({ open: false, summary: '주문일 최근 1개월(10-12 ~ 11-11) · 상태 전체 · 채널 전체 · 결제수단 전체' }),
         Head(), List(), Foot(),
     )),
     Canvas({ label: 'A-10 · 상태 칩 배송준비를 누름 + 채널 스마트스토어 (조건 표시 칩 · 지우면 바로 다시 검색)' }, Page(
-        Filters({ open: false, summary: '주문일 최근 7일 · 상태 배송준비 · 채널 스마트스토어' }),
+        Filters({ open: false, summary: '주문일 최근 1개월 · 상태 배송준비 · 채널 스마트스토어' }),
         `<div style="display:flex;gap:6px;align-items:center;margin-bottom:10px;font-size:12.5px;color:var(--ink2)">걸린 조건 ${Chip('상태: 배송준비', { close: true })}${Chip('채널: 스마트스토어', { close: true })}<u>모두 지우기</u></div>`,
         Head(46, '배송준비 124'),
         List([], [
@@ -106,7 +110,7 @@ const state2 = StateBlock({ idx: 2, title: '결과 목록(품목 단위 행, 체
         Pager({ page: 1, last: 1, per: 50 }),
     )),
     Canvas({ label: 'A-10 · 페이지당 개수 고르는 중 · 마지막 쪽 (500개씩 보기까지)' }, Page(
-        Filters({ open: false, summary: '주문일 최근 7일 · 상태 전체 · 채널 전체' }),
+        Filters({ open: false, summary: '주문일 최근 1개월 · 상태 전체 · 채널 전체' }),
         ListHead({ total: 468, left: Chips(CHIPS.slice(0, 4), '전체 468'), right: [Btn('엑셀 내려받기', { icon: 'download', size: 'sm' }), Select({ value: '50개씩 보기', w: 130, open: true, options: [{ t: '50개씩 보기', on: true }, '100개씩 보기', '500개씩 보기'] })] }),
         List([], ROWS.slice(9)),
         Text('468건 중 451 ~ 468번째 · 마지막 쪽입니다.', { sm: true, mute: true }),
@@ -114,27 +118,31 @@ const state2 = StateBlock({ idx: 2, title: '결과 목록(품목 단위 행, 체
     )),
 );
 
-const bulkBtns = [Btn('발주확인', 'primary'), Btn('주문서 출력', { kind: 'line', icon: 'print' }), Btn('엑셀 내려받기', { kind: 'line', icon: 'download' }), Btn('관리자 메모', { kind: 'line', icon: 'note-o' }), Btn('더 보기', { kind: 'line', iconRight: 'angle-down-min' })];
+const bulkBtns = [Btn('발주확인', 'primary'), Btn('발송 지연 처리', { kind: 'line', icon: 'clock-o' }), Btn('메모', { kind: 'line', icon: 'note-o' }), Btn('알림 다시 보내기', { kind: 'line', icon: 'send' })];
 
 const state3 = StateBlock({ idx: 3, title: '일괄 처리 바', note: '줄을 하나라도 체크하면 목록 위 줄이 일괄 처리 바로 바뀝니다. 선택한 주문의 상태에 따라 누를 수 있는 버튼이 달라집니다.' },
-    Anno({ title: '왜 이렇게 하나' }, '전체 주문 조회는 상태가 섞여 있어, 선택한 주문 모두에 할 수 있는 처리만 켜집니다. 결제완료만 고르면 발주확인, 배송완료만 고르면 구매확정이 주 버튼이 됩니다. 섞여 있으면 주 버튼을 누를 때 되는 건과 안 되는 건을 나눠 알려 주고 되는 건만 처리합니다. 본격적인 출고·클레임 처리는 각 업무 메뉴(발주 확인·발송 처리, 취소 관리 등)에서 합니다.'),
+    Anno({ title: '왜 이렇게 하나' }, '전체 주문 조회의 일괄 처리는 네 가지뿐입니다: 발주확인 · 발송 지연 처리 · 메모 · 알림 다시 보내기. 상태가 섞여 있으면 버튼을 누를 때 되는 건과 안 되는 건을 나눠 알려 주고 되는 건만 처리합니다. 판매자 취소·구매확정 같은 그 밖의 처리와 본격적인 출고·클레임 처리는 주문 상세나 각 업무 메뉴(발주 확인·발송 처리, 취소 관리 등)에서 합니다.'),
     Anno({ warn: true, title: '놓치면 안 되는 것' }, '머리 체크박스는 지금 쪽의 줄만 고릅니다. 검색 결과 전체(468건)를 고르려면 바에 뜨는 전체 선택 줄을 누릅니다. 같은 주문 묶음의 한 줄만 골라도 됩니다(품목 단위 처리).'),
-    Canvas({ label: 'A-10 · 결제완료 2건 선택 → 일괄 처리 바 (발주확인이 주 버튼)' }, Page(
-        Filters({ open: false, summary: '주문일 최근 7일 · 상태 전체 · 채널 전체' }),
+    Canvas({ label: 'A-10 · 결제완료 2건 선택 → 일괄 처리 바 (발주확인 · 발송 지연 처리 · 메모 · 알림 다시 보내기)' }, Page(
+        Filters({ open: false, summary: '주문일 최근 1개월 · 상태 전체 · 채널 전체' }),
         BulkBar({ count: 2, sub: '결제완료 2건 · 자사몰 1 · 스마트스토어 1' }, bulkBtns),
         List([0, 1]), Foot(),
     )),
     Canvas({ label: 'A-10 · 머리 체크박스로 이 쪽 50건 선택 → 검색 결과 전체 선택 줄' }, Page(
-        Filters({ open: false, summary: '주문일 최근 7일 · 상태 전체 · 채널 전체' }),
-        BulkBar({ count: 50, sub: '상태가 섞여 있음' }, [Btn('엑셀 내려받기', 'primary'), Btn('주문서 출력', { kind: 'line', icon: 'print' }), Btn('관리자 메모', { kind: 'line', icon: 'note-o' }), Btn('더 보기', { kind: 'line', iconRight: 'angle-down-min' })]),
+        Filters({ open: false, summary: '주문일 최근 1개월 · 상태 전체 · 채널 전체' }),
+        BulkBar({ count: 50, sub: '상태가 섞여 있음' }, bulkBtns),
         `<div style="background:var(--box);border:1px solid var(--line);border-top:0;padding:8px 14px;font-size:13px;text-align:center">이 쪽의 50건을 골랐습니다. <u><b>검색 결과 468건 모두 고르기</b></u></div>`,
         List([0, 1, 2, 3, 4, 5, 6, 7, 8, 9], ROWS.slice(0, 5)),
     )),
     CanvasRow(
-        Canvas({ size: 'auto', label: '더 보기를 누름 → 처리 목록 (선택한 상태에서 안 되는 것은 흐리게 + 이유)', right: '부분', pad: 20 }, `<div style="width:330px">${Select({ value: '더 보기', w: 320, open: true, options: [
-            { t: '발주확인', sub: '결제완료 2건 가능' }, { t: '구매확정 처리', sub: '배송완료만 가능', disabled: true }, { t: '발송 지연 처리', sub: '결제완료 2건 가능' },
-            { t: '판매자 취소(품절 등)', sub: '발송 전 2건 가능' }, { t: '입금 확인', sub: '입금대기만 가능', disabled: true }, { t: '배송지 일괄 엑셀 수정', sub: '배송준비 전만' },
-        ] })}</div>`),
+        Canvas({ size: 'auto', label: '발송 지연 처리를 누름 → 발주 확인·발송 처리(A-12)와 같은 팝업 (사유·예정일 → 고객 안내)', right: '팝업만', pad: 20 },
+            Modal({ title: '발송 지연 처리 · 2건', w: 480, foot: [Btn('취소'), Btn('2건 지연 안내 보내기', 'primary')] },
+                FormTable([
+                    { k: '지연 사유', required: true, v: Select({ value: '재고 부족(입고 예정)', w: 240 }) },
+                    { k: '발송 예정일', required: true, v: Input({ value: '2026-11-16', icon: 'calendar', w: 160 }), help: '오늘 이후만 고를 수 있습니다.' },
+                ]),
+                Note('결제완료 · 배송준비 주문만 처리됩니다. 한 주문에 한 번이 원칙이며, 사유 목록은 설정 > 주문·클레임 정책에서 바꿉니다.'),
+            )),
         Canvas({ size: 'auto', label: '상태가 섞인 5건에서 발주확인 → 되는 건만 처리 확인', right: '팝업만', pad: 20 },
             Modal({ title: '선택한 5건 중 2건만 발주확인할 수 있습니다', w: 520, foot: [Btn('취소'), Btn('2건 발주확인', 'primary')] },
                 Table({ dense: true, cols: ['상태', { t: '건수', w: 60, align: 'right' }, '처리'], rows: [
@@ -147,15 +155,13 @@ const state3 = StateBlock({ idx: 3, title: '일괄 처리 바', note: '줄을 �
             )),
     ),
     CanvasRow(
-        Canvas({ size: 'auto', label: '판매자 취소(품절 등) → 사유 팝업 (고객 알림 미리보기)', right: '팝업만', pad: 20 },
-            Modal({ title: '판매자 취소 · 2건', w: 560, foot: [Btn('닫기'), Btn('2건 취소하고 환불하기', 'danger')] },
+        Canvas({ size: 'auto', label: '알림 다시 보내기를 누름 → 보낼 알림 고르기 (선택한 주문의 지금 상태에 맞는 알림만)', right: '팝업만', pad: 20 },
+            Modal({ title: '알림 다시 보내기 · 2건', w: 520, foot: [Btn('취소'), Btn('2건 다시 보내기', 'primary')] },
                 FormTable([
-                    { k: '취소 사유', required: true, v: Select({ value: '상품 품절', w: 240, open: true, options: [{ t: '상품 품절', on: true }, '상품 불량·파손 발견', '배송 불가 지역', '가격·상품 정보 오류', '기타(직접 입력)'] }) },
-                    { k: '환불', v: Text('결제수단으로 전액 자동 환불 · 합계 <b>191,000원</b><br><small>쓴 쿠폰과 적립금은 고객에게 되돌려 줍니다.</small>') },
-                    { k: '고객 알림', v: Check('취소 안내 보내기 (알림톡 · 실패 시 문자)', { on: true }) },
+                    { k: '보낼 알림', required: true, v: Select({ value: '결제 완료 안내', w: 260, open: true, options: [{ t: '결제 완료 안내', sub: '결제완료 2건', on: true }, { t: '발송 안내(송장)', sub: '배송중만 가능', disabled: true }, { t: '입금 안내', sub: '입금대기만 가능', disabled: true }] }) },
+                    { k: '보내는 방법', v: Text('알림톡 · 실패하면 문자로 대신 보냄', { sm: true }) },
                 ]),
-                Note('스마트스토어 주문 1건은 네이버에 판매자 취소로 전송되며 판매자 벌점이 붙을 수 있습니다.', { warn: true }),
-                Box({ flat: true, title: '고객에게 가는 알림 미리보기' }, Text('[이너에라] 김민지 님, 주문하신 상품이 품절되어 주문이 취소되었습니다. 죄송합니다.<br>주문번호 20261111-000128 · 환불 금액 93,000원 (신용카드 취소, 카드사에 따라 3~5영업일)', { sm: true })),
+                Note('스마트스토어 주문 1건은 구매자 안내를 네이버가 보내므로 빠집니다(자사몰 1건만 발송). 보낸 기록은 주문 상세의 알림 발송 이력에 남습니다.', { warn: true }),
             )),
         Canvas({ size: 'auto', label: '관리자 메모 일괄 붙이기', right: '팝업만', pad: 20 },
             Modal({ title: '관리자 메모 · 2건에 붙이기', w: 440, foot: [Btn('취소'), Btn('메모 저장', 'primary')] },
@@ -163,7 +169,7 @@ const state3 = StateBlock({ idx: 3, title: '일괄 처리 바', note: '줄을 �
                 Note('고객에게 보이지 않습니다. 주문 상세의 관리자 메모에 작성자(이보림)와 시각이 함께 남습니다.'),
             )),
     ),
-    Canvas({ label: 'A-10 · 처리 뒤 토스트 (목록의 상태가 바뀌고 선택이 풀림)' }, Overlay({ bg: Page(Filters({ open: false, summary: '주문일 최근 7일 · 상태 전체 · 채널 전체' }), Head(), List([], ROWS.slice(0, 4))), dim: false, align: 'top', h: 380 },
+    Canvas({ label: 'A-10 · 처리 뒤 토스트 (목록의 상태가 바뀌고 선택이 풀림)' }, Overlay({ bg: Page(Filters({ open: false, summary: '주문일 최근 1개월 · 상태 전체 · 채널 전체' }), Head(), List([], ROWS.slice(0, 4))), dim: false, align: 'top', h: 380 },
         Toast('2건을 발주확인했습니다. 발주 확인·발송 처리에서 송장을 넣으세요.', { action: '발송 처리로 가기' }))),
 );
 
@@ -184,7 +190,7 @@ const excelModal = (o = {}) => Modal({ title: '엑셀 내려받기', w: 600, foo
 const state4 = StateBlock({ idx: 4, title: '엑셀 다운로드(양식 고르기)', note: '엑셀 내려받기 버튼 → 팝업에서 대상과 양식을 고르고 받습니다. 양식은 A-19 엑셀 양식 설정에서 만든 것이 나옵니다.' },
     Anno({ title: '왜 이렇게 하나' }, '같은 주문 자료라도 택배사에 올릴 엑셀, 회계에 넘길 엑셀, 포장할 때 볼 엑셀의 칸이 다 다릅니다. 매번 받아서 칸을 지우고 옮기지 않도록 미리 만든 양식을 고르면 그 칸 순서대로 나옵니다. 택배사 양식으로 받으면 택배사 프로그램에 그대로 올릴 수 있습니다.'),
     Anno({ warn: true, title: '놓치면 안 되는 것' }, '주문 엑셀에는 이름·연락처·주소가 들어갑니다. 개인정보가 든 양식은 내려받기 전에 사유를 묻고 기록을 남깁니다(상태 6). 5,000행이 넘으면 화면을 붙잡지 않고 만들어지는 대로 알림으로 알려 주며, 파일은 24시간 뒤 지워집니다.'),
-    Canvas({ label: 'A-10 · 엑셀 내려받기 버튼 → 팝업 (검색 결과 전체)' }, Overlay({ bg: Page(Filters({ open: false, summary: '주문일 최근 7일 · 상태 전체 · 채널 전체' }), Head(), List([], ROWS.slice(0, 6))), h: 740 }, excelModal())),
+    Canvas({ label: 'A-10 · 엑셀 내려받기 버튼 → 팝업 (검색 결과 전체)' }, Overlay({ bg: Page(Filters({ open: false, summary: '주문일 최근 1개월 · 상태 전체 · 채널 전체' }), Head(), List([], ROWS.slice(0, 6))), h: 740 }, excelModal())),
     CanvasRow(
         Canvas({ size: 'auto', label: '양식 고르는 중 (목록 열림 · 택배사 양식과 내가 만든 양식)', right: '팝업만', pad: 20 }, excelModal({ form: Select({ value: 'CJ대한통운 접수 양식 (9개 항목)', w: 340, open: true, search: '', options: formOptions }) })),
         Canvas({ size: 'auto', label: '2건 선택 뒤 연 모습 (대상이 선택한 주문으로 바뀜)', right: '팝업만', pad: 20 }, excelModal({ sel: true, btn: '2건 내려받기' })),
@@ -199,9 +205,9 @@ const state4 = StateBlock({ idx: 4, title: '엑셀 다운로드(양식 고르기
 const state5 = StateBlock({ idx: 5, title: '결과 없음', note: '조건에 맞는 주문이 없을 때. 왜 없는지 짐작할 단서와 다음 행동을 줍니다.' },
     Anno({ title: '왜 이렇게 하나' }, '결과가 없으면 운영자는 조건이 좁았는지 정말 주문이 없는지 헷갈립니다. 걸린 조건을 그대로 보여 주고, 가장 흔한 원인(기간이 짧음 · 스마트스토어 주문이 아직 안 들어옴)을 한 번에 풀 수 있는 버튼을 둡니다. 주문이 한 건도 없는 새 몰은 문구가 다릅니다.'),
     Canvas({ label: 'A-10 · 검색 결과 없음 (조건이 걸려 있음)' }, Page(
-        Filters({ open: false, summary: '주문일 최근 7일 · 상태 전체 · 채널 전체 · 주문자 이름 "한지우"' }),
+        Filters({ open: false, summary: '주문일 최근 1개월 · 상태 전체 · 채널 전체 · 주문자 이름 "한지우"' }),
         ListHead({ total: 0, right: [Btn('엑셀 내려받기', { icon: 'download', size: 'sm', disabled: true }), PerPage(50)] }),
-        `<div class="wf-tablewrap">${Empty({ icon: 'search', title: '조건에 맞는 주문이 없습니다', desc: '주문일 최근 7일 안에 주문자 이름이 "한지우"인 주문이 없습니다.<br>기간을 넓히거나, 받는 분 이름·연락처 뒷자리로 다시 찾아보세요.', action: [Btn('기간을 3개월로 넓혀 다시 검색', 'primary'), Btn('검색어 종류를 받는 분 이름으로 바꾸기'), Btn('조건 초기화', { icon: 'refresh' })] })}</div>`,
+        `<div class="wf-tablewrap">${Empty({ icon: 'search', title: '조건에 맞는 주문이 없습니다', desc: '주문일 최근 1개월 안에 주문자 이름이 "한지우"인 주문이 없습니다.<br>기간을 넓히거나, 받는 분 이름·연락처 뒷자리로 다시 찾아보세요.', action: [Btn('기간을 3개월로 넓혀 다시 검색', 'primary'), Btn('검색어 종류를 받는 분 이름으로 바꾸기'), Btn('조건 초기화', { icon: 'refresh' })] })}</div>`,
     )),
     CanvasRow(
         Canvas({ size: 'auto', label: '스마트스토어 주문번호로 찾았는데 없을 때', right: '빈 상태만', pad: 20 }, `<div style="width:600px">${Empty({ icon: 'naver-square', title: '주문번호 2026111145829999 를 찾지 못했습니다', desc: '스마트스토어 주문은 10분마다 가져옵니다. 마지막으로 가져온 시각 10:00.<br>방금 들어온 주문이면 지금 가져오기를 눌러 주세요.', action: [Btn('스마트스토어 주문 지금 가져오기', { kind: 'primary', icon: 'sync' })] })}</div>`),
@@ -225,7 +231,7 @@ const reasonModal = (o = {}) => Modal({ title: '개인정보가 포함된 파일
 const state6 = StateBlock({ idx: 6, title: '개인정보 포함 엑셀 다운로드 사유 입력 팝업', note: '개인정보 항목이 든 양식으로 내려받기를 누르면 한 번 더 뜨는 팝업. 사유를 고르거나 직접 적어야 파일이 내려옵니다.' },
     Anno({ title: '왜 이렇게 하나' }, '주문 엑셀 한 파일에 고객 수백 명의 이름·연락처·주소가 들어갑니다. 운영자가 여럿이면 파일이 어디로 나갔는지 추적할 수 있어야 하므로, 개인정보 항목(이름 · 연락처 · 이메일 · 주소 · 환불 계좌)이 하나라도 든 양식은 받을 때마다 사유를 남깁니다. 사유는 자주 쓰는 것을 목록에서 고르고, 없으면 직접 적습니다. 개인정보 항목이 없는 양식(상품·수량·금액만)은 이 팝업 없이 바로 내려옵니다.'),
     Anno({ warn: true, title: '놓치면 안 되는 것' }, '기록되는 것: 내려받은 사람 · 일시 · IP · 양식 · 대상 건수 · 검색 조건 · 사유. 설정 > 운영자·권한(A-96)의 작업 기록에 남고 지울 수 없습니다. 고객 정보 내려받기 권한이 없는 역할은 개인정보 포함 양식을 고를 수 없습니다. 같은 팝업을 회원 목록 엑셀에서도 씁니다. 사유 목록은 설정 > 운영자·권한에서 고칩니다.'),
-    Canvas({ label: 'A-10 · 엑셀 내려받기 팝업에서 내려받기 → 사유 입력 팝업 (사유를 고른 모습)' }, Overlay({ bg: Page(Filters({ open: false, summary: '주문일 최근 7일 · 상태 전체 · 채널 전체' }), Head(), List([], ROWS.slice(0, 6))), h: 680 }, reasonModal())),
+    Canvas({ label: 'A-10 · 엑셀 내려받기 팝업에서 내려받기 → 사유 입력 팝업 (사유를 고른 모습)' }, Overlay({ bg: Page(Filters({ open: false, summary: '주문일 최근 1개월 · 상태 전체 · 채널 전체' }), Head(), List([], ROWS.slice(0, 6))), h: 680 }, reasonModal())),
     CanvasRow(
         Canvas({ size: 'auto', label: '처음 뜬 모습 · 사유 목록 열림 (고르기 전에는 버튼 비활성)', right: '팝업만', pad: 20 }, reasonModal({ reason: Select({ placeholder: '사유를 고르세요', w: 260, open: true, options: REASONS }), agree: false, disabled: true })),
         Canvas({ size: 'auto', label: '기타(직접 입력)를 고름 → 입력칸이 생김', right: '팝업만', pad: 20 }, reasonModal({ reason: Select({ value: '기타(직접 입력)', w: 260 }), direct: '11월 2주차 사은품 발송 대상 확인' })),
@@ -235,7 +241,7 @@ const state6 = StateBlock({ idx: 6, title: '개인정보 포함 엑셀 다운로
         Canvas({ size: 'auto', label: '권한이 없는 운영자의 양식 목록 (개인정보 포함 양식은 고를 수 없음)', right: '부분', pad: 20 }, `<div style="width:380px;min-height:300px">${Select({ value: '사은품 포장 목록 (6개 항목)', w: 360, open: true, options: [{ t: '사은품 포장 목록', sub: '개인정보 없음', on: true }, { t: 'CJ대한통운 접수 양식', sub: '개인정보 포함 · 권한 없음', disabled: true }, { t: '기본 양식', sub: '개인정보 포함 · 권한 없음', disabled: true }] })}<p class="help">고객 정보 내려받기 권한은 대표 운영자가 설정 > 운영자·권한에서 줍니다.</p></div>`),
     ),
     Canvas({ size: 'auto', label: '내려받은 뒤 토스트', right: '토스트만', pad: 20 }, Toast('주문_20261111_CJ대한통운접수양식.xlsx (468행)을 내려받았습니다. 내려받은 기록을 남겼습니다.')),
-    Canvas({ size: 'auto', label: '설정 > 운영자·권한의 작업 기록에 남는 모습 (A-96)', right: '기록 한 줄', pad: 20 }, `<div style="width:1000px">${Table({ dense: true, cols: [{ t: '일시', w: 120 }, { t: '운영자', w: 70 }, { t: '한 일', w: 150 }, '내용', { t: '사유', w: 130 }, { t: 'IP', w: 120 }], rows: [['11-11 10:21:05', '이보림', '주문 엑셀 내려받기', 'CJ대한통운 접수 양식 · 468건 · 조건: 주문일 최근 7일 · 상태 전체 · 채널 전체', '택배 접수·출고', '211.***.***.45']] })}</div>`),
+    Canvas({ size: 'auto', label: '설정 > 운영자·권한의 작업 기록에 남는 모습 (A-96)', right: '기록 한 줄', pad: 20 }, `<div style="width:1000px">${Table({ dense: true, cols: [{ t: '일시', w: 120 }, { t: '운영자', w: 70 }, { t: '한 일', w: 150 }, '내용', { t: '사유', w: 130 }, { t: 'IP', w: 120 }], rows: [['11-11 10:21:05', '이보림', '주문 엑셀 내려받기', 'CJ대한통운 접수 양식 · 468건 · 조건: 주문일 최근 1개월 · 상태 전체 · 채널 전체', '택배 접수·출고', '211.***.***.45']] })}</div>`),
 );
 
 export default function A10() {

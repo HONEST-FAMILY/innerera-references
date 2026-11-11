@@ -8,14 +8,14 @@ const Cal = (title, from, to, last = 11) => {
     return `<div style="width:236px"><div style="display:flex;justify-content:space-between;font-weight:800;font-size:13px;margin-bottom:6px">${Icon('angle-left-min')}<span>${title}</span>${Icon('angle-right-min')}</div><div style="display:grid;grid-template-columns:repeat(7,1fr);gap:2px">${['일', '월', '화', '수', '목', '금', '토'].map((d) => `<span style="text-align:center;font-size:11px;color:var(--mute)">${d}</span>`).join('')}${cells.map((d) => { const on = d === from || d === to; const mid = d > from && d < to; const fut = d > last; return `<span style="height:28px;display:flex;align-items:center;justify-content:center;font-size:12px;border-radius:3px;${on ? 'background:var(--dark);color:#fff;font-weight:800' : mid ? 'background:var(--fill)' : fut ? 'color:#b0b0b8;text-decoration:line-through' : ''}">${d}</span>`; }).join('')}</div></div>`;
 };
 
-const PeriodBar = (o = {}) => `<span class="wf-period">${['오늘', '어제', '7일', '이번 달', '지난달', '3개월', '직접 고르기'].map((p) => `<span class="wf-btn sm ${p === (o.preset || '7일') ? 'primary' : 'line'}">${p}</span>`).join('')}${Input({ value: o.from || '2026-11-05', icon: 'calendar', w: 140, focus: o.focus })}<span class="tilde">~</span>${Input({ value: o.to || '2026-11-11', icon: 'calendar', w: 140 })}</span>`;
+const PeriodBar = (o = {}) => `<span class="wf-period">${['오늘', '어제', '7일', '30일', '이번 달', '지난달', '3개월', '직접 고르기'].map((p) => `<span class="wf-btn sm ${p === (o.preset || '30일') ? 'primary' : 'line'}">${p}</span>`).join('')}${Input({ value: o.from || '2026-10-13', icon: 'calendar', w: 140, focus: o.focus })}<span class="tilde">~</span>${Input({ value: o.to || '2026-11-11', icon: 'calendar', w: 140 })}</span>`;
 
 const FRows = (o = {}) => [
     { k: '기간', v: PeriodBar(o) },
     { k: '기준', v: [Radio('결제일 기준', { on: true }), Radio('구매확정일 기준'), Text('결제일 기준 = 결제가 끝난 날의 매출, 취소·환불은 처리된 날에 뺍니다', { sm: true, mute: true })] },
     { k: '채널', v: CheckGroup(['자사몰', '스마트스토어'], o.ch || ['자사몰', '스마트스토어']) },
     { k: '결제수단', v: CheckGroup(['카드', '실시간 계좌이체', '가상계좌', '카카오페이', '네이버페이', '토스페이', '스마트스토어 결제'], ['카드', '실시간 계좌이체', '가상계좌', '카카오페이', '네이버페이', '토스페이', '스마트스토어 결제']) },
-    { k: '비교', v: [Check('바로 앞 같은 기간과 비교 (10-29 ~ 11-04)', { on: true }), Check('작년 같은 기간과 비교')] },
+    { k: '비교', v: [Check(`바로 앞 같은 기간과 비교 (${o.prev || '09-13 ~ 10-12'})`, { on: true }), Check('작년 같은 기간과 비교')] },
 ];
 
 const VIEW = [{ t: '날짜별' }, { t: '채널별' }, { t: '결제수단별' }];
@@ -46,11 +46,32 @@ const DAYS = [
 const DAY_FOOT = ['합계', '97', '6,842,000원', '-230,000원', '69,000원', '-372,000원', '6,470,000원', '4,348,000원', '2,122,000원'];
 const NOTE = Note('금액은 예시 값입니다(판매가 미확정). 결제 금액 = 상품 금액 - 할인 + 배송비. 날짜를 누르면 그날 주문 목록(주문 > 전체 주문 조회)이 같은 조건으로 열립니다.');
 
+const NET_STATS = [
+    { k: '결제 금액', v: '27,418,000원', sub: '전 기간보다 +14.2%', icon: 'won' },
+    { k: '주문 건수', v: '389건', sub: '전 기간 342건', icon: 'receipt' },
+    { k: '환불 금액', v: '-1,612,000원', sub: '24건 · 전 기간 -1,105,000원', icon: 'undo' },
+    { k: '순매출 (결제 − 환불)', v: '25,806,000원', sub: '전 기간보다 +12.7%', icon: 'chart-bar', on: true },
+];
+const DAY30 = [731, 802, 688, 915, 870, 433, 512, 690, 844, 902, 765, 811, 498, 882, 740, 934, 1010, 876, 951, 620, 641, 803, 778, 1086, 1120, 905, 715, 987, 1045, 612];
+const DAY30_LABELS = DAY30.map((_, i) => (i % 5 === 0 || i === 29 ? ['10-13', '10-18', '10-23', '10-28', '11-02', '11-07', '11-11'][i === 29 ? 6 : i / 5] : ''));
+const DAY_REST = { dim: true, c: ['10-13 ~ 11-04 <small>23일 · 실제 화면은 날짜마다 한 줄</small>', '292', '20,576,000원', '-685,000원', '207,000원', '-1,240,000원', '<b>19,336,000원</b>', '12,942,000원', '6,394,000원'] };
+const DAY30_FOOT = ['합계', '389', '27,418,000원', '-915,000원', '276,000원', '-1,612,000원', '25,806,000원', '17,290,000원', '8,516,000원'];
+
 const state1 = StateBlock({ idx: 1, title: '기간·채널·결제수단별', note: '기간을 고르면 위에 요약 카드, 가운데 그래프, 아래 표가 나옵니다. 표는 날짜별·채널별·결제수단별 세 가지 보기로 바꿉니다.' },
     Anno({ title: '왜 이렇게 하나' }, '사장님이 매일 묻는 것은 오늘 얼마 팔았나, 어디서(자사몰·스마트스토어) 더 팔리나, 지난주보다 늘었나입니다. 그래서 결제 금액과 취소·환불을 나눠 순매출을 보여 주고, 바로 앞 같은 기간과의 차이를 숫자로 붙입니다. 결제수단별 보기는 결제 대행사 정산 금액과 맞춰 볼 때 씁니다.'),
-    Anno({ warn: true, title: '초기값 · 기능을 껐을 때' }, '초기값: 최근 7일 · 결제일 기준 · 채널 전체 · 결제수단 전체 · 앞 기간 비교 켬 · 날짜별 보기. 기간은 한 번에 최대 1년까지. 스마트스토어 기능을 끈 몰은 채널 조건·채널별 보기·표의 채널 칸이 없습니다. 스마트스토어 주문 금액은 네이버 결제 금액 기준이며 네이버 수수료는 빼지 않은 값입니다(표 아래에 적음).'),
-    Canvas({ label: 'A-80 · 최근 7일 · 날짜별 보기' }, Page(
+    Anno({ warn: true, title: '초기값 · 기능을 껐을 때' }, '초기값: 최근 30일 · 일 단위 · 결제일 기준 · 채널 전체 · 결제수단 전체 · 앞 기간 비교 켬 · 날짜별 보기. 기간은 한 번에 최대 1년까지. 스마트스토어 기능을 끈 몰은 채널 조건·채널별 보기·표의 채널 칸이 없습니다. 스마트스토어 주문 금액은 네이버 결제 금액 기준이며 네이버 수수료는 빼지 않은 값입니다(표 아래에 적음).'),
+    Canvas({ label: 'A-80 · 처음 들어온 모습(초기값) · 최근 30일 · 일 단위 · 날짜별 보기' }, Page(
         Filters({ rows: FRows() }),
+        Stats(NET_STATS),
+        '<div style="height:16px"></div>',
+        Chart('날짜별 순매출', DAY30, DAY30_LABELS, '단위 천 원 · 최근 30일 · 일 단위'),
+        Tabs(VIEW, '날짜별'),
+        ListHead({ total: 30, left: Text('일 단위', { sm: true, mute: true }), right: [Select({ value: '일 단위', w: 110 }), Btn('엑셀 내려받기', { icon: 'download', size: 'sm' })] }),
+        Table({ cols: DAY_COLS, rows: [...DAYS, DAY_REST], foot: DAY30_FOOT }),
+        NOTE,
+    )),
+    Canvas({ label: 'A-80 · 기간에서 7일 단추를 누름 → 최근 7일 · 날짜별 보기' }, Page(
+        Filters({ rows: FRows({ preset: '7일', from: '2026-11-05', prev: '10-29 ~ 11-04' }) }),
         Sum,
         '<div style="height:16px"></div>',
         Chart('날짜별 순매출', [1086, 1120, 905, 715, 987, 1045, 612], ['11-05', '11-06', '11-07', '11-08', '11-09', '11-10', '11-11'], '단위 천 원 · 최근 7일'),
@@ -59,7 +80,7 @@ const state1 = StateBlock({ idx: 1, title: '기간·채널·결제수단별', no
         Table({ cols: DAY_COLS, rows: DAYS, foot: DAY_FOOT }),
         NOTE,
     )),
-    Canvas({ label: 'A-80 · 채널별 보기' }, Page(
+    Canvas({ label: 'A-80 · 최근 7일 · 채널별 보기' }, Page(
         Filters({ open: false, summary: '기간 11-05 ~ 11-11 (최근 7일) · 결제일 기준 · 채널 전체 · 결제수단 전체' }),
         Grid('1fr 1fr',
             Chart('채널별 순매출', [4348, 2122], ['자사몰', '스마트스토어'], '단위 천 원'),
@@ -72,7 +93,7 @@ const state1 = StateBlock({ idx: 1, title: '기간·채널·결제수단별', no
         ], foot: ['합계', '97', '6,842,000원', '-372,000원', '6,470,000원', '100%', '70,500원', '+12.4%'] }),
         Note('스마트스토어 금액은 네이버 결제 금액이며 네이버 수수료를 빼기 전 값입니다. 실제 정산 금액은 스마트스토어 판매자센터 정산 내역에서 확인하세요.'),
     )),
-    Canvas({ label: 'A-80 · 결제수단별 보기' }, Page(
+    Canvas({ label: 'A-80 · 최근 7일 · 결제수단별 보기' }, Page(
         Filters({ open: false, summary: '기간 11-05 ~ 11-11 (최근 7일) · 결제일 기준 · 채널 전체 · 결제수단 전체' }),
         Tabs(VIEW, '결제수단별'),
         Table({ cols: [{ t: '결제수단', w: 170 }, { t: '주문 수', w: 80, align: 'right' }, { t: '결제 금액', w: 130, align: 'right' }, { t: '취소·환불', w: 120, align: 'right' }, { t: '순매출', w: 130, align: 'right' }, { t: '비중', w: 70, align: 'right' }, '비고'], rows: [
@@ -92,7 +113,7 @@ const state1 = StateBlock({ idx: 1, title: '기간·채널·결제수단별', no
     ),
     Canvas({ label: 'A-80 · 고른 기간에 매출이 없을 때' }, Page(
         Filters({ open: false, summary: '기간 10-01 ~ 10-07 · 결제일 기준 · 채널 스마트스토어' }),
-        Empty({ icon: 'chart-bar', title: '이 기간에는 매출이 없습니다', desc: '10-01 ~ 10-07 · 스마트스토어 조건으로 찾았습니다. 스마트스토어는 2026-10-29에 연결했습니다.', action: [Btn('최근 7일로 보기', 'primary'), Btn('조건 초기화')] }),
+        Empty({ icon: 'chart-bar', title: '이 기간에는 매출이 없습니다', desc: '10-01 ~ 10-07 · 스마트스토어 조건으로 찾았습니다. 스마트스토어는 2026-10-29에 연결했습니다.', action: [Btn('최근 30일로 보기', 'primary'), Btn('조건 초기화')] }),
     )),
     Canvas({ size: 'auto', label: '스마트스토어 기능을 끈 몰 — 채널 조건·채널별 보기·채널 칸 없음', right: '표만', pad: 20 }, `<div style="width:860px">${Tabs([{ t: '날짜별' }, { t: '결제수단별' }], '날짜별')}${Table({ cols: DAY_COLS.slice(0, 7), rows: DAYS.slice(0, 3).map((r) => r.slice(0, 7)) })}</div>`),
 );
@@ -124,12 +145,6 @@ const state2 = StateBlock({ idx: 2, title: '엑셀', note: '지금 보고 있는
     ),
 );
 
-const NET_STATS = [
-    { k: '결제 금액', v: '27,418,000원', sub: '전 기간보다 +14.2%', icon: 'won' },
-    { k: '주문 건수', v: '389건', sub: '전 기간 342건', icon: 'receipt' },
-    { k: '환불 금액', v: '-1,612,000원', sub: '24건 · 전 기간 -1,105,000원', icon: 'undo' },
-    { k: '순매출 (결제 − 환불)', v: '25,806,000원', sub: '전 기간보다 +12.7%', icon: 'chart-bar', on: true },
-];
 const NET_STATS2 = (o = {}) => [
     { k: '객단가', v: '70,500원', sub: '결제 금액 ÷ 주문 건수', icon: 'user-o' },
     o.noCoupon ? null : { k: '쿠폰 할인', v: '-684,000원', sub: '쿠폰 사용 주문 96건', icon: 'coupon' },

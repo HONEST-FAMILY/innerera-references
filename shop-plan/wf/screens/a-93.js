@@ -1,7 +1,9 @@
 import {
     Canvas, CanvasRow, StateBlock, Anno, AdminLayout, Btn, BtnRow, Badge, OrderBadge, Input, Select, Check, RadioGroup, CheckGroup, Toggle,
-    FormTable, Table, Overlay, Confirm, Toast, Box, Note, Text, Icon, Timeline,
+    FormTable, Table, Overlay, Confirm, Toast, Box, Note as NoteBase, Text, Icon, Timeline,
 } from '../lib/blocks.js';
+
+const Note = (text, o) => NoteBase(`<span>${text}</span>`, o);
 
 const Page = (...body) => AdminLayout({ active: 'a-93', desc: '주문이 사람 손을 거치지 않고 넘어가는 규칙을 정합니다. 바꾼 값은 저장한 뒤 들어오는 주문부터 적용됩니다.', actions: [Btn('변경 기록', { icon: 'time-o' }), Btn('저장', 'primary')] }, body);
 const days = (v, o = {}) => Select({ value: `${v}일`, w: 90, ...o });
@@ -22,7 +24,7 @@ const confirmBox = (o = {}) => Box({ title: '자동 구매확정', sub: '고객�
 
 const shipBox = Box({ title: '발송 기한', sub: '발주 확인·발송 처리 화면의 발송 기한 칸과 대시보드 발송 지연 위험 카드의 기준' },
     FormTable([
-        { k: '발송 기한', required: true, v: [Text('결제완료 다음 날부터 영업일', { sm: true }), days(2), Text('안에 발송', { sm: true })], help: '상품 상세의 배송 안내에 평일 오후 2시 이전 결제 시 당일 출고처럼 따로 적은 문구와 어긋나지 않게 맞춰 주세요.' },
+        { k: '발송 기한', required: true, v: [Text('결제완료 다음 날부터 영업일', { sm: true }), days(3), Text('안에 발송', { sm: true })], help: '상품 상세의 배송 안내에 평일 오후 2시 이전 결제 시 당일 출고처럼 따로 적은 문구와 어긋나지 않게 맞춰 주세요.' },
         { k: '쉬는 날', v: [CheckGroup(['토요일', '일요일', '공휴일'], ['토요일', '일요일', '공휴일']), Btn('임시 휴무일 추가', { size: 'sm', icon: 'calendar' })], help: '영업일 계산에서 빠지는 날. 임시 휴무일: 2026-12-31(목) 재고 조사.' },
         { k: '당일 출고 마감', v: [Select({ value: '14:00', w: 100 }), Text('이전 결제 주문은 당일 출고 대상으로 표시', { sm: true })] },
     ]),

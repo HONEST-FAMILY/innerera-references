@@ -1,7 +1,9 @@
 import {
     Canvas, CanvasRow, StateBlock, Anno, AdminLayout, Btn, BtnRow, Badge, Input, Select, Check, Radio, RadioGroup, CheckGroup, Toggle, Tabs,
-    FormTable, ListHead, Table, Overlay, Modal, Confirm, Toast, Upload, ExcelResult, Box, KV, Note, Text, Icon, Flex, Grid, Empty, SHOP,
+    FormTable, ListHead, Table, Overlay, Modal, Confirm, Toast, Upload, ExcelResult, Box, KV, Note as NoteBase, Text, Icon, Flex, Grid, Empty, SHOP,
 } from '../lib/blocks.js';
+
+const Note = (text, o) => NoteBase(`<span>${text}</span>`, o);
 
 const TABS = ['배송비 템플릿', '제주·도서산간', '택배사', '출고지·반품지', '반품·교환 배송비'];
 const Page = (tab, o, ...body) => AdminLayout({ active: 'a-92', desc: '배송비 규칙과 택배사, 물건이 나가고 돌아오는 주소를 정합니다.', ...o }, Tabs(TABS, tab), body);
@@ -10,7 +12,7 @@ const acts = `${Btn('수정', { size: 'sm' })} ${Btn('복사', { size: 'sm' })} 
 
 const T_COLS = ['템플릿 이름', { t: '유형', w: 110 }, '배송비 규칙', { t: '묶음 계산', w: 110 }, { t: '연결된 상품', w: 96, align: 'right' }, { t: '', w: 176 }];
 const T_ROWS = [
-    [`<u>기본 배송비</u> ${Badge('기본', 'bold')}`, Badge('조건부 무료', 'line'), '3,000원 · 30,000원 이상 구매 시 무료', '묶음 가능', '<u>2개</u>', acts],
+    [`<u>기본 배송비</u> ${Badge('기본', 'bold')}`, Badge('조건부 무료', 'line'), '3,000원 · 50,000원 이상 구매 시 무료 (예시)', '묶음 가능', '<u>2개</u>', acts],
     ['<u>무료배송</u>', Badge('무료', 'line'), '0원', '묶음 가능', '<u>1개</u>', acts],
     ['<u>선물 세트(부피 큼)</u>', Badge('고정', 'line'), '주문마다 4,000원', '따로 계산', '<u>1개</u>', acts],
     { dim: true, c: ['<u>대량 구매</u>', Badge('수량별', 'line'), '1 ~ 10개 3,000원 · 11 ~ 30개 6,000원 · 31개부터 10개마다 3,000원 추가', '따로 계산', '0개', acts] },
@@ -33,7 +35,7 @@ const tModal = (title, ...body) => Modal({ title, w: 760, foot: [Btn('취소'), 
 const mFree = tModal('배송비 템플릿 등록', FormTable([...baseRows('무료배송', '무료'), { k: '배송비', v: Text('0원 — 입력칸 없음. 상품 카드에 무료배송 배지가 붙습니다.', { sm: true }) }, ...tailRows()]));
 const mFixed = tModal('배송비 템플릿 등록', FormTable([...baseRows('선물 세트(부피 큼)', '고정'), { k: '배송비', required: true, v: [won('4,000'), RadioGroup(['주문마다 한 번', '수량마다 (개당)'], '주문마다 한 번')], help: '수량마다를 고르면 2개 주문 시 8,000원입니다.' }, ...tailRows('따로 계산')]));
 const mCond = (o = {}) => tModal(o.edit ? '배송비 템플릿 수정' : '배송비 템플릿 등록',
-    FormTable([...baseRows(o.nameErr ? '' : '기본 배송비', '조건부 무료', o), { k: '기본 배송비', required: true, v: won('3,000') }, { k: '무료 조건', required: true, v: [won(o.condErr ? '2,000' : '30,000', 130, { error: o.condErr }), Text('이상 구매 시 무료', { sm: true }), Select({ value: '할인·쿠폰 적용 뒤 금액 기준', w: 230 })], help: '쿠폰을 써서 기준 아래로 내려가면 배송비가 붙습니다. 적용 전 금액 기준으로 바꿀 수 있습니다.', error: o.condErr ? '무료 조건 금액이 기본 배송비(3,000원)보다 작습니다. 금액을 다시 확인해 주세요.' : undefined }, { k: '남은 금액 안내', v: Check('장바구니에 무료배송까지 남은 금액 보여 주기', { on: true }) }, ...tailRows()]),
+    FormTable([...baseRows(o.nameErr ? '' : '기본 배송비', '조건부 무료', o), { k: '기본 배송비', required: true, v: won('3,000') }, { k: '무료 조건', required: true, v: [won(o.condErr ? '2,000' : '50,000', 130, { error: o.condErr }), Text('이상 구매 시 무료', { sm: true }), Select({ value: '할인·쿠폰 적용 뒤 금액 기준', w: 230 })], help: '쿠폰을 써서 기준 아래로 내려가면 배송비가 붙습니다. 적용 전 금액 기준으로 바꿀 수 있습니다.', error: o.condErr ? '무료 조건 금액이 기본 배송비(3,000원)보다 작습니다. 금액을 다시 확인해 주세요.' : undefined }, { k: '남은 금액 안내', v: Check('장바구니에 무료배송까지 남은 금액 보여 주기', { on: true }) }, ...tailRows()]),
     example([['1박스(14일분) × 1', '49,000원', '0원', '무료배송'], ['체험 3포 × 2', '18,000원', '3,000원', '12,000원 더 담으면 무료배송']]),
 );
 const mQty = tModal('배송비 템플릿 등록',
@@ -50,7 +52,7 @@ const TAct = { actions: [Btn('배송비 템플릿 등록', { kind: 'primary', ic
 
 const state1 = StateBlock({ idx: 1, title: '배송비 템플릿 목록·등록(무료·고정·조건부 무료·수량별)', note: '설정 > 배송의 첫 탭. 배송비 규칙을 이름 붙여 만들어 두고 상품에 연결합니다. 유형 4가지의 입력칸을 모두 그렸습니다.' },
     Anno({ title: '왜 이렇게 하나' }, '배송비를 상품마다 숫자로 넣으면 택배비가 오를 때 상품 수백 개를 다 고쳐야 합니다. 규칙을 템플릿으로 만들고 상품은 템플릿만 가리키게 하면 템플릿 하나만 고쳐도 연결된 상품이 전부 바뀝니다. 스마트스토어의 배송비 묶음과 같은 방식이라 실무자가 익숙합니다.'),
-    Anno({ warn: true, title: '유형별 입력칸 분기 · 초기값' }, '무료 = 금액 칸 없음 / 고정 = 금액 + 주문마다·수량마다 / 조건부 무료 = 기본 배송비 + n원 이상 무료 + 금액 기준 / 수량별 = 수량 구간 표. 설치 직후에는 기본 배송비(조건부 무료 3,000원 · 30,000원 이상 무료) 하나가 기본 템플릿으로 들어 있습니다. 상품이 연결된 템플릿은 지울 수 없고 다른 템플릿으로 옮긴 뒤 지웁니다.'),
+    Anno({ warn: true, title: '유형별 입력칸 분기 · 초기값' }, '무료 = 금액 칸 없음 / 고정 = 금액 + 주문마다·수량마다 / 조건부 무료 = 기본 배송비 + n원 이상 무료 + 금액 기준 / 수량별 = 수량 구간 표. 설치 직후에는 기본 배송비(조건부 무료 3,000원 · 50,000원 이상 무료 — 금액은 예시) 하나가 기본 템플릿으로 들어 있습니다. 상품이 연결된 템플릿은 지울 수 없고 다른 템플릿으로 옮긴 뒤 지웁니다.'),
     Canvas({ label: 'A-92 · 배송비 템플릿 탭 · 목록' }, Page('배송비 템플릿', TAct, List(), Note('금액은 예시 값입니다. 장바구니에 템플릿이 다른 상품이 섞이면 템플릿마다 계산해 더합니다(묶음 가능 템플릿끼리는 한 번만).'))),
     Canvas({ label: 'A-92 · 배송비 템플릿 등록 버튼 → 팝업 · 유형 = 조건부 무료 (n원 이상 무료)' }, Overlay({ bg: Page('배송비 템플릿', TAct, List()), h: 900 }, mCond())),
     CanvasRow(
@@ -180,7 +182,7 @@ const retForm = (o = {}) => FormTable([
         ['단순 변심 · 주문 실수', '고객', '환불 금액에서 자동으로 빼고 환불'],
         ['상품 불량 · 파손 · 다른 상품이 옴', '판매자', '차감 없이 전액 환불 · 회수비는 판매자 부담'],
         ['표시·광고와 다름', '판매자', '차감 없이 전액 환불 (받은 날부터 3개월 · 안 날부터 30일 안)'],
-    ] }), help: '사유는 고객이 반품 신청 때 고르고, 운영자가 검수하면서 바꿀 수 있습니다(고객 귀책 ↔ 판매자 귀책).' },
+    ] }), help: '사유는 고객이 반품 신청 때 고르고, 운영자가 검수하면서 바꿀 수 있습니다(고객 부담에서 판매자 부담으로, 또는 반대로).' },
     { k: '받는 방법', v: RadioGroup(['환불 금액에서 빼기', '상자에 동봉', '계좌로 따로 입금'], '환불 금액에서 빼기'), help: '교환은 환불 금액이 없으므로 고객이 교환 신청 때 결제하거나 동봉합니다.' },
 ]);
 
