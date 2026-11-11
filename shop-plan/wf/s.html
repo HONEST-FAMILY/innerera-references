@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>범용 쇼핑몰 솔루션 와이어프레임</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
+<link rel="stylesheet" href="wf.css">
+</head>
+<body class="wf-root">
+<div class="wf-topbar">
+  <a class="lk" href="index.html"><i class="xi-apps"></i>사이트맵</a>
+  <span class="t">범용 쇼핑몰 솔루션 와이어프레임</span>
+  <span class="s">1호 적용 · 이너에라 Inner:Era 공식몰</span>
+  <span class="r"><select id="jump" aria-label="화면 바로 가기"></select></span>
+</div>
+<div class="wf-wrap" id="app"></div>
+<script type="module">
+import { PAGES, getPage, getNeighbors, getGroup } from './lib/meta.js';
+
+const app = document.getElementById('app');
+const id = (new URLSearchParams(location.search).get('id') || '').toLowerCase();
+const page = getPage(id);
+
+const jump = document.getElementById('jump');
+jump.innerHTML = PAGES.map((p) => `<option value="${p.id}"${p.id === id ? ' selected' : ''}>${p.no} ${p.title}</option>`).join('');
+jump.addEventListener('change', () => { location.href = `s.html?id=${jump.value}`; });
+
+const pending = (icon, title, body) => `<div class="wf-pending"><i class="${icon}"></i><b>${title}</b>${body}</div>`;
+
+const exists = async (url) => {
+    try {
+        const res = await fetch(url, { cache: 'no-store' });
+        if (!res.ok) return false;
+        const type = res.headers.get('content-type') || '';
+        return !type.includes('text/html');
+    } catch (e) {
+        return false;
+    }
+};
+
+const render = async () => {
+    if (!page) {
+        document.title = '없는 화면 · 와이어프레임';
+        app.innerHTML = `${pending('xi-error-o', '없는 화면입니다', `<p>주소의 화면 번호(${id || '비어 있음'})가 사이트맵에 없습니다.</p><p><a class="wf-btn primary" href="index.html">사이트맵으로</a></p>`)}`;
+        return;
+    }
+    document.title = `${page.no} ${page.title} · 와이어프레임`;
+    const group = getGroup(page.group);
+    const { prev, next } = getNeighbors(page.id);
+    const head = `
+<div class="wf-frame-head">
+  <div class="no">${page.no} · ${group.side === 'admin' ? '관리자' : '사용자'}${page.menu && page.menu !== '—' && group.side === 'admin' ? ` · ${page.menu}` : ''}</div>
+  <h1>${page.title}</h1>
+  <div class="url">${page.url}</div>
+  <p class="desc">${page.desc}</p>
+  <div class="wf-states">${page.states.map((s, i) => `<a href="#s${i + 1}"><b>${i + 1}</b>${s}</a>`).join('')}</div>
+</div>`;
+    const nav = `
+<div class="wf-nav">
+  ${prev ? `<a class="wf-btn line" href="s.html?id=${prev.id}"><i class="xi-angle-left-min"></i>${prev.no} ${prev.title}</a>` : '<span></span>'}
+  ${next ? `<a class="wf-btn line" href="s.html?id=${next.id}">${next.no} ${next.title}<i class="xi-angle-right-min"></i></a>` : '<span></span>'}
+</div>`;
+
+    const file = `./screens/${page.id}.js`;
+    let body;
+    if (!(await exists(file))) {
+        body = pending('xi-pen-o', '아직 그리지 않은 화면', `<p>이 화면은 그리는 중입니다. 위 상태 목록 ${page.states.length}개가 모두 그려질 예정입니다.</p><p>화면 파일 <code>screens/${page.id}.js</code></p>`);
+    } else {
+        try {
+            const mod = await import(file);
+            body = mod.default(page);
+        } catch (e) {
+            body = pending('xi-warning', '화면 파일을 여는 중 오류가 났습니다', `<p>화면 파일 <code>screens/${page.id}.js</code></p><pre>${String(e && e.stack ? e.stack : e).replace(/</g, '&lt;')}</pre>`);
+        }
+    }
+    app.innerHTML = head + body + nav;
+    if (location.hash) {
+        const target = document.getElementById(location.hash.slice(1));
+        if (target) target.scrollIntoView();
+    }
+};
+
+render();
+</script>
+</body>
+</html>

@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>범용 쇼핑몰 솔루션 와이어프레임 · 사이트맵</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
+<link rel="stylesheet" href="wf.css">
+</head>
+<body class="wf-root">
+<div class="wf-topbar">
+  <span class="t">범용 쇼핑몰 솔루션 와이어프레임</span>
+  <span class="s">1호 적용 · 이너에라 Inner:Era 공식몰</span>
+  <span class="r">
+    <a class="lk" href="../기획/기획서.html"><i class="xi-document"></i>기획서</a>
+    <a class="lk" href="../기획/기능정의서.html"><i class="xi-list"></i>기능정의서</a>
+    <a class="lk" href="../기획/레퍼런스.html"><i class="xi-bookmark-o"></i>레퍼런스</a>
+  </span>
+</div>
+<div class="wf-wrap">
+  <h1 class="wf-h1">사이트맵</h1>
+  <p class="wf-lead">사용자 화면과 관리자 화면 전체 목록입니다. 항목을 누르면 그 화면의 와이어프레임이 열립니다.</p>
+
+  <div class="wf-howto">
+    <b class="hd">보는 방법</b>
+    <ol>
+      <li>항목 하나가 화면 하나입니다. 번호(U-01, A-12)는 기획서·기능정의서와 같은 번호입니다.</li>
+      <li>화면 안에는 그 화면의 모든 상태가 번호 순서대로 그려져 있습니다. 머리의 번호 칩을 누르면 그 상태로 내려갑니다.</li>
+      <li>파란 띠 상자는 실무에서 왜 그렇게 하는지 적은 설명이고, 노란 띠 상자는 놓치면 안 되는 주의 사항입니다. 디자인 대상이 아닙니다.</li>
+      <li>팝업·드로어·토스트는 버튼을 누른 뒤 모습을 배경 위에 그대로 그려 두었습니다.</li>
+      <li>회색 상자는 이미지 자리입니다. 상자 안 글이 들어갈 내용입니다. 금액 옆 (예시)는 판매가가 아직 정해지지 않았다는 뜻입니다.</li>
+      <li>기준 폭은 PC 1280입니다. 모바일에서 모습이 달라지는 화면만 폭 390 캔버스를 따로 그렸습니다.</li>
+    </ol>
+  </div>
+
+  <div class="wf-docs">
+    <a href="../기획/기획서.html"><i class="xi-document"></i><div><b>기획서</b><span>확정 결정사항 · 범위 · 화면 흐름</span></div></a>
+    <a href="../기획/기능정의서.html"><i class="xi-list"></i><div><b>기능정의서</b><span>화면 번호별 기능과 규칙</span></div></a>
+    <a href="../기획/레퍼런스.html"><i class="xi-bookmark-o"></i><div><b>레퍼런스</b><span>카페24 · 스마트스토어 판매자센터 비교</span></div></a>
+  </div>
+
+  <div class="wf-count" id="count"></div>
+  <div class="wf-map" id="map"></div>
+</div>
+<script type="module">
+import { GROUPS, PAGES } from './lib/meta.js';
+
+const item = (p) => `
+<a class="wf-map-item" href="s.html?id=${p.id}">
+  <span class="t"><span class="no">${p.no}</span>${p.title}<span class="cn">상태 ${p.states.length}</span></span>
+  <span class="u">${p.url}</span>
+  <span class="s">${p.states.map((s, i) => `${i + 1}. ${s}`).join(' · ')}</span>
+</a>`;
+
+const users = PAGES.filter((p) => p.group === 'user');
+const admins = PAGES.filter((p) => p.group !== 'user');
+const sum = (list) => list.reduce((n, p) => n + p.states.length, 0);
+
+document.getElementById('count').innerHTML = `
+<span>전체 화면 <b>${PAGES.length}</b>개</span>
+<span>사용자 <b>${users.length}</b>개 · 상태 ${sum(users)}</span>
+<span>관리자 <b>${admins.length}</b>개 · 상태 ${sum(admins)}</span>`;
+
+const userGroup = GROUPS.find((g) => g.id === 'user');
+const adminGroups = GROUPS.filter((g) => g.side === 'admin');
+
+document.getElementById('map').innerHTML = `
+<div class="wf-map-col">
+  <h2>사용자 화면 (U)</h2>
+  <p>${userGroup.desc}</p>
+  ${users.map(item).join('')}
+</div>
+<div class="wf-map-col">
+  <h2>관리자 화면 (A)</h2>
+  <p>메뉴 묶음 = 업무 단위. 왼쪽 메뉴 순서와 같습니다. PC 1280 이상 기준.</p>
+  ${adminGroups.map((g) => {
+      const list = admins.filter((p) => p.group === g.id);
+      return `<div class="wf-map-grp"><h3><i class="${g.icon}"></i>${g.label}<span>${g.desc}</span><em>${list.length}개</em></h3>${list.map(item).join('')}</div>`;
+  }).join('')}
+</div>`;
+</script>
+</body>
+</html>
