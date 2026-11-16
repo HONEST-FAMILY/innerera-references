@@ -5,3 +5,4 @@ ala / glutathione / curcumin / quercetin / nmn: 원료별 정물
 ritual/start, care, work, beauty, life: Daily Ritual 일상 장면
 brand/brand_wide, brand_tall: 브랜드 이야기 석류 정물
 assets/cert/haccp_pkg.png, gip01_pkg.png: 최종 단상자 그림(assets/product/box_final_front_cut.png)에서 잘라 낸 인증 표기
+[shop-1 원료·상세 1안 원료 출처] quercetin_onion.jpg (양파, 2026-11-16 고객 의견 '양파사진으로 바꿔주세요') | https://unsplash.com/photos/brown-onion-on-white-background-iUGPq02__Gc | 작가 Mockup Graphics https://unsplash.com/@mockupgraphics | Unsplash License(무료, Unsplash+ 아님) | 원본 images.unsplash.com/photo-1587735243474-5426387356db?w=2400&q=90&fm=jpg | 가공: 90° 돌리기·정사각 자르기·색 맞춤

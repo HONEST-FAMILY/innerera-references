@@ -310,6 +310,7 @@ ol, ul { padding: 0; list-style: none; }
 .bs-end { margin-top: var(--gap); display: flex; flex-direction: column; align-items: center; text-align: center; }
 .bs-end .lg { height: clamp(40px, 5vw, 64px); color: #151515; }
 .bs-end p { margin-top: 26px; font-family: var(--font-point); font-weight: 500; font-size: clamp(18px, 2vw, 28px); line-height: 1.4; }
+.bs-end .bs-tail { margin-top: 14px; font-family: var(--font-body); font-weight: 400; font-size: clamp(14px, 1.2vw, 17px); line-height: 1.7; color: var(--grey); }
 .pg-cta { margin-top: 40px; display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
 
 .ip-hero { padding-top: 72px; }
