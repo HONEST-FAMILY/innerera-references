@@ -1,0 +1,596 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Inner:Era Longevity reel</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Marcellus&family=Jost:wght@300;400;500&display=block">
+<style>
+:root { --crimson: #c40f2f; --wine: #8e0b22; --ink: #231a1b; --cream: #faf5f2; --blush: #f3d5cf; }
+html, body { margin: 0; height: 100%; background: #0f0d0d; overflow: hidden; }
+#stage { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; overflow: hidden; transform-origin: 0 0; background: #f4e1db; font-family: "Pretendard Variable", Pretendard, sans-serif; color: var(--ink); word-break: keep-all; -webkit-font-smoothing: antialiased; }
+.abs { position: absolute; left: 0; top: 0; }
+.layer { position: absolute; inset: 0; }
+
+#studio { background:
+  radial-gradient(ellipse 70% 42% at 50% 44%, #fcf1ed 0%, rgba(252,241,237,0) 100%),
+  linear-gradient(180deg, #ecc9c1 0%, #f5e1db 34%, #f7e6e1 62%, #edcdc5 100%); }
+#floor { opacity: 0; background:
+  radial-gradient(ellipse 60% 14% at 50% 74%, rgba(255,250,248,.9), rgba(255,250,248,0) 100%),
+  linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0) 66%, rgba(233,201,193,.85) 74%, rgba(247,230,225,1) 86%, rgba(236,207,199,1) 100%); }
+.bk { position: absolute; left: 0; top: 0; border-radius: 50%; }
+
+#hero { overflow: hidden; }
+#heroImg { position: absolute; left: 0; top: 0; width: 1622px; height: 2880px; transform-origin: 0 0; }
+#heroLight { mix-blend-mode: screen; opacity: 0; }
+
+#stickOuter { width: 0; height: 0; }
+#stickRot { position: absolute; left: -132px; top: -590.5px; width: 264px; height: 1181px; }
+#stickRot img, #stickShine { position: absolute; inset: 0; width: 100%; height: 100%; }
+#stickShine { -webkit-mask: url(../../../assets/product/stick_logo_cut.png) center / 100% 100% no-repeat; mask: url(../../../assets/product/stick_logo_cut.png) center / 100% 100% no-repeat;
+  background: linear-gradient(170deg, rgba(255,255,255,0) 40%, rgba(255,255,255,.55) 50%, rgba(255,255,255,0) 60%); background-size: 100% 300%; mix-blend-mode: screen; }
+#stickGlow { position: absolute; left: -220px; top: -220px; width: 440px; height: 440px; border-radius: 50%; opacity: 0;
+  background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(255,226,226,.85) 18%, rgba(255,190,195,.35) 42%, rgba(255,190,195,0) 70%); mix-blend-mode: screen; }
+
+.orb { position: absolute; left: -250px; top: -250px; width: 500px; height: 500px; border-radius: 50%; }
+.orb .body { position: absolute; inset: 0; border-radius: 50%;
+  background:
+    radial-gradient(circle at 50% 50%, rgba(255,255,255,0) 60%, rgba(255,238,238,.45) 72%, rgba(222,110,125,.42) 89%, rgba(160,24,46,.6) 100%),
+    radial-gradient(circle at 46% 38%, rgba(255,252,250,.96) 0%, rgba(251,231,229,.9) 52%, rgba(241,200,200,.92) 100%);
+  box-shadow: 0 46px 90px -26px rgba(120,20,35,.34), inset 0 -40px 70px rgba(176,38,60,.20), inset 0 26px 50px rgba(255,255,255,.7); }
+.orb .mol { position: absolute; left: 50%; top: 50%; width: 82%; height: auto; filter: drop-shadow(0 8px 12px rgba(120,10,30,.22)); }
+.orb .gloss { position: absolute; inset: 0; border-radius: 50%; mix-blend-mode: screen;
+  background:
+    radial-gradient(ellipse 30% 18% at 33% 19%, rgba(255,255,255,.95), rgba(255,255,255,0) 72%),
+    radial-gradient(circle at 74% 80%, rgba(255,255,255,.42), rgba(255,255,255,0) 22%),
+    radial-gradient(circle at 50% 50%, rgba(255,255,255,0) 69%, rgba(255,255,255,.5) 72.5%, rgba(255,255,255,0) 76%); }
+
+.txt { position: absolute; left: 0; width: 1080px; text-align: center; }
+.eyebrow { font-family: "Marcellus", serif; font-size: 30px; letter-spacing: .26em; text-transform: uppercase; color: var(--crimson); }
+.big { font-weight: 800; font-size: 104px; letter-spacing: -.025em; line-height: 1.08; color: var(--ink); }
+.mid { font-weight: 700; font-size: 66px; letter-spacing: -.02em; line-height: 1.2; color: var(--ink); }
+.formula { font-family: "Pretendard Variable", Pretendard, sans-serif; font-weight: 500; font-size: 38px; letter-spacing: .03em; color: var(--wine); }
+.formula sub { font-size: .62em; vertical-align: -.3em; letter-spacing: 0; font-weight: 600; }
+.num { font-family: "Jost", sans-serif; font-weight: 500; letter-spacing: .08em; }
+.ch { display: inline-block; white-space: pre; }
+.callout { position: absolute; left: 0; top: 0; }
+.callout svg { position: absolute; left: 0; top: 0; overflow: visible; }
+.callout .lbl { position: absolute; font-size: 30px; font-weight: 500; line-height: 1.38; color: #3b2c2e; white-space: nowrap; }
+.pill { position: absolute; left: 540px; top: 0; white-space: nowrap; font-size: 28px; font-weight: 600; color: var(--wine); padding: 15px 32px; border-radius: 40px;
+  border: 2px solid rgba(196,15,47,.42); background: rgba(255,255,255,.62); }
+.foot { position: absolute; left: 0; width: 1080px; text-align: center; font-size: 22px; color: rgba(70,44,47,.62); }
+
+#prod { width: 0; height: 0; }
+#boxScene { position: absolute; left: -163px; top: -748px; width: 325px; height: 748px; perspective: 2600px; perspective-origin: 50% 30%; }
+#boxRot { position: absolute; inset: 0; transform-style: preserve-3d; }
+#boxFront, #boxSide, #boxTop { position: absolute; backface-visibility: hidden; }
+#boxFront { left: 0; top: 0; width: 325px; height: 748px; }
+#boxSide { top: 0; height: 748px; background: linear-gradient(90deg, #eee7e4 0%, #e2d8d4 100%); }
+#boxTop { left: 0; width: 325px; background: linear-gradient(180deg, #fbf8f7, #f1ebe8); }
+.shadow { position: absolute; border-radius: 50%; background: radial-gradient(ellipse at center, rgba(96,22,32,.42) 0%, rgba(96,22,32,.16) 45%, rgba(96,22,32,0) 72%); }
+#stick2Outer { width: 0; height: 0; }
+#stick2 { position: absolute; left: -79px; top: -709px; width: 158px; height: 709px; transform-origin: 50% 100%; }
+
+#end { background: var(--cream); opacity: 0; }
+#logo { position: absolute; left: 240px; top: 0; width: 600px; color: #1f1b19; }
+#logo svg { display: block; width: 600px; height: auto; }
+.cta { position: absolute; left: 540px; top: 0; white-space: nowrap; font-size: 32px; font-weight: 600; color: #fff; background: var(--crimson); padding: 20px 44px; border-radius: 48px; }
+
+#grain { background: url(grain.png); opacity: .05; mix-blend-mode: soft-light; }
+#vig { background: radial-gradient(ellipse 78% 62% at 50% 48%, rgba(0,0,0,0) 60%, rgba(70,12,24,.16) 100%); }
+#ui { position: fixed; right: 12px; bottom: 12px; color: #aaa; font: 12px/1.4 sans-serif; }
+</style>
+</head>
+<body>
+<div id="stage">
+  <div id="studio" class="layer"></div>
+  <div id="floor" class="layer"></div>
+  <div id="bokeh" class="layer"></div>
+
+  <div id="hero" class="layer">
+    <img id="heroImg" src="../../../assets/product/box_stick_splash_logo.jpg" alt="">
+    <div id="heroLight" class="layer"></div>
+  </div>
+
+  <div id="orbsBack" class="layer"></div>
+
+  <div id="stickOuter" class="abs">
+    <div id="stickRot"><img src="../../../assets/product/stick_logo_cut.png" alt=""><div id="stickShine"></div></div>
+    <div id="stickGlow"></div>
+  </div>
+
+  <div id="orbsFront" class="layer"></div>
+  <div id="callouts" class="layer"></div>
+
+  <div id="prodLayer" class="layer" style="opacity:0">
+    <div id="prod" class="abs">
+      <div id="boxShadow" class="shadow"></div>
+      <div id="stickShadow" class="shadow"></div>
+      <div id="boxScene"><div id="boxRot">
+        <div id="boxTop"></div>
+        <div id="boxSide"></div>
+        <img id="boxFront" src="../../../assets/product/box_final_logo_cut.png" alt="">
+      </div></div>
+      <div id="stick2Outer" class="abs"><img id="stick2" src="../../../assets/product/stick_logo_cut.png" alt=""></div>
+    </div>
+  </div>
+
+  <div id="texts" class="layer">
+    <div id="tIntro" class="txt" style="top:352px"><div class="eyebrow" style="color:#fff;font-size:40px;letter-spacing:.52em;padding-left:.52em">Introducing</div></div>
+
+    <div id="tS2a" class="txt" style="top:282px">
+      <div class="eyebrow">Premium Longevity Daily Formula</div>
+      <div class="big split" style="margin-top:22px">이너에라 롱지비티</div>
+    </div>
+    <div id="tS2b" class="txt" style="top:282px">
+      <div class="eyebrow">Five Core Ingredients · One Stick</div>
+      <div class="mid split" style="margin-top:26px">5가지 핵심 원료로 설계한<br>젤리스틱 한 포</div>
+    </div>
+
+    <div id="beats"></div>
+
+    <div id="tS9" class="txt" style="top:276px">
+      <div class="eyebrow">Five in One Stick</div>
+      <div class="big split" style="margin-top:22px">다섯 가지, 한 포.</div>
+    </div>
+
+    <div id="tS10" class="txt" style="top:262px">
+      <div class="big split" style="color:var(--crimson);font-size:128px">톡, 석류.</div>
+      <div class="sub" style="margin-top:30px;font-size:36px;font-weight:500;color:#3b2c2e">다섯 가지 원료를 담은 젤리스틱, 이너에라 롱지비티</div>
+    </div>
+
+    <div id="foot" class="foot" style="top:1268px">*제품이 아닌 원료에 대한 정보입니다</div>
+  </div>
+
+  <div id="end" class="layer">
+    <div id="logo"></div>
+    <div id="eLong" class="txt" style="top:0"><div class="eyebrow" style="font-size:30px;letter-spacing:.62em;color:var(--crimson)">Longevity</div></div>
+    <div id="eTag" class="txt" style="top:0;font-size:40px;font-weight:600;letter-spacing:-.01em">미래의 나를 위한 데일리 리추얼</div>
+    <div id="eSub" class="txt" style="top:0;font-size:26px;color:#8a8486">이너에라 롱지비티 · 젤리스틱 20 g × 14포</div>
+    <div id="eCta" class="cta">출시 알림 받기 &nbsp;→</div>
+  </div>
+
+  <div id="vig" class="layer"></div>
+  <div id="grain" class="layer"></div>
+</div>
+<div id="ui"></div>
+
+<script>
+const DUR = 27.5;
+const ING = [
+  { ko: '글루타치온', en: 'Glutathione', f: 'C<sub>10</sub>H<sub>17</sub>N<sub>3</sub>O<sub>6</sub>S', mol: 'glutathione', c: ['아미노산 세 개가', '이어진 모양'], pill: '1포당 · 리포좀 L-글루타치온효모90 100 mg', side: 1 },
+  { ko: 'NMN', en: 'Nicotinamide Mononucleotide', f: 'C<sub>11</sub>H<sub>15</sub>N<sub>2</sub>O<sub>8</sub>P', mol: 'nmn', c: ['비타민 B3 계열에서', '만들어지는 분자'], pill: '1포당 · 효모발효분말 (NMN 50%) 100 mg', side: -1 },
+  { ko: '알파리포산', en: 'Alpha-Lipoic Acid', f: 'C<sub>8</sub>H<sub>14</sub>O<sub>2</sub>S<sub>2</sub>', mol: 'ala', c: ['황 원자 두 개가', '든 고리'], pill: '1포당 · 시금치추출분말 100 mg', side: 1 },
+  { ko: '커큐민', en: 'Curcumin', f: 'C<sub>21</sub>H<sub>20</sub>O<sub>6</sub>', mol: 'curcumin', c: ['강황 뿌리의', '노란 색소'], pill: '1포당 · 수용성 커큐민 추출물 50% 100 mg', side: -1 },
+  { ko: '케르세틴', en: 'Quercetin', f: 'C<sub>15</sub>H<sub>10</sub>O<sub>7</sub>', mol: 'quercetin', c: ['회화나무 추출물', 'GIP-01 특허원료'], pill: '1포당 · 케르세틴 100 mg', side: 1 },
+];
+const BEAT = [7.55, 10.05, 12.55, 15.05, 17.55];
+const BEAT_END = 20.05;
+
+const $ = (id) => document.getElementById(id);
+const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+const lerp = (a, b, t) => a + (b - a) * t;
+const E = {
+  lin: (t) => t,
+  outCubic: (t) => 1 - Math.pow(1 - t, 3),
+  inCubic: (t) => t * t * t,
+  inOutCubic: (t) => (t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2),
+  outExpo: (t) => (t >= 1 ? 1 : 1 - Math.pow(2, -10 * t)),
+  inOutSine: (t) => -(Math.cos(Math.PI * t) - 1) / 2,
+  outBack: (t) => { const c1 = 1.4, c3 = c1 + 1; return 1 + c3 * Math.pow(t - 1, 3) + c1 * Math.pow(t - 1, 2); },
+  outQuint: (t) => 1 - Math.pow(1 - t, 5),
+};
+const seg = (t, a, b, e = E.inOutCubic) => e(clamp((t - a) / (b - a)));
+
+let LOGO_SVG = '';
+
+function splitChars(el) {
+  const html = el.innerHTML;
+  const parts = html.split(/(<br\s*\/?>)/i);
+  el.innerHTML = parts.map((p) => (/^<br/i.test(p) ? p : [...p].map((c) => `<span class="ch">${c}</span>`).join(''))).join('');
+}
+
+function build() {
+  const beats = $('beats');
+  ING.forEach((g, i) => {
+    const d = document.createElement('div');
+    d.id = 'beat' + i;
+    d.className = 'txt';
+    d.style.top = '272px';
+    d.innerHTML = `<div class="eyebrow"><span class="num" style="color:var(--wine)">0${i + 1}</span>&nbsp;&nbsp;${g.en}</div>
+      <div class="big split" style="margin-top:20px">${g.ko}</div>
+      <div class="formula" style="margin-top:20px">${g.f}</div>`;
+    beats.appendChild(d);
+
+    const p = document.createElement('div');
+    p.id = 'pill' + i;
+    p.className = 'pill';
+    p.textContent = g.pill;
+    beats.appendChild(p);
+
+    const c = document.createElement('div');
+    c.id = 'call' + i;
+    c.className = 'callout';
+    c.innerHTML = `<svg width="10" height="10"><circle cx="0" cy="0" r="7" fill="#c40f2f"/><circle cx="0" cy="0" r="15" fill="none" stroke="#c40f2f" stroke-opacity=".35" stroke-width="2"/><path d="" fill="none" stroke="#8e0b22" stroke-width="2.2" stroke-linecap="round"/></svg>
+      <div class="lbl">${g.c[0]}<br><b style="font-weight:700;color:#8e0b22">${g.c[1]}</b></div>`;
+    $('callouts').appendChild(c);
+  });
+
+  for (let i = 0; i < 5; i++) {
+    const o = document.createElement('div');
+    o.className = 'orb';
+    o.id = 'orb' + i;
+    o.innerHTML = `<div class="body"></div><img class="mol" src="../../../assets/mol/${ING[i].mol}.png" alt=""><div class="gloss"></div>`;
+    $('orbsFront').appendChild(o);
+  }
+
+  const bk = $('bokeh');
+  BOKEH.forEach((b, i) => {
+    const d = document.createElement('div');
+    d.className = 'bk';
+    d.id = 'bk' + i;
+    d.style.width = d.style.height = b.d + 'px';
+    d.style.background = `radial-gradient(circle, ${b.c} 0%, rgba(255,255,255,0) 70%)`;
+    bk.appendChild(d);
+  });
+
+  $('logo').innerHTML = LOGO_SVG;
+  document.querySelectorAll('.split').forEach(splitChars);
+
+  const W = 325, H = 748, D = 140;
+  $('boxFront').style.transform = `translateZ(${D / 2}px)`;
+  const side = $('boxSide');
+  side.style.width = D + 'px';
+  side.style.left = ((W - D) / 2) + 'px';
+  side.style.transform = `rotateY(90deg) translateZ(${W / 2}px)`;
+  const top = $('boxTop');
+  top.style.height = D + 'px';
+  top.style.top = ((H - D) / 2) + 'px';
+  top.style.transform = `rotateX(90deg) translateZ(${H / 2}px)`;
+}
+
+const BOKEH = [
+  { x: 120, y: 360, d: 520, c: 'rgba(255,255,255,.55)', sx: 30, sy: 24, p: 0 },
+  { x: 930, y: 520, d: 620, c: 'rgba(214,94,110,.20)', sx: 40, sy: 30, p: 1.3 },
+  { x: 860, y: 1500, d: 700, c: 'rgba(255,255,255,.5)', sx: 36, sy: 26, p: 2.1 },
+  { x: 180, y: 1640, d: 560, c: 'rgba(196,15,47,.13)', sx: 28, sy: 34, p: 3.4 },
+  { x: 540, y: 980, d: 900, c: 'rgba(255,248,246,.45)', sx: 20, sy: 20, p: 4.2 },
+];
+
+function setT(el, x, y, s = 1, r = 0, extra = '') {
+  el.style.transform = `translate3d(${x}px, ${y}px, 0) rotate(${r}deg) scale(${s}) ${extra}`;
+}
+
+function textFx(el, t, tin, tout, opt = {}) {
+  const din = opt.din ?? 0.6, dout = opt.dout ?? 0.4, rise = opt.rise ?? 36;
+  const pi = seg(t, tin, tin + din, E.outCubic);
+  const po = tout == null ? 0 : seg(t, tout, tout + dout, E.inCubic);
+  const o = pi * (1 - po);
+  el.style.opacity = o;
+  el.style.visibility = o <= 0.001 ? 'hidden' : 'visible';
+  const ty = (1 - pi) * rise - po * 24;
+  const bl = (1 - pi) * 10 + po * 10;
+  el.style.transform = `translate3d(0, ${ty}px, 0)`;
+  el.style.filter = bl > 0.05 ? `blur(${bl.toFixed(2)}px)` : 'none';
+  return o;
+}
+
+function charFx(el, t, tin, stagger = 0.045, din = 0.55) {
+  el.querySelectorAll('.ch').forEach((c, i) => {
+    const p = seg(t, tin + i * stagger, tin + i * stagger + din, E.outCubic);
+    c.style.opacity = p;
+    c.style.transform = `translate3d(0, ${(1 - p) * 46}px, 0)`;
+    c.style.filter = p < 0.999 ? `blur(${((1 - p) * 9).toFixed(2)}px)` : 'none';
+  });
+}
+
+const STICK_TOP_S2 = () => {
+  const L = 1181 * 0.86, a = 28 * Math.PI / 180;
+  return [540 + Math.sin(a) * L / 2, 1010 - Math.cos(a) * L / 2];
+};
+
+const SCATTER = [
+  [318, 860, 290], [770, 720, 250], [575, 1090, 280], [292, 1262, 220], [812, 1215, 240],
+];
+const FEAT_D = 460;
+const SLOTS = [[150, 1112, 190, 7], [946, 1168, 214, 9], [236, 1486, 150, 5], [884, 1548, 172, 6]];
+
+function layoutFor(state) {
+  if (state === 'scatter') return SCATTER.map((s) => [s[0], s[1], s[2], 0]);
+  const i = state;
+  const out = [];
+  const others = [0, 1, 2, 3, 4].filter((k) => k !== i);
+  out[i] = [540 - ING[i].side * 70, 905, FEAT_D, 0];
+  others.forEach((k, m) => { out[k] = SLOTS[(m + i) % 4]; });
+  return out;
+}
+
+function orbState(k, t) {
+  const L0 = layoutFor('scatter');
+  let cur = L0[k];
+  if (t >= BEAT[0]) {
+    let prev = L0, idx = -1;
+    for (let b = 0; b < 5; b++) if (t >= BEAT[b]) idx = b;
+    prev = idx === 0 ? L0 : layoutFor(idx - 1);
+    const nxt = layoutFor(idx);
+    const p = seg(t, BEAT[idx], BEAT[idx] + 0.8, E.inOutCubic);
+    cur = prev[k].map((v, j) => lerp(v, nxt[k][j], p));
+  }
+  return cur;
+}
+
+function render(t) {
+  // hero (S1)
+  const heroOut = seg(t, 2.55, 3.05, E.inCubic);
+  const heroIn = seg(t, 0.0, 1.5, E.inOutSine);
+  const zoom = seg(t, 0.35, 2.55, E.inOutCubic);
+  let s = lerp(1.25, 0.6667, zoom), fx = lerp(820, 811, zoom), fy = lerp(768, 1440, zoom);
+  s *= 1 + heroOut * 0.35;
+  fx = lerp(fx, 1240, heroOut * 0.6);
+  fy = lerp(fy, 1560, heroOut * 0.6);
+  const hi = $('heroImg');
+  hi.style.transform = `translate3d(${540 - fx * s}px, ${960 - fy * s}px, 0) scale(${s})`;
+  hi.style.filter = `brightness(${lerp(0.16, 1, heroIn).toFixed(3)}) saturate(${lerp(0.55, 1, heroIn).toFixed(3)})${heroOut > 0.01 ? ` blur(${(heroOut * 14).toFixed(2)}px)` : ''}`;
+  $('hero').style.opacity = 1 - heroOut;
+  $('hero').style.visibility = heroOut >= 1 ? 'hidden' : 'visible';
+  const lp = seg(t, 0.5, 2.1, E.inOutSine);
+  const hl = $('heroLight');
+  hl.style.opacity = Math.sin(lp * Math.PI) * 0.65;
+  hl.style.background = `radial-gradient(ellipse 60% 40% at ${lerp(-10, 110, lp)}% ${lerp(20, 45, lp)}%, rgba(255,236,226,.9), rgba(255,236,226,0) 70%)`;
+
+  const ti = $('tIntro');
+  const lx = 540 + (834 - fx) * s, ly = 960 + (290 - fy) * s;
+  ti.style.top = (ly - 30) + 'px';
+  ti.style.left = (lx - 540) + 'px';
+  textFx(ti, t, 0.3, 1.45, { din: 0.8, dout: 0.45, rise: 18 });
+  const ic = Math.round(lerp(255, 142, heroIn)), ig = Math.round(lerp(255, 11, heroIn)), ib = Math.round(lerp(255, 34, heroIn));
+  ti.firstElementChild.style.color = `rgb(${ic},${ig},${ib})`;
+  ti.firstElementChild.style.textShadow = `0 0 30px rgba(255,255,255,${(0.6 * (1 - heroIn)).toFixed(3)})`;
+
+  // bokeh
+  BOKEH.forEach((b, i) => {
+    const el = $('bk' + i);
+    setT(el, b.x - b.d / 2 + Math.sin(t * 0.35 + b.p) * b.sx, b.y - b.d / 2 + Math.cos(t * 0.3 + b.p) * b.sy);
+  });
+
+  // floor (S10)
+  const prodIn = seg(t, 21.45, 22.0, E.inOutSine);
+  $('floor').style.opacity = prodIn;
+
+  // stick (S2, S3, S9)
+  const so = $('stickOuter'), sr = $('stickRot');
+  let sx = 540, sy = 3000, srot = 0, ssc = 0.86, sop = 0;
+  if (t < 9) {
+    const pin = seg(t, 2.75, 3.75, E.outQuint);
+    const bob = Math.sin(t * 1.5) * 12;
+    sx = lerp(760, 540, pin);
+    sy = lerp(2350, 1010, pin) + bob * pin;
+    srot = lerp(62, 28, pin) + Math.sin(t * 1.1) * 1.4;
+    sop = seg(t, 2.75, 3.1, E.lin);
+    const pout = seg(t, 6.55, 7.45, E.inCubic);
+    sx = lerp(sx, 380, pout);
+    sy = lerp(sy, 2500, pout);
+    srot = lerp(srot, 18, pout);
+  } else {
+    const pin = seg(t, 20.4, 20.8, E.outCubic);
+    const pdrop = seg(t, 21.3, 21.72, E.inCubic);
+    sx = 540;
+    sy = lerp(1060, 1000, pin) + pdrop * 1500;
+    srot = 0;
+    ssc = lerp(0.78, 0.86, pin);
+    sop = pin * (1 - seg(t, 21.34, 21.62, E.inCubic));
+  }
+  so.style.opacity = sop;
+  so.style.visibility = sop <= 0 ? 'hidden' : 'visible';
+  so.style.filter = 'drop-shadow(0 44px 46px rgba(110,10,30,.30))';
+  setT(so, sx, sy);
+  sr.style.transform = `rotate(${srot}deg) scale(${ssc}) scaleX(${(0.96 + 0.04 * Math.cos(t * 1.2)).toFixed(4)})`;
+  const shineP = (t * 0.32) % 1;
+  $('stickShine').style.backgroundPosition = `0% ${lerp(120, -20, shineP)}%`;
+
+  // stick glow
+  const a = srot * Math.PI / 180, L = 1181 * ssc;
+  const topX = sx + Math.sin(a) * L / 2 * 0.93, topY = sy - Math.cos(a) * L / 2 * 0.93;
+  const g1 = Math.sin(seg(t, 6.25, 7.2, E.lin) * Math.PI);
+  const g2 = 0;
+  const gl = $('stickGlow');
+  gl.style.opacity = Math.max(g1, g2);
+  gl.style.transform = `translate3d(${topX - sx}px, ${topY - sy}px, 0) scale(${0.6 + Math.max(g1, g2) * 0.7})`;
+
+  // orbs
+  const [tx2, ty2] = STICK_TOP_S2();
+  for (let k = 0; k < 5; k++) {
+    const el = $('orb' + k);
+    let [x, y, d, bl] = orbState(k, t);
+    let op = 1;
+    const emS = 6.42 + k * 0.1;
+    const pem = seg(t, emS, emS + 0.95, E.outCubic);
+    if (t < emS + 0.95) {
+      x = lerp(tx2, x, pem);
+      y = lerp(ty2, y, pem);
+      d = lerp(30, d, pem);
+      op = seg(t, emS, emS + 0.15, E.lin);
+    }
+    const pc = seg(t, 19.95 + k * 0.04, 20.6 + k * 0.04, E.inOutCubic);
+    let bright = 1;
+    if (pc > 0) {
+      x = lerp(x, 540, pc);
+      y = lerp(y, 650 + k * 108, pc);
+      d = lerp(d, 104, pc);
+      bl = lerp(bl, 0, pc);
+    }
+    const fS = 20.8 + k * 0.07;
+    const pf = seg(t, fS, fS + 0.28, E.inCubic);
+    if (pf > 0) {
+      op = 1 - pf;
+      d *= 1 + pf * 0.3;
+      bright = 1 + pf * 0.9;
+    }
+    const ph = k * 1.7;
+    x += Math.cos(t * 0.7 + ph) * 7 * (1 - pc);
+    y += Math.sin(t * 0.9 + ph) * 11 * (1 - pc);
+    const sc = d / 500;
+    el.style.opacity = op;
+    el.style.visibility = op <= 0.001 ? 'hidden' : 'visible';
+    el.style.transform = `translate3d(${x}px, ${y}px, 0) scale(${sc})`;
+    const fl = [];
+    if (bl > 0.2) fl.push(`blur(${(bl / Math.max(sc, 0.05)).toFixed(2)}px)`);
+    if (bright > 1.001) fl.push(`brightness(${bright.toFixed(3)})`);
+    el.style.filter = fl.length ? fl.join(' ') : 'none';
+    el.style.zIndex = Math.round(d);
+    const mol = el.querySelector('.mol');
+    mol.style.transform = `translate(-50%, -50%) rotate(${(Math.sin(t * 0.55 + ph) * 9).toFixed(3)}deg) scaleX(${(0.9 + 0.1 * Math.cos(t * 0.8 + ph)).toFixed(4)})`;
+  }
+
+  // S2 texts
+  textFx($('tS2a'), t, 3.0, 4.75, { din: 0.5 });
+  charFx($('tS2a').querySelector('.split'), t, 3.12);
+  textFx($('tS2b'), t, 5.0, 6.45, { din: 0.5 });
+  charFx($('tS2b').querySelector('.split'), t, 5.08, 0.028);
+
+  // beats
+  let footO = 0;
+  for (let i = 0; i < 5; i++) {
+    const tin = BEAT[i] + 0.28;
+    const tout = i < 4 ? BEAT[i + 1] - 0.12 : BEAT_END - 0.05;
+    const o = textFx($('beat' + i), t, tin, tout, { din: 0.5, dout: 0.35 });
+    charFx($('beat' + i).querySelector('.split'), t, tin + 0.05, 0.05, 0.5);
+    footO = Math.max(footO, o);
+
+    const pill = $('pill' + i);
+    const po = textFx(pill, t, tin + 0.35, tout, { din: 0.5, dout: 0.35, rise: 20 });
+    pill.style.transform = `translate3d(-50%, ${1186 + (1 - seg(t, tin + 0.35, tin + 0.85, E.outCubic)) * 20}px, 0)`;
+
+    const c = $('call' + i);
+    const cp = seg(t, tin + 0.25, tin + 0.85, E.outCubic);
+    const co = cp * (1 - seg(t, tout, tout + 0.3, E.inCubic));
+    c.style.opacity = co;
+    c.style.visibility = co <= 0.001 ? 'hidden' : 'visible';
+    const [ox, oy, od] = orbState(i, t);
+    const side = ING[i].side;
+    const ang = (side > 0 ? -35 : -145) * Math.PI / 180;
+    const r = od / 2 * 0.985;
+    const px = ox + Math.cos(ang) * r + Math.cos(t * 0.7 + i * 1.7) * 7;
+    const py = oy + Math.sin(ang) * r + Math.sin(t * 0.9 + i * 1.7) * 11;
+    c.style.transform = `translate3d(${px}px, ${py}px, 0)`;
+    const path = c.querySelector('path');
+    const DG = 50, HZ = 36;
+    const seg1 = clamp(cp * 1.6);
+    const seg2 = clamp(cp * 1.6 - 0.6);
+    const mx = side * DG * seg1, my = -DG * seg1;
+    path.setAttribute('d', `M0 0 L${mx} ${my}` + (seg2 > 0 ? ` L${mx + side * HZ * seg2} ${my}` : ''));
+    const lbl = c.querySelector('.lbl');
+    const lw = lbl.offsetWidth, lh = lbl.offsetHeight;
+    lbl.style.textAlign = side > 0 ? 'left' : 'right';
+    lbl.style.left = (side > 0 ? DG + HZ + 14 : -DG - HZ - 14 - lw) + 'px';
+    lbl.style.top = (-DG - lh / 2) + 'px';
+    lbl.style.opacity = seg(t, tin + 0.55, tin + 0.95, E.outCubic);
+  }
+  const fo = seg(t, BEAT[0] + 0.6, BEAT[0] + 1.1, E.outCubic) * (1 - seg(t, BEAT_END - 0.05, BEAT_END + 0.3, E.inCubic));
+  $('foot').style.opacity = fo;
+
+  // S9 text
+  textFx($('tS9'), t, 20.2, 21.42, { din: 0.5, dout: 0.35 });
+  charFx($('tS9').querySelector('.split'), t, 20.28, 0.05);
+
+  // S10 product
+  const pl = $('prodLayer');
+  const pout = seg(t, 24.35, 24.85, E.inOutSine);
+  pl.style.opacity = prodIn;
+  pl.style.visibility = prodIn <= 0 ? 'hidden' : 'visible';
+  const push = seg(t, 21.45, 25.0, E.outCubic);
+  const prodS = lerp(1.0, 1.06, push);
+  setT($('prod'), 0, 0);
+  const pr = $('prod');
+  pr.style.transformOrigin = '540px 1200px';
+  pr.style.transform = `translate3d(0, ${(1 - prodIn) * 40}px, 0) scale(${prodS})`;
+  const boxX = 446, boxB = 1424;
+  const bs = $('boxScene');
+  bs.style.left = (boxX - 163) + 'px';
+  bs.style.top = (boxB - 748) + 'px';
+  $('boxRot').style.transform = `rotateX(-7deg) rotateY(${lerp(-30, -20, push).toFixed(3)}deg)`;
+  const bsh = $('boxShadow');
+  bsh.style.left = (boxX - 250) + 'px'; bsh.style.top = (boxB - 40) + 'px'; bsh.style.width = '520px'; bsh.style.height = '80px';
+  const land = seg(t, 21.75, 22.25, E.outBack);
+  const stX = 726, stB = 1430;
+  const s2o = $('stick2Outer');
+  s2o.style.transform = `translate3d(${stX}px, ${lerp(stB - 1500, stB, land)}px, 0)`;
+  $('stick2').style.transform = `rotate(${lerp(4, -7, land).toFixed(3)}deg)`;
+  const ssh = $('stickShadow');
+  ssh.style.left = (stX - 120) + 'px'; ssh.style.top = (stB - 26) + 'px'; ssh.style.width = '240px'; ssh.style.height = '52px';
+  ssh.style.opacity = land;
+
+  textFx($('tS10'), t, 22.35, 24.45, { din: 0.5, dout: 0.35 });
+  charFx($('tS10').querySelector('.split'), t, 22.4, 0.09, 0.6);
+  const sub = $('tS10').querySelector('.sub');
+  const sp = seg(t, 23.0, 23.55, E.outCubic);
+  sub.style.opacity = sp;
+  sub.style.transform = `translate3d(0, ${(1 - sp) * 20}px, 0)`;
+
+  // end card
+  const eo = seg(t, 24.5, 25.0, E.inOutSine);
+  const end = $('end');
+  end.style.opacity = eo;
+  end.style.visibility = eo <= 0 ? 'hidden' : 'visible';
+  const lgP = seg(t, 24.85, 25.75, E.inOutCubic);
+  const lg = $('logo');
+  const endPush = lerp(1, 1.03, seg(t, 24.5, 27.5, E.outCubic));
+  lg.style.top = '702px';
+  lg.style.clipPath = `inset(-10% ${(100 - lgP * 100).toFixed(2)}% -10% 0)`;
+  lg.style.transform = `translate3d(${(1 - lgP) * 30}px, 0, 0) scale(${endPush})`;
+  lg.style.filter = lgP < 1 ? `blur(${((1 - lgP) * 6).toFixed(2)}px)` : 'none';
+  const el1 = $('eLong'); el1.style.top = '852px'; textFx(el1, t, 25.4, null, { din: 0.7, rise: 14 });
+  const el2 = $('eTag'); el2.style.top = '962px'; textFx(el2, t, 25.7, null, { din: 0.6 });
+  const el3 = $('eSub'); el3.style.top = '1034px'; textFx(el3, t, 25.95, null, { din: 0.6 });
+  const cta = $('eCta');
+  const cp2 = seg(t, 26.1, 26.65, E.outBack);
+  cta.style.opacity = seg(t, 26.1, 26.35, E.lin);
+  cta.style.transform = `translate3d(-50%, 1128px, 0) scale(${lerp(0.85, 1, cp2)})`;
+
+  // grain
+  const fi = Math.floor(t * 30);
+  $('grain').style.backgroundPosition = `${(fi * 73) % 256}px ${(fi * 151) % 256}px`;
+  $('vig').style.opacity = 1 - eo;
+}
+
+window.renderAt = (t) => { render(t); return true; };
+
+async function init() {
+  LOGO_SVG = await fetch('../../../assets/brand/innerera_logo.svg').then((r) => r.text());
+  build();
+  await document.fonts.ready;
+  const imgs = [...document.images];
+  await Promise.all(imgs.map((im) => (im.complete ? Promise.resolve() : new Promise((r) => { im.onload = im.onerror = r; }))));
+  await Promise.all(imgs.map((im) => (im.decode ? im.decode().catch(() => {}) : Promise.resolve())));
+  render(0);
+  window.__ready = true;
+  if (!/render=1/.test(location.search)) startPreview();
+}
+
+function startPreview() {
+  const st = $('stage');
+  const fit = () => {
+    const k = Math.min(innerWidth / 1080, innerHeight / 1920);
+    st.style.transform = `translate(${(innerWidth - 1080 * k) / 2}px, ${(innerHeight - 1920 * k) / 2}px) scale(${k})`;
+  };
+  fit();
+  addEventListener('resize', fit);
+  const q = new URLSearchParams(location.search);
+  if (q.has('t')) { render(parseFloat(q.get('t'))); $('ui').textContent = 't=' + q.get('t'); return; }
+  let t0 = performance.now();
+  const loop = (now) => {
+    const t = ((now - t0) / 1000) % DUR;
+    render(t);
+    $('ui').textContent = t.toFixed(2) + 's';
+    requestAnimationFrame(loop);
+  };
+  requestAnimationFrame(loop);
+}
+
+init();
+</script>
+</body>
+</html>
