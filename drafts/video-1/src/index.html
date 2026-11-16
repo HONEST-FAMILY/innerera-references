@@ -61,7 +61,7 @@ html, body { margin: 0; height: 100%; background: #0f0d0d; overflow: hidden; }
 .callout .lbl { position: absolute; font-size: 30px; font-weight: 500; line-height: 1.38; color: #3b2c2e; white-space: nowrap; }
 .pill { position: absolute; left: 540px; top: 0; white-space: nowrap; font-size: 28px; font-weight: 600; color: var(--wine); padding: 15px 32px; border-radius: 40px;
   border: 2px solid rgba(196,15,47,.42); background: rgba(255,255,255,.62); }
-.foot { position: absolute; left: 0; width: 1080px; text-align: center; font-size: 22px; color: rgba(70,44,47,.62); }
+.foot { position: absolute; left: 0; width: 1080px; text-align: center; font-size: 28px; font-weight: 500; color: rgba(70,44,47,.88); }
 
 #prod { width: 0; height: 0; }
 #boxScene { position: absolute; left: -163px; top: -748px; width: 325px; height: 748px; perspective: 2600px; perspective-origin: 50% 30%; }
@@ -142,14 +142,14 @@ html, body { margin: 0; height: 100%; background: #0f0d0d; overflow: hidden; }
       <div class="sub" style="margin-top:30px;font-size:36px;font-weight:500;color:#3b2c2e">다섯 가지 원료를 담은 젤리스틱, 이너에라 롱지비티</div>
     </div>
 
-    <div id="foot" class="foot" style="top:1268px">*제품이 아닌 원료에 대한 정보입니다</div>
+    <div id="foot" class="foot" style="top:1200px">*제품이 아닌 원료에 대한 정보입니다</div>
   </div>
 
   <div id="end" class="layer">
     <div id="logo"></div>
     <div id="eLong" class="txt" style="top:0"><div class="eyebrow" style="font-size:30px;letter-spacing:.62em;color:var(--crimson)">Longevity</div></div>
     <div id="eTag" class="txt" style="top:0;font-size:40px;font-weight:600;letter-spacing:-.01em">미래의 나를 위한 데일리 리추얼</div>
-    <div id="eSub" class="txt" style="top:0;font-size:26px;color:#8a8486">이너에라 롱지비티 · 젤리스틱 20 g × 14포</div>
+    <div id="eSub" class="txt" style="top:0;font-size:28px;color:#6b6265">이너에라 롱지비티 · 젤리스틱 20 g × 14포</div>
     <div id="eCta" class="cta">출시 알림 받기 &nbsp;→</div>
   </div>
 
@@ -159,7 +159,7 @@ html, body { margin: 0; height: 100%; background: #0f0d0d; overflow: hidden; }
 <div id="ui"></div>
 
 <script>
-const DUR = 27.5;
+const DUR = 28.5;
 const ING = [
   { ko: '글루타치온', en: 'Glutathione', f: 'C<sub>10</sub>H<sub>17</sub>N<sub>3</sub>O<sub>6</sub>S', mol: 'glutathione', c: ['아미노산 세 개가', '이어진 모양'], pill: '1포당 · 리포좀 L-글루타치온효모90 100 mg', side: 1 },
   { ko: 'NMN', en: 'Nicotinamide Mononucleotide', f: 'C<sub>11</sub>H<sub>15</sub>N<sub>2</sub>O<sub>8</sub>P', mol: 'nmn', c: ['비타민 B3 계열에서', '만들어지는 분자'], pill: '1포당 · 효모발효분말 (NMN 50%) 100 mg', side: -1 },
@@ -295,7 +295,7 @@ const STICK_TOP_S2 = () => {
 const SCATTER = [
   [318, 860, 290], [770, 720, 250], [575, 1090, 280], [292, 1262, 220], [812, 1215, 240],
 ];
-const FEAT_D = 460;
+const FEAT_D = 440;
 const SLOTS = [[150, 1112, 190, 7], [946, 1168, 214, 9], [236, 1486, 150, 5], [884, 1548, 172, 6]];
 
 function layoutFor(state) {
@@ -303,7 +303,7 @@ function layoutFor(state) {
   const i = state;
   const out = [];
   const others = [0, 1, 2, 3, 4].filter((k) => k !== i);
-  out[i] = [540 - ING[i].side * 70, 905, FEAT_D, 0];
+  out[i] = [540 - ING[i].side * 70, 860, FEAT_D, 0];
   others.forEach((k, m) => { out[k] = SLOTS[(m + i) % 4]; });
   return out;
 }
@@ -325,7 +325,7 @@ function orbState(k, t) {
 function render(t) {
   // hero (S1)
   const heroOut = seg(t, 2.55, 3.05, E.inCubic);
-  const heroIn = seg(t, 0.0, 1.5, E.inOutSine);
+  const heroIn = seg(t, 0.0, 1.1, E.inOutSine);
   const zoom = seg(t, 0.35, 2.55, E.inOutCubic);
   let s = lerp(1.25, 0.6667, zoom), fx = lerp(820, 811, zoom), fy = lerp(768, 1440, zoom);
   s *= 1 + heroOut * 0.35;
@@ -333,7 +333,7 @@ function render(t) {
   fy = lerp(fy, 1560, heroOut * 0.6);
   const hi = $('heroImg');
   hi.style.transform = `translate3d(${540 - fx * s}px, ${960 - fy * s}px, 0) scale(${s})`;
-  hi.style.filter = `brightness(${lerp(0.16, 1, heroIn).toFixed(3)}) saturate(${lerp(0.55, 1, heroIn).toFixed(3)})${heroOut > 0.01 ? ` blur(${(heroOut * 14).toFixed(2)}px)` : ''}`;
+  hi.style.filter = `brightness(${lerp(0.45, 1, heroIn).toFixed(3)}) saturate(${lerp(0.7, 1, heroIn).toFixed(3)})${heroOut > 0.01 ? ` blur(${(heroOut * 14).toFixed(2)}px)` : ''}`;
   $('hero').style.opacity = 1 - heroOut;
   $('hero').style.visibility = heroOut >= 1 ? 'hidden' : 'visible';
   const lp = seg(t, 0.5, 2.1, E.inOutSine);
@@ -345,10 +345,9 @@ function render(t) {
   const lx = 540 + (834 - fx) * s, ly = 960 + (290 - fy) * s;
   ti.style.top = (ly - 30) + 'px';
   ti.style.left = (lx - 540) + 'px';
-  textFx(ti, t, 0.3, 1.45, { din: 0.8, dout: 0.45, rise: 18 });
-  const ic = Math.round(lerp(255, 142, heroIn)), ig = Math.round(lerp(255, 11, heroIn)), ib = Math.round(lerp(255, 34, heroIn));
-  ti.firstElementChild.style.color = `rgb(${ic},${ig},${ib})`;
-  ti.firstElementChild.style.textShadow = `0 0 30px rgba(255,255,255,${(0.6 * (1 - heroIn)).toFixed(3)})`;
+  textFx(ti, t, 0.4, 1.8, { din: 0.6, dout: 0.45, rise: 18 });
+  ti.firstElementChild.style.color = 'rgb(142,11,34)';
+  ti.firstElementChild.style.textShadow = '0 0 22px rgba(255,255,255,.75), 0 0 6px rgba(255,255,255,.6)';
 
   // bokeh
   BOKEH.forEach((b, i) => {
@@ -375,7 +374,7 @@ function render(t) {
     sy = lerp(sy, 2500, pout);
     srot = lerp(srot, 18, pout);
   } else {
-    const pin = seg(t, 20.4, 20.8, E.outCubic);
+    const pin = seg(t, 20.3, 20.55, E.outCubic);
     const pdrop = seg(t, 21.3, 21.72, E.inCubic);
     sx = 540;
     sy = lerp(1060, 1000, pin) + pdrop * 1500;
@@ -419,14 +418,14 @@ function render(t) {
     if (pc > 0) {
       x = lerp(x, 540, pc);
       y = lerp(y, 650 + k * 108, pc);
-      d = lerp(d, 104, pc);
+      d = lerp(d, 88, pc);
       bl = lerp(bl, 0, pc);
     }
     const fS = 20.8 + k * 0.07;
     const pf = seg(t, fS, fS + 0.28, E.inCubic);
     if (pf > 0) {
       op = 1 - pf;
-      d *= 1 + pf * 0.3;
+      d *= 1 - pf * 0.6;
       bright = 1 + pf * 0.9;
     }
     const ph = k * 1.7;
@@ -446,10 +445,10 @@ function render(t) {
   }
 
   // S2 texts
-  textFx($('tS2a'), t, 3.0, 4.75, { din: 0.5 });
-  charFx($('tS2a').querySelector('.split'), t, 3.12);
-  textFx($('tS2b'), t, 5.0, 6.45, { din: 0.5 });
-  charFx($('tS2b').querySelector('.split'), t, 5.08, 0.028);
+  textFx($('tS2a'), t, 3.0, 4.55, { din: 0.5 });
+  charFx($('tS2a').querySelector('.split'), t, 3.08, 0.04);
+  textFx($('tS2b'), t, 4.9, 7.3, { din: 0.5 });
+  charFx($('tS2b').querySelector('.split'), t, 4.95, 0.02, 0.5);
 
   // beats
   let footO = 0;
@@ -462,7 +461,7 @@ function render(t) {
 
     const pill = $('pill' + i);
     const po = textFx(pill, t, tin + 0.35, tout, { din: 0.5, dout: 0.35, rise: 20 });
-    pill.style.transform = `translate3d(-50%, ${1186 + (1 - seg(t, tin + 0.35, tin + 0.85, E.outCubic)) * 20}px, 0)`;
+    pill.style.transform = `translate3d(-50%, ${1116 + (1 - seg(t, tin + 0.35, tin + 0.85, E.outCubic)) * 20}px, 0)`;
 
     const c = $('call' + i);
     const cp = seg(t, tin + 0.25, tin + 0.85, E.outCubic);
@@ -493,8 +492,8 @@ function render(t) {
   $('foot').style.opacity = fo;
 
   // S9 text
-  textFx($('tS9'), t, 20.2, 21.42, { din: 0.5, dout: 0.35 });
-  charFx($('tS9').querySelector('.split'), t, 20.28, 0.05);
+  textFx($('tS9'), t, 20.25, 21.5, { din: 0.4, dout: 0.35 });
+  charFx($('tS9').querySelector('.split'), t, 20.28, 0.03, 0.4);
 
   // S10 product
   const pl = $('prodLayer');
@@ -514,11 +513,12 @@ function render(t) {
   $('boxRot').style.transform = `rotateX(-7deg) rotateY(${lerp(-30, -20, push).toFixed(3)}deg)`;
   const bsh = $('boxShadow');
   bsh.style.left = (boxX - 250) + 'px'; bsh.style.top = (boxB - 40) + 'px'; bsh.style.width = '520px'; bsh.style.height = '80px';
-  const land = seg(t, 21.75, 22.25, E.outBack);
+  const land = Math.pow(seg(t, 21.7, 22.05, E.lin), 2);
+  const hop = Math.sin(seg(t, 22.05, 22.33, E.lin) * Math.PI) * 18;
   const stX = 726, stB = 1430;
   const s2o = $('stick2Outer');
-  s2o.style.transform = `translate3d(${stX}px, ${lerp(stB - 1500, stB, land)}px, 0)`;
-  $('stick2').style.transform = `rotate(${lerp(4, -7, land).toFixed(3)}deg)`;
+  s2o.style.transform = `translate3d(${stX}px, ${lerp(stB - 1500, stB, land) - hop}px, 0)`;
+  $('stick2').style.transform = `rotate(${lerp(4, -7, seg(t, 21.7, 22.2, E.outCubic)).toFixed(3)}deg)`;
   const ssh = $('stickShadow');
   ssh.style.left = (stX - 120) + 'px'; ssh.style.top = (stB - 26) + 'px'; ssh.style.width = '240px'; ssh.style.height = '52px';
   ssh.style.opacity = land;
@@ -526,7 +526,7 @@ function render(t) {
   textFx($('tS10'), t, 22.35, 24.45, { din: 0.5, dout: 0.35 });
   charFx($('tS10').querySelector('.split'), t, 22.4, 0.09, 0.6);
   const sub = $('tS10').querySelector('.sub');
-  const sp = seg(t, 23.0, 23.55, E.outCubic);
+  const sp = seg(t, 22.75, 23.25, E.outCubic);
   sub.style.opacity = sp;
   sub.style.transform = `translate3d(0, ${(1 - sp) * 20}px, 0)`;
 
@@ -535,19 +535,19 @@ function render(t) {
   const end = $('end');
   end.style.opacity = eo;
   end.style.visibility = eo <= 0 ? 'hidden' : 'visible';
-  const lgP = seg(t, 24.85, 25.75, E.inOutCubic);
+  const lgP = seg(t, 24.85, 25.6, E.inOutCubic);
   const lg = $('logo');
-  const endPush = lerp(1, 1.03, seg(t, 24.5, 27.5, E.outCubic));
+  const endPush = lerp(1, 1.03, seg(t, 24.5, DUR, E.outCubic));
   lg.style.top = '702px';
   lg.style.clipPath = `inset(-10% ${(100 - lgP * 100).toFixed(2)}% -10% 0)`;
   lg.style.transform = `translate3d(${(1 - lgP) * 30}px, 0, 0) scale(${endPush})`;
   lg.style.filter = lgP < 1 ? `blur(${((1 - lgP) * 6).toFixed(2)}px)` : 'none';
-  const el1 = $('eLong'); el1.style.top = '852px'; textFx(el1, t, 25.4, null, { din: 0.7, rise: 14 });
-  const el2 = $('eTag'); el2.style.top = '962px'; textFx(el2, t, 25.7, null, { din: 0.6 });
-  const el3 = $('eSub'); el3.style.top = '1034px'; textFx(el3, t, 25.95, null, { din: 0.6 });
+  const el1 = $('eLong'); el1.style.top = '852px'; textFx(el1, t, 25.25, null, { din: 0.6, rise: 14 });
+  const el2 = $('eTag'); el2.style.top = '962px'; textFx(el2, t, 25.45, null, { din: 0.55 });
+  const el3 = $('eSub'); el3.style.top = '1034px'; textFx(el3, t, 25.65, null, { din: 0.55 });
   const cta = $('eCta');
-  const cp2 = seg(t, 26.1, 26.65, E.outBack);
-  cta.style.opacity = seg(t, 26.1, 26.35, E.lin);
+  const cp2 = seg(t, 25.8, 26.3, E.outBack);
+  cta.style.opacity = seg(t, 25.8, 26.0, E.lin);
   cta.style.transform = `translate3d(-50%, 1128px, 0) scale(${lerp(0.85, 1, cp2)})`;
 
   // grain

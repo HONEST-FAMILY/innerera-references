@@ -4,7 +4,7 @@ import wave
 import numpy as np
 
 SR = 48000
-DUR = 27.5
+DUR = 28.5
 N = int(SR * DUR)
 T = np.arange(N) / SR
 rng = np.random.default_rng(11)
@@ -326,7 +326,7 @@ def main(out_path):
     peak = np.abs(mix).max()
     mix = mix / peak * 0.92
     mix = np.tanh(mix * 1.15) / np.tanh(1.15)
-    mix *= 0.89 / np.abs(mix).max()
+    mix *= 0.71 / np.abs(mix).max()
     pcm = (mix.T * 32767).astype(np.int16)
     with wave.open(out_path, "wb") as w:
         w.setnchannels(2)
