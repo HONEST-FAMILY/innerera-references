@@ -80,13 +80,12 @@
   <section class="bf wrap rv" aria-labelledby="bf-title">
     <div class="bf-head">
       <p class="eyebrow">Official Mall Benefit</p>
-      <h2 class="bf-title" id="bf-title">공식몰 <b>한 달 혜택</b></h2>
+      <h2 class="bf-title" id="bf-title">공식몰 <b>혜택</b></h2>
     </div>
     <ul class="bf-list">
-      <li><a class="bf-card" href="https://pf.kakao.com/_MLKiX" target="_blank" rel="noopener"><span class="bf-no">Benefit 01</span><b>카카오톡 채널 추가하고 혜택 받기</b><small>이너에라 카카오톡 채널을 추가하고 공식몰 혜택을 받아 보세요.</small><span class="bf-go">채널 추가하기 <svg class="ic ic-sm" aria-hidden="true"><use href="#i-arrow"/></svg></span></a></li>
-      <li><a class="bf-card" href="#review"><span class="bf-no">Benefit 02</span><b>리뷰 남기기 이벤트</b><small>구매 후 리뷰를 남겨 주시면 감사의 마음을 담아 혜택을 드립니다.</small><span class="bf-go">리뷰 남기기 <svg class="ic ic-sm" aria-hidden="true"><use href="#i-arrow"/></svg></span></a></li>
+      <li><a class="bf-card" href="https://pf.kakao.com/_MLKiX" target="_blank" rel="noopener"><span class="bf-no">Everyday Benefit</span><b>상시 혜택</b><ul class="bf-pts"><li>카카오톡 채널 추가 시 <em>1,000원</em> 즉시 할인 쿠폰 지급</li><li>텍스트 리뷰 작성 시 <em>500P</em> 적립</li><li>포토 리뷰 작성 시 <em>1,000P</em> 적립</li></ul><span class="bf-go">채널 추가하기 <svg class="ic ic-sm" aria-hidden="true"><use href="#i-arrow"/></svg></span></a></li>
+      <li><a class="bf-card" href="#review"><span class="bf-no">Monthly Review Event</span><b>먼슬리 리뷰 이벤트</b><ul class="bf-pts"><li><i>기간</i><span>공식몰 오픈일부터 30일간</span></li><li><i>내용</i><span>이벤트 기간 내 작성된 리뷰 중 베스트 리뷰어 3명 선정</span></li><li><i>혜택</i><span>1인당 <em>3,000P</em> 추가 지급</span></li></ul><span class="bf-go">리뷰 남기기 <svg class="ic ic-sm" aria-hidden="true"><use href="#i-arrow"/></svg></span></a></li>
     </ul>
-    <p class="bf-note">*혜택 내용과 진행 기간은 공식몰 오픈 때 함께 안내됩니다.</p>
   </section>
 
   <section class="formula wrap rv">
@@ -254,6 +253,38 @@
     <span class="dr-txt"><small>Inner:Era Longevity</small><b>이너에라 롱지비티</b><em>석류맛 · 20 g × 14포</em></span>
   </a>
 </aside>
+
+<div class="pop" id="benefit-pop" role="dialog" aria-modal="true" aria-labelledby="pop-title" hidden>
+  <div class="pop-dim" data-pop-close></div>
+  <div class="pop-card" tabindex="-1">
+    <a class="pop-art" href="https://pf.kakao.com/_MLKiX" target="_blank" rel="noopener" data-pop-link>
+      <span class="pop-top">
+        <span class="pop-eye"><span class="lg"><span class="sr">Inner:Era</span></span><span>Official Mall</span></span>
+        <b class="pop-title" id="pop-title">공식몰 혜택 안내</b>
+        <img class="pop-pk" src="../../assets/product/stick_logo_cut.png" alt="">
+      </span>
+      <span class="pop-body">
+        <span class="pop-grp">
+          <em class="pop-h">상시 혜택</em>
+          <span class="pop-li"><span>카카오톡 채널 추가 시</span><b>1,000원 즉시 할인 쿠폰</b></span>
+          <span class="pop-li"><span>텍스트 리뷰 작성 시</span><b>500P 적립</b></span>
+          <span class="pop-li"><span>포토 리뷰 작성 시</span><b>1,000P 적립</b></span>
+        </span>
+        <span class="pop-grp">
+          <em class="pop-h">먼슬리 리뷰 이벤트</em>
+          <span class="pop-li"><span>기간</span><b>공식몰 오픈일부터 30일간</b></span>
+          <span class="pop-li"><span>내용</span><b>이벤트 기간 내 작성된 리뷰 중<br>베스트 리뷰어 3명 선정</b></span>
+          <span class="pop-li"><span>혜택</span><b>1인당 3,000P 추가 지급</b></span>
+        </span>
+        <span class="pop-cta">카카오톡 채널 추가하기<svg class="ic" aria-hidden="true"><use href="#i-arrow"/></svg></span>
+      </span>
+    </a>
+    <div class="pop-foot">
+      <label class="pop-chk"><input type="checkbox" id="pop-today"><span>오늘 하루 보지 않기</span></label>
+      <button class="pop-close" type="button" data-pop-close>닫기<svg class="ic" aria-hidden="true"><use href="#i-x"/></svg></button>
+    </div>
+  </div>
+</div>
 
 <script src="app.js"></script>
 <script src="https://honest-family.github.io/feedback-pin-kit/hf-feedback.js" data-key="fb_htmzupj5u6ugqhk94c08rkab" data-top="140" data-invite data-cursor-hint defer></script>

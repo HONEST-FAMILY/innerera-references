@@ -168,4 +168,42 @@
     // 안전장치: 관찰이 안 돌면 1.2s 뒤 전부 보이게
     setTimeout(() => { if (!alive) rv.forEach((el) => el.classList.add('in')); }, 1200);
   }
+
+  const pop = $('#benefit-pop');
+  if (pop) {
+    const KEY = 'innerera-pop-hide';
+    const today = () => new Date().toLocaleDateString('sv-SE');
+    let skip = false;
+    try { skip = localStorage.getItem(KEY) === today(); } catch (e) {}
+    let back = null;
+    const items = () => $$('a[href], button, input', pop);
+    const closePop = () => {
+      if (pop.hidden) return;
+      try { if ($('#pop-today', pop).checked) localStorage.setItem(KEY, today()); } catch (e) {}
+      pop.hidden = true;
+      doc.style.overflow = '';
+      document.body.style.overflow = '';
+      if (back && back.focus) back.focus({ preventScroll: true });
+    };
+    const openPop = () => {
+      back = document.activeElement;
+      pop.hidden = false;
+      doc.style.overflow = 'hidden';
+      document.body.style.overflow = 'hidden';
+      $('.pop-card', pop).focus({ preventScroll: true });
+    };
+    $$('[data-pop-close]', pop).forEach((b) => b.addEventListener('click', closePop));
+    $('[data-pop-link]', pop).addEventListener('click', closePop);
+    document.addEventListener('keydown', (e) => {
+      if (pop.hidden) return;
+      if (e.key === 'Escape') { e.preventDefault(); closePop(); return; }
+      if (e.key === 'Tab') {
+        const f = items();
+        const first = f[0], last = f[f.length - 1];
+        if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+        else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+      }
+    });
+    if (!skip) setTimeout(openPop, reduce ? 0 : 500);
+  }
 })();
