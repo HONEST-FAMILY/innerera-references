@@ -111,7 +111,8 @@ sub { font-size: 0.68em; vertical-align: -0.18em; line-height: 0; }
 .one .mols { display: grid; grid-template-columns: repeat(6, 1fr); gap: 3.4cqw 0.6cqw; }
 .one .mols figure { grid-column: span 2; display: flex; flex-direction: column; align-items: center; }
 .one .mols figure:nth-child(4) { grid-column: 2 / span 2; }
-.one .mols img { width: 100%; height: 11.5cqw; object-fit: contain; }
+.one .mols .pic { display: block; width: 12cqw; height: 12cqw; border-radius: 50%; overflow: hidden; background: #F1E4DD; border: 0.4cqw solid #fff; box-shadow: 0 0.5cqw 1.3cqw rgba(120, 40, 50, .14); }
+.one .mols img { width: 100%; height: 100%; object-fit: cover; transform: scale(1.45); }
 .one .mols figcaption { margin-top: 1cqw; font-size: 2.5cqw; font-weight: 700; color: #4A3F41; letter-spacing: -0.03em; }
 .one .cap { font-size: 2.6cqw; line-height: 1.5; letter-spacing: -0.035em; color: #4A3F41; }
 .one .cap em { display: block; margin-bottom: 0.4cqw; font-style: normal; font-family: var(--font-point); font-size: 2.6cqw; font-weight: 700; letter-spacing: -0.01em; color: #C8102E; }
@@ -173,7 +174,8 @@ sub { font-size: 0.68em; vertical-align: -0.18em; line-height: 0; }
 .sci .total span { margin-top: 2.4cqw; font-size: 2.8cqw; letter-spacing: -0.035em; color: #5F5759; }
 .sci .rows { list-style: none; margin-top: 7cqw; display: grid; gap: 1.8cqw; }
 .sci .rows li { display: grid; grid-template-columns: 19cqw 1fr 23cqw; gap: 3cqw; align-items: center; padding: 3cqw 3.6cqw 3cqw 2.6cqw; border-radius: 1.6cqw; background: #fff; }
-.sci .mol { width: 100%; height: 11cqw; object-fit: contain; }
+.sci .pic { display: block; justify-self: center; width: 14cqw; height: 14cqw; border-radius: 50%; overflow: hidden; background: #F1E4DD; }
+.sci .pic img { width: 100%; height: 100%; object-fit: cover; transform: scale(1.45); }
 .sci h3 { font-family: var(--font-point); font-size: 3.6cqw; line-height: 1.2; font-weight: 800; letter-spacing: -0.045em; color: #1F1F1F; }
 .sci h3 small { margin-left: 1.2cqw; font-family: var(--font-body); font-size: 2.3cqw; font-weight: 600; letter-spacing: 0; color: #8C8486; }
 .sci .tx p { margin-top: 1.2cqw; font-size: 2.8cqw; line-height: 1.5; letter-spacing: -0.04em; color: #4F4749; }
