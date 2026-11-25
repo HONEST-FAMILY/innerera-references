@@ -3,7 +3,7 @@
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
 html { background: #EEEFF1; }
-body { font-family: var(--font-body); color: #1B1B1C; word-break: keep-all; -webkit-font-smoothing: antialiased; }
+body { font-family: var(--font-body); color: #1B1B1C; word-break: keep-all; text-wrap: pretty; -webkit-font-smoothing: antialiased; }
 img { display: block; max-width: 100%; height: auto; }
 ul, ol { list-style: none; }
 
@@ -52,7 +52,7 @@ ul, ol { list-style: none; }
 .lgv .q { margin-top: 8.4cqw; font-size: 4.3cqw; line-height: 1.45; font-weight: 300; letter-spacing: -0.045em; color: var(--ink); }
 .lgv .q b { font-weight: 700; color: var(--red); }
 .lgv .word { position: relative; margin: 6cqw -7cqw 0; height: 40cqw; }
-.lgv .word img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 40%; }
+.lgv .word img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 40%; -webkit-mask: linear-gradient(transparent, #000 22%, #000 78%, transparent); mask: linear-gradient(transparent, #000 22%, #000 78%, transparent); }
 .lgv .word div { position: relative; padding-top: 10.5cqw; }
 .lgv .word strong { display: block; font-size: 12.5cqw; line-height: 1; font-weight: 600; letter-spacing: -0.01em; color: var(--red); }
 .lgv .word span { display: inline-block; margin-top: 2.6cqw; padding: 1.2cqw 3cqw; font-size: 2.8cqw; letter-spacing: -0.02em; color: var(--ink2); background: rgba(255,255,255,.78); border-radius: 10cqw; }
@@ -95,13 +95,13 @@ ul, ol { list-style: none; }
 .one .eq::before { top: 2.15cqw; } .one .eq::after { bottom: 2.15cqw; }
 .one .stick { position: relative; height: 56cqw; }
 .one .stick img { height: 100%; width: auto; margin: 0 auto; filter: drop-shadow(0 1.6cqw 2.4cqw rgba(110, 10, 30, .18)); transform: rotate(6deg); }
-.one .hand { position: absolute; top: -8.6cqw; right: 15.5cqw; font-family: "Nanum Pen Script", cursive; font-size: 5.2cqw; line-height: 1.05; color: var(--red); transform: rotate(-6deg); text-align: right; white-space: nowrap; }
-.one .hand svg { position: absolute; right: -11cqw; top: 0.6cqw; width: 9.4cqw; height: 9.4cqw; }
+.one .hand { position: absolute; top: -12.4cqw; right: 17.4cqw; font-family: "Nanum Pen Script", cursive; font-size: 5.2cqw; line-height: 1.05; color: var(--red); transform: rotate(-6deg); text-align: right; white-space: nowrap; }
+.one .hand svg { position: absolute; right: -11cqw; top: 2.6cqw; width: 9.4cqw; height: 9.4cqw; }
 .one .cap { margin-top: 6cqw; font-size: 2.6cqw; color: var(--mute); }
 .one .cap em { display: block; font-family: "Cormorant Garamond", serif; font-style: italic; font-size: 3.6cqw; color: var(--red); margin-bottom: 0.6cqw; }
 .one .sub { margin-top: 7cqw; font-size: 3.4cqw; line-height: 1.6; letter-spacing: -0.04em; color: var(--ink); }
 .one .sub em { font-style: normal; font-weight: 700; color: var(--red); }
-.one .sub .lg { width: 7.4em; height: 0.9em; color: var(--red); vertical-align: -0.12em; }
+.one .sub .lg { width: 4.56em; height: 0.9em; color: var(--red); vertical-align: -0.12em; }
 
 /* 원료 */
 .core .gip { margin-top: 6.4cqw; display: flex; align-items: center; gap: 4.4cqw; padding: 4.4cqw 5cqw; border: 0.15cqw solid var(--line); border-radius: 3cqw; text-align: left; }
@@ -115,17 +115,17 @@ ul, ol { list-style: none; }
 .core .list img { width: 13cqw; height: 13cqw; border-radius: 50%; object-fit: cover; background: #fff; }
 .core .list .en { display: block; font-family: "Cormorant Garamond", serif; font-size: 3.3cqw; line-height: 1; font-weight: 600; color: var(--red); }
 .core .list strong { display: block; margin-top: 0.8cqw; font-size: 3.2cqw; font-weight: 700; letter-spacing: -0.045em; }
-.core .list div > span:not(.en) { display: block; margin-top: 0.7cqw; font-size: 2.4cqw; line-height: 1.5; letter-spacing: -0.03em; color: var(--mute); }
+.core .list div > span:not(.en) { display: block; margin-top: 0.7cqw; font-size: 2.4cqw; line-height: 1.5; letter-spacing: -0.03em; color: var(--mute); text-wrap: balance; }
 .core .list b { font-size: 2.55cqw; font-weight: 700; color: var(--red); white-space: nowrap; }
 .core .pick { margin-top: 5cqw; display: grid; grid-template-columns: 1fr 1fr; gap: 2.2cqw; }
 .core .pick > div { padding: 5cqw 3.6cqw 4.4cqw; border: 0.15cqw solid var(--line); border-radius: 3cqw; }
-.core .flow { display: flex; align-items: center; justify-content: center; gap: 1cqw; }
-.core .flow span { padding: 1cqw 1.8cqw; border-radius: 10cqw; background: var(--pink); color: var(--red); font-size: 2.1cqw; font-weight: 600; letter-spacing: -0.03em; }
+.core .flow { display: flex; align-items: center; justify-content: center; gap: 0.7cqw; height: 4.4cqw; }
+.core .flow span { padding: 1cqw 1.4cqw; border-radius: 10cqw; background: var(--pink); color: var(--red); font-size: 2.1cqw; line-height: 1.2; font-weight: 600; letter-spacing: -0.04em; white-space: nowrap; }
 .core .flow span:last-child { background: var(--red); color: #fff; }
 .core .flow i { font-style: normal; font-size: 2.2cqw; color: var(--mute); }
 .core .pick em { display: block; margin-top: 3.4cqw; font-style: normal; font-size: 1.8cqw; letter-spacing: 0.22em; font-weight: 600; color: var(--red); }
 .core .pick strong { display: block; margin-top: 1.2cqw; font-size: 3.4cqw; font-weight: 700; letter-spacing: -0.045em; }
-.core .pick p { margin-top: 1.8cqw; font-size: 2.55cqw; line-height: 1.65; letter-spacing: -0.035em; color: var(--ink2); }
+.core .pick p { margin-top: 1.8cqw; font-size: 2.55cqw; line-height: 1.65; letter-spacing: -0.035em; color: var(--ink2); text-wrap: balance; }
 
 /* 논문 */
 .sci .total { margin-top: 6.4cqw; }
@@ -138,7 +138,7 @@ ul, ol { list-style: none; }
 .sci .rows img { width: 10cqw; height: 10cqw; border-radius: 50%; object-fit: cover; }
 .sci .rows h3 { font-size: 3.1cqw; font-weight: 700; letter-spacing: -0.045em; }
 .sci .rows h3 small { margin-left: 1cqw; font-family: "Cormorant Garamond", serif; font-size: 0.9em; font-weight: 600; color: var(--red); letter-spacing: 0; }
-.sci .rows p { margin-top: 0.8cqw; font-size: 2.4cqw; line-height: 1.5; letter-spacing: -0.03em; color: var(--mute); }
+.sci .rows p { margin-top: 0.8cqw; font-size: 2.4cqw; line-height: 1.5; letter-spacing: -0.03em; color: var(--mute); text-wrap: balance; }
 .sci .rows .n b { display: block; text-align: right; font-size: 3.6cqw; font-weight: 700; letter-spacing: -0.04em; }
 .sci .rows .n b small { font-size: 0.6em; font-weight: 500; margin-left: 0.4cqw; color: var(--mute); }
 .sci .rows .n i { position: relative; display: block; margin-top: 1.2cqw; height: 0.9cqw; border-radius: 1cqw; background: #EFEFF2; overflow: hidden; }
@@ -194,13 +194,14 @@ ul, ol { list-style: none; }
 .prod .rows li { display: grid; grid-template-columns: 30cqw 1fr; gap: 5cqw; align-items: center; padding: 3cqw; border: 0.15cqw solid var(--line); border-radius: 3cqw; text-align: left; }
 .prod .pic { position: relative; height: 30cqw; border-radius: 2cqw; background: var(--card); display: flex; align-items: center; justify-content: center; overflow: hidden; }
 .prod .pic .stk { height: 82%; width: auto; transform: rotate(8deg); filter: drop-shadow(0 1cqw 1.4cqw rgba(110,10,30,.16)); }
-.prod .pic .box { height: 84%; width: auto; filter: drop-shadow(0 1cqw 1.6cqw rgba(30,30,40,.14)); }
-.prod .pic .s1, .prod .pic .s2 { position: absolute; height: 62%; bottom: 7%; }
-.prod .pic .s1 { left: 9%; transform: rotate(-12deg); } .prod .pic .s2 { right: 9%; transform: rotate(12deg); }
+.prod .pic .box { height: 80%; width: auto; filter: drop-shadow(0 1cqw 1.6cqw rgba(30,30,40,.14)); }
+.prod .pic .s1, .prod .pic .s2 { position: absolute; height: 56%; bottom: 8%; }
+.prod .pic .s1 { left: 13%; transform: rotate(-12deg); } .prod .pic .s2 { right: 13%; transform: rotate(12deg); }
 .prod .pic.marks { gap: 3cqw; }
 .prod .pic.marks img { width: 10cqw; height: 10cqw; }
 .prod .rows strong { display: block; font-size: 3.8cqw; font-weight: 700; letter-spacing: -0.045em; }
 .prod .rows strong small { margin-left: 1.2cqw; font-family: "Cormorant Garamond", serif; font-size: 0.82em; font-weight: 600; color: var(--red); letter-spacing: 0; }
+.prod .rows strong small.kr { font-family: var(--font-body); font-size: 0.7em; letter-spacing: -0.02em; }
 .prod .rows p { margin-top: 1.6cqw; font-size: 2.7cqw; line-height: 1.7; letter-spacing: -0.035em; color: var(--ink2); }
 .prod .how { margin-top: 6cqw; display: grid; grid-template-columns: repeat(3, 1fr); gap: 2cqw; }
 .prod .how li { padding: 4.4cqw 2cqw 4cqw; border-radius: 2.6cqw; background: var(--card); }
@@ -241,6 +242,7 @@ ul, ol { list-style: none; }
 .n0 .bn li::before { content: ""; position: absolute; left: 0; top: 1cqw; width: 0.9cqw; height: 0.9cqw; border-radius: 50%; background: var(--red); }
 .n0 .bn li b { color: var(--red); }
 .n0 .bn li i { display: inline-block; min-width: 6cqw; font-style: normal; font-weight: 700; color: var(--ink); }
+.n0 .bn li:has(> i) { display: grid; grid-template-columns: auto 1fr; }
 .n0 .bn a { margin-top: auto; text-decoration: none; font-size: 2.35cqw; line-height: 1; font-weight: 600; color: #fff; background: var(--red); padding: 1.7cqw 3.6cqw; border-radius: 10cqw; }
 
 /* 제품 정보 고시 */
